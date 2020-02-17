@@ -55,7 +55,7 @@ export default {
   'menu.device.recycle': '回收',
   'menu.device.rein': '重入库',
 
-  'menu.packge': '套餐管理',
+  'menu.package': '套餐管理',
   'menu.propaganda': '宣教管理',
   'menu.onlineConsultation': '在线咨询',
   'menu.pregnancyBook': '孕册管理',

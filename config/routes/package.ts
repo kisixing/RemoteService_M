@@ -3,7 +3,7 @@ import { IRoute } from 'umi-types';
 
 const r: IRoute = {
     name: 'package',
-    icon: 'package',
+    icon: 'book',
     path: '/package',
     routes: [
         {

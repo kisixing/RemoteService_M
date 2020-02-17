@@ -1,13 +1,19 @@
 import { IRoute } from 'umi-types';
-import account from "./account";
+// import account from "./account";
 import dashboard from "./dashboard";
-import form from "./form";
-import list from "./list";
-import profile from "./profile";
-import result from "./result";
-import editor from "./editor";
-import exception from "./exception";
+// import form from "./form";
+// import list from "./list";
+// import profile from "./profile";
+// import result from "./result";
+// import editor from "./editor";
+// import exception from "./exception";
+
 import device from "./device";
+import _package from "./package";
+import propaganda from "./propaganda";
+import onlineConsultation from "./onlineConsultation";
+import pregnancyBook from "./pregnancyBook";
+import guardianshipFile from "./guardianshipFile";
 
 
 
@@ -55,14 +61,20 @@ export const routes: IRoute[] = [
                 authority: ['admin', 'user'],
                 routes: [
                     device,
+                    _package,
+                    propaganda,
+                    onlineConsultation,
+                    pregnancyBook,
+                    guardianshipFile,
+
                     dashboard,
-                    form,
-                    list,
-                    profile,
-                    result,
-                    account,
-                    editor,
-                    exception,
+                    // form,
+                    // list,
+                    // profile,
+                    // result,
+                    // account,
+                    // editor,
+                    // exception,
                     {
                         path: '/',
                         redirect: '/dashboard/workplace',

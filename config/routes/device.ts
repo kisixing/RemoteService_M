@@ -3,7 +3,7 @@ import { IRoute } from 'umi-types';
 
 const r: IRoute = {
     name: 'device',
-    icon: 'device',
+    icon: 'book',
     path: '/device',
     routes: [
         {
@@ -16,7 +16,7 @@ const r: IRoute = {
             name: 'out',
             icon: 'smile',
             path: '/device/out',
-            component: './device/settings',
+            component: './device/out',
         },
         {
             name: 'recycle',

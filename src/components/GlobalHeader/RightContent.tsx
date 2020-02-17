@@ -60,7 +60,6 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = props => {
         </a>
       </Tooltip>
       <NoticeIconView />
-      <NoticeIconView />
       <Avatar menu />
       <SelectLang className={styles.action} />
     </div>

@@ -2,21 +2,21 @@ import { IRoute } from 'umi-types';
 
 
 const r: IRoute = {
-    name: 'package',
-    icon: 'package',
-    path: '/package',
+    name: 'propaganda',
+    icon: 'book',
+    path: '/propaganda',
     routes: [
         {
             name: 'center',
             icon: 'smile',
-            path: '/package/center',
-            component: './package/center',
+            path: '/propaganda/center',
+            component: './propaganda/center',
         },
         {
             name: 'settings',
             icon: 'smile',
-            path: '/package/settings',
-            component: './package/settings',
+            path: '/propaganda/settings',
+            component: './propaganda/settings',
         },
     ],
 }

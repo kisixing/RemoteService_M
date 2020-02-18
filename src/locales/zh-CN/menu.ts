@@ -56,9 +56,24 @@ export default {
   'menu.device.rein': '重入库',
 
   'menu.package': '套餐管理',
+  'menu.package.center': '套餐管理',
+  'menu.package.settings': '套餐管理',
+
   'menu.propaganda': '宣教管理',
+  'menu.propaganda.center': '宣教管理',
+  'menu.propaganda.settings': '宣教管理',
+
   'menu.onlineConsultation': '在线咨询',
+  'menu.onlineConsultation.center': '在线咨询',
+  'menu.onlineConsultation.settings': '在线咨询',
+
   'menu.pregnancyBook': '孕册管理',
+  'menu.pregnancyBook.center': '孕册管理',
+  'menu.pregnancyBook.settings': '孕册管理',
+
   'menu.guardianshipFile': '监护档案管理',
+  'menu.guardianshipFile.center': '监护档案管理',
+  'menu.guardianshipFile.settings': '监护档案管理',
+  
 
 };

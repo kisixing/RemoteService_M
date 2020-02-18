@@ -55,7 +55,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: 'Ant Design Pro',
+  title: '远程管理中台',
   pwa: true,
   iconfontUrl: '',
 } as DefaultSettings;

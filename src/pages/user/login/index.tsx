@@ -54,24 +54,26 @@ const Login: React.FC<LoginProps> = props => {
           )}
 
           <UserName
-            name="userName"
-            placeholder="用户名: admin or user"
+            name="username"
+            placeholder="用户名: admin"
             rules={[
               {
                 required: true,
                 message: '请输入用户名!',
               },
             ]}
+            defaultValue="admin"
           />
           <Password
             name="password"
-            placeholder="密码: ant.design"
+            placeholder="密码: admin"
             rules={[
               {
                 required: true,
                 message: '请输入密码！',
               },
             ]}
+            defaultValue="admin"
           />
         </Tab>
         <Tab key="mobile" tab="手机号登录">

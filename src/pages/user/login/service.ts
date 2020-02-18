@@ -8,12 +8,23 @@ export interface LoginParamsType {
 }
 
 export async function fakeAccountLogin(params: LoginParamsType) {
-  return request('/api/login/account', {
-    method: 'POST',
+
+  // status: 'ok',
+  // type,
+  // currentAuthority: 'admin',
+
+  return request.post('/api/authenticate', {
+ 
     data: params,
+  }).then(r => {
+    return {
+      status: 'ok',
+      // type: 'account',
+      currentAuthority: 'admin',
+    }
   });
 }
 
 export async function getFakeCaptcha(mobile: string) {
-  return request(`/api/login/captcha?mobile=${mobile}`);
+  return request.get(`/api/login/captcha?mobile=${mobile}`);
 }

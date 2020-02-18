@@ -8,6 +8,7 @@ import dashboard from "./dashboard";
 // import editor from "./editor";
 // import exception from "./exception";
 
+import product from "./product";
 import device from "./device";
 import _package from "./package";
 import propaganda from "./propaganda";
@@ -60,6 +61,7 @@ export const routes: IRoute[] = [
                 Routes: ['src/pages/Authorized'],
                 authority: ['admin', 'user'],
                 routes: [
+                    product,
                     device,
                     _package,
                     propaganda,

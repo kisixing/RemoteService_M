@@ -49,6 +49,12 @@ export default {
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
 
+
+
+  'menu.product': '产品管理',
+  'menu.product.list': '产品列表',
+
+
   'menu.device': '设备管理',
   'menu.device.in': '入库',
   'menu.device.out': '外租',

@@ -80,7 +80,7 @@ export default Form.create()((props: IProps) => {
                                         { required: true }
                                     ]
                                 })(
-                                    <Editor bordered style={{ height: '300px',overflowY:'hidden' }} />
+                                    <Editor bordered style={{ height: '300px', overflowY: 'hidden' }} />
                                 )
                             }
                         </Form.Item>
@@ -91,7 +91,7 @@ export default Form.create()((props: IProps) => {
                                         { required: true }
                                     ]
                                 })(
-                                    <Editor bordered style={{ height: '300px',overflowY:'hidden' }}  />
+                                    <Editor bordered style={{ height: '300px', overflowY: 'hidden' }} />
                                 )
                             }
                         </Form.Item>
@@ -102,7 +102,7 @@ export default Form.create()((props: IProps) => {
                                         { required: true }
                                     ]
                                 })(
-                                    <Editor bordered style={{ height: '300px',overflowY:'hidden' }} />
+                                    <Editor bordered style={{ height: '300px', overflowY: 'hidden' }} />
                                 )
                             }
                         </Form.Item>
@@ -122,7 +122,7 @@ export default Form.create()((props: IProps) => {
                 </Spin>
             </Modal>
             {
-                React.Children.map(children, _ => React.cloneElement(_, { onClick: show }))
+                React.Children.map(children, _ => React.cloneElement(_ as any, { onClick: show }))
             }
         </>
     )

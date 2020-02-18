@@ -1,255 +1,133 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Avatar, Card, Col, Divider, Input, Row, Tag } from 'antd';
-import React, { Component } from 'react';
+import React from 'react';
+import { useFormTable } from 'sunflower-antd';
+import { Input, Button, Table, Form, Divider, Popconfirm } from 'antd';
+import request from '@lianmed/request';
+import { WrappedFormUtils } from 'antd/lib/form/Form';
+import ModalForm from "./components/ModalForm";
+import { IProduct } from "@/modelTypes";
 
-import { Dispatch } from 'redux';
-import { GridContent } from '@ant-design/pro-layout';
-import Link from 'umi/link';
-import { RouteChildrenProps } from 'react-router';
-import { connect } from 'dva';
-import { ModalState } from './model';
-import Projects from './components/Projects';
-import Articles from './components/Articles';
-import Applications from './components/Applications';
-import { CurrentUser, TagType } from './data.d';
-import styles from './Center.less';
-
-const operationTabList = [
-  {
-    key: 'articles',
-    tab: (
-      <span>
-        文章 <span style={{ fontSize: 14 }}>(8)</span>
-      </span>
-    ),
-  },
-  {
-    key: 'applications',
-    tab: (
-      <span>
-        应用 <span style={{ fontSize: 14 }}>(8)</span>
-      </span>
-    ),
-  },
-  {
-    key: 'projects',
-    tab: (
-      <span>
-        项目 <span style={{ fontSize: 14 }}>(8)</span>
-      </span>
-    ),
-  },
-];
-
-interface CenterProps extends RouteChildrenProps {
-  dispatch: Dispatch<any>;
-  currentUser: Partial<CurrentUser>;
-  currentUserLoading: boolean;
-}
-interface CenterState {
-  newTags: TagType[];
-  tabKey?: 'articles' | 'applications' | 'projects';
-  inputVisible?: boolean;
-  inputValue?: string;
+interface IProps {
+  form: WrappedFormUtils
 }
 
-class Center extends Component<CenterProps, CenterState> {
-  // static getDerivedStateFromProps(
-  //   props: accountAndcenterProps,
-  //   state: accountAndcenterState,
-  // ) {
-  //   const { match, location } = props;
-  //   const { tabKey } = state;
-  //   const path = match && match.path;
+export default Form.create()((props: IProps) => {
 
-  //   const urlTabKey = location.pathname.replace(`${path}/`, '');
-  //   if (urlTabKey && urlTabKey !== '/' && tabKey !== urlTabKey) {
-  //     return {
-  //       tabKey: urlTabKey,
-  //     };
-  //   }
 
-  //   return null;
-  // }
+  const columns: any[] = [
+    {
+      title: '产品名称',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text: any) => <a>{text}</a>,
+    },
+    {
+      title: '产品图片',
+      dataIndex: 'picture',
+      key: 'picture',
+    },
+    {
+      title: '产品规格',
+      dataIndex: 'specification',
+      render: (specification: string) => (
+        <span dangerouslySetInnerHTML={{ __html: specification }} />
+      ),
+    },
+    {
+      title: '排序',
+      key: 'sortorder',
+      dataIndex: 'sortorder',
+      render: (sortorder: any) => (
+        <span>
+          {sortorder}
+        </span>
+      ),
+    },
+    {
+      title: '操作',
+      key: 'action',
+      render: (text: any, { id }: any) => (
+        <span>
 
-  state: CenterState = {
-    newTags: [],
-    inputVisible: false,
-    inputValue: '',
-    tabKey: 'articles',
-  };
+          <ModalForm id={id} onsubmit={search}>
+            <a>编辑</a>
+          </ModalForm>
 
-  public input: Input | null | undefined = undefined;
+          <Divider type="vertical" />
 
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'accountAndcenter/fetchCurrent',
-    });
-    dispatch({
-      type: 'accountAndcenter/fetch',
-    });
-  }
+          <Popconfirm
+            title={'确认删除？'}
+            onConfirm={() => {
+              request.delete(`/products/${id}`).then(search)
+            }}
+            // okText="Yes"
+            // cancelText="No"
+          >
+            <a>删除</a>
+          </Popconfirm>
+        </span>
+      ),
+    },
+  ];
 
-  onTabChange = (key: string) => {
-    // If you need to sync state to url
-    // const { match } = this.props;
-    // router.push(`${match.url}/${key}`);
-    this.setState({
-      tabKey: key as CenterState['tabKey'],
-    });
-  };
+  const { form } = props;
+  const { formProps, tableProps, search } = useFormTable({
+    form,
+    async search(values) {
+      const res: IProduct[] = await request.get('/products');
+      return {
+        dataSource: res,
+        total: res.length,
+      } as any;
+    },
+    async defaultFormValues() {
+      await new Promise(r => setTimeout(r, 200));
+      return {
+        username: 'j',
+      };
+    },
+  });
+  return <div>
+    <Form layout="inline" {...formProps}>
+      <Form.Item label="Username">
+        {
+          form.getFieldDecorator('username')(
+            <Input placeholder="Username" />
+          ) as any
+        }
+      </Form.Item>
 
-  showInput = () => {
-    this.setState({ inputVisible: true }, () => this.input && this.input.focus());
-  };
+      <Form.Item label="Email">
+        {
+          form.getFieldDecorator('email')(
+            <Input placeholder="Email" />
+          ) as any
+        }
+      </Form.Item>
 
-  saveInputRef = (input: Input | null) => {
-    this.input = input;
-  };
+      <Form.Item>
+        <Button onClick={() => form.resetFields()}>
+          Reset
+        </Button>
+      </Form.Item>
 
-  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ inputValue: e.target.value });
-  };
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Search
+        </Button>
+      </Form.Item>
+      <Form.Item>
+        <ModalForm onsubmit={search}>
+          <Button>新增</Button>
+        </ModalForm>
 
-  handleInputConfirm = () => {
-    const { state } = this;
-    const { inputValue } = state;
-    let { newTags } = state;
-    if (inputValue && newTags.filter(tag => tag.label === inputValue).length === 0) {
-      newTags = [...newTags, { key: `new-${newTags.length}`, label: inputValue }];
-    }
-    this.setState({
-      newTags,
-      inputVisible: false,
-      inputValue: '',
-    });
-  };
+      </Form.Item>
+    </Form>
 
-  renderChildrenByTabKey = (tabKey: CenterState['tabKey']) => {
-    if (tabKey === 'projects') {
-      return <Projects />;
-    }
-    if (tabKey === 'applications') {
-      return <Applications />;
-    }
-    if (tabKey === 'articles') {
-      return <Articles />;
-    }
-    return null;
-  };
-
-  render() {
-    const { newTags = [], inputVisible, inputValue, tabKey } = this.state;
-    const { currentUser = {}, currentUserLoading } = this.props;
-    const dataLoading = currentUserLoading || !(currentUser && Object.keys(currentUser).length);
-    return (
-      <GridContent>
-        <Row gutter={24}>
-          <Col lg={7} md={24}>
-            <Card bordered={false} style={{ marginBottom: 24 }} loading={dataLoading}>
-              {!dataLoading && (
-                <div>
-                  <div className={styles.avatarHolder}>
-                    <img alt="" src={currentUser.avatar} />
-                    <div className={styles.name}>{currentUser.name}</div>
-                    <div>{currentUser.signature}</div>
-                  </div>
-                  <div className={styles.detail}>
-                    <p>
-                      <i className={styles.title} />
-                      {currentUser.title}
-                    </p>
-                    <p>
-                      <i className={styles.group} />
-                      {currentUser.group}
-                    </p>
-                    <p>
-                      <i className={styles.address} />
-                      {(currentUser.geographic || { province: { label: '' } }).province.label}
-                      {
-                        (
-                          currentUser.geographic || {
-                            city: {
-                              label: '',
-                            },
-                          }
-                        ).city.label
-                      }
-                    </p>
-                  </div>
-                  <Divider dashed />
-                  <div className={styles.tags}>
-                    <div className={styles.tagsTitle}>标签</div>
-                    {(currentUser.tags || []).concat(newTags).map(item => (
-                      <Tag key={item.key}>{item.label}</Tag>
-                    ))}
-                    {inputVisible && (
-                      <Input
-                        ref={ref => this.saveInputRef(ref)}
-                        type="text"
-                        size="small"
-                        style={{ width: 78 }}
-                        value={inputValue}
-                        onChange={this.handleInputChange}
-                        onBlur={this.handleInputConfirm}
-                        onPressEnter={this.handleInputConfirm}
-                      />
-                    )}
-                    {!inputVisible && (
-                      <Tag
-                        onClick={this.showInput}
-                        style={{ background: '#fff', borderStyle: 'dashed' }}
-                      >
-                        <PlusOutlined />
-                      </Tag>
-                    )}
-                  </div>
-                  <Divider style={{ marginTop: 16 }} dashed />
-                  <div className={styles.team}>
-                    <div className={styles.teamTitle}>团队</div>
-                    <Row gutter={36}>
-                      {currentUser.notice &&
-                        currentUser.notice.map(item => (
-                          <Col key={item.id} lg={24} xl={12}>
-                            <Link to={item.href}>
-                              <Avatar size="small" src={item.logo} />
-                              {item.member}
-                            </Link>
-                          </Col>
-                        ))}
-                    </Row>
-                  </div>
-                </div>
-              )}
-            </Card>
-          </Col>
-          <Col lg={17} md={24}>
-            <Card
-              className={styles.tabsCard}
-              bordered={false}
-              tabList={operationTabList}
-              activeTabKey={tabKey}
-              onTabChange={this.onTabChange}
-            >
-              {this.renderChildrenByTabKey(tabKey)}
-            </Card>
-          </Col>
-        </Row>
-      </GridContent>
-    );
-  }
-}
-
-export default connect(
-  ({
-    loading,
-    accountAndcenter,
-  }: {
-    loading: { effects: { [key: string]: boolean } };
-    accountAndcenter: ModalState;
-  }) => ({
-    currentUser: accountAndcenter.currentUser,
-    currentUserLoading: loading.effects['accountAndcenter/fetchCurrent'],
-  }),
-)(Center);
+    <Table
+      style={{ marginTop: 20 }}
+      columns={columns}
+      rowKey="id"
+      {...tableProps}
+    />
+  </div>
+});

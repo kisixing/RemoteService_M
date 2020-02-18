@@ -8,7 +8,7 @@ import store from 'store';
 import r from '@lianmed/request';
 const TOKEN = 'lianmed-authority'
 const request = r.config({
- 
+  prefix: '/api',
   hideErr: false,
   errHandler({ status, errortext, url }) {
     if (status === 401) {

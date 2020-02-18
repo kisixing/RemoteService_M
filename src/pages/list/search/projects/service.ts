@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
 export async function queryFakeList(params: { count: number }) {
-  return request.get('/api/fake_list', {
+  return request.get('/fake_list', {
     params,
   });
 }

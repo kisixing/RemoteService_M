@@ -13,7 +13,7 @@ export async function fakeAccountLogin(params: LoginParamsType) {
   // type,
   // currentAuthority: 'admin',
 
-  return request.post('/api/authenticate', {
+  return request.post('/authenticate', {
  
     data: params,
   }).then(r => {
@@ -26,5 +26,5 @@ export async function fakeAccountLogin(params: LoginParamsType) {
 }
 
 export async function getFakeCaptcha(mobile: string) {
-  return request.get(`/api/login/captcha?mobile=${mobile}`);
+  return request.get(`/login/captcha?mobile=${mobile}`);
 }

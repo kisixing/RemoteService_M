@@ -1,17 +1,17 @@
 import request from '@/utils/request';
 
 export async function queryProjectNotice() {
-  return request.get('/api/project/notice');
+  return request.get('/project/notice');
 }
 
 export async function queryActivities() {
-  return request.get('/api/activities');
+  return request.get('/activities');
 }
 
 export async function fakeChartData() {
-  return request.get('/api/fake_chart_data');
+  return request.get('/fake_chart_data');
 }
 
 export async function queryCurrent() {
-  return request.get('/api/currentUser');
+  return request.get('/currentUser');
 }

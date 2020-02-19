@@ -58,10 +58,8 @@ export default {
   'menu.package.list': '套餐列表',
 
   'menu.device': '设备管理',
-  'menu.device.in': '入库',
-  'menu.device.out': '外租',
-  'menu.device.recycle': '回收',
-  'menu.device.rein': '重入库',
+  'menu.device.list': '设备列表',
+
 
 
   'menu.propaganda': '宣教管理',

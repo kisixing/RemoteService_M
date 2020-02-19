@@ -1,19 +1,18 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react';
-import { useModalForm } from 'sunflower-antd';
+import { useModalForm } from '@lianmed/hooks';
 import { Modal, Input, Button, Form, Spin, InputNumber } from 'antd';
-import { WrappedFormUtils } from 'antd/lib/form/Form';
 import request from '@/utils/request';
 import { IProduct } from "@/modelTypes";
 import { Editor } from "@lianmed/components";
 interface IProps extends PropsWithChildren<{}> {
-    form: WrappedFormUtils
     id?: number
-    onsubmit?: () => void
+    onsubmit?: (data?:any) => void
 }
 
 
-export default Form.create()((props: IProps) => {
-    const { form, children, id, onsubmit } = props;
+export default ((props: IProps) => {
+    const { children, id, onsubmit } = props;
+    const [form] = Form.useForm()
 
     const {
         modalProps,
@@ -62,60 +61,26 @@ export default Form.create()((props: IProps) => {
                 <Spin spinning={formLoading || defaultFormValuesLoading}>
                     <Form labelCol={{ xs: 3 }} wrapperCol={{ xs: 20 }}  {...formProps}>
 
-                        <Form.Item label="产品名称">
-                            {
-                                form.getFieldDecorator('name', {
-                                    rules: [
-                                        { required: true }
-                                    ]
-                                })(
-                                    <Input placeholder="name" />
-                                )
-                            }
+                        <Form.Item label="产品名称" name="name" required>
+                            <Input placeholder="name" />
                         </Form.Item>
-                        <Form.Item label="产品介绍" >
-                            {
-                                form.getFieldDecorator('introduction', {
-                                    rules: [
-                                        { required: true }
-                                    ]
-                                })(
-                                    <Editor bordered style={{ height: '300px', overflowY: 'hidden' }} />
-                                )
-                            }
+                        <Form.Item label="产品介绍" name="introduction" required>
+
+                            <Editor bordered style={{ height: '300px', overflowY: 'hidden' }} />
+
                         </Form.Item>
-                        <Form.Item label="产品规格" >
-                            {
-                                form.getFieldDecorator('specification', {
-                                    rules: [
-                                        { required: true }
-                                    ]
-                                })(
-                                    <Editor bordered style={{ height: '300px', overflowY: 'hidden' }} />
-                                )
-                            }
+                        <Form.Item label="产品规格" name="specification" required>
+
+                            <Editor bordered style={{ height: '300px', overflowY: 'hidden' }} />
+
                         </Form.Item>
-                        <Form.Item label="使用或注意事项">
-                            {
-                                form.getFieldDecorator('note', {
-                                    rules: [
-                                        { required: true }
-                                    ]
-                                })(
-                                    <Editor bordered style={{ height: '300px', overflowY: 'hidden' }} />
-                                )
-                            }
+                        <Form.Item label="使用或注意事项" name="note" required>
+
+                            <Editor bordered style={{ height: '300px', overflowY: 'hidden' }} />
+
                         </Form.Item>
-                        <Form.Item label="排序">
-                            {
-                                form.getFieldDecorator('sortorder', {
-                                    rules: [
-                                        { required: true }
-                                    ]
-                                })(
-                                    <InputNumber />
-                                )
-                            }
+                        <Form.Item label="排序" name="sortorder" required>
+                            <InputNumber />
                         </Form.Item>
 
                     </Form>

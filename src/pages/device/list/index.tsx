@@ -8,37 +8,60 @@ import { IProduct } from "@/modelTypes";
 interface IProps {
 }
 
-export default ((props: IProps) => {
+export default (props: IProps) => {
   const [form] = Form.useForm()
 
 
   const columns: any[] = [
     {
-      title: '产品名称',
-      dataIndex: 'name',
-      key: 'name'
+      title: '设备编号',
+      dataIndex: 'erpno',
+      key: 'erpno'
     },
     {
-      title: '产品图片',
-      dataIndex: 'picture',
-      key: 'picture',
+      title: '设备名称',
+      dataIndex: 'devicename',
+      key: 'devicename'
     },
     {
-      title: '产品规格',
-      dataIndex: 'specification',
-      render: (specification: string) => (
-        <div dangerouslySetInnerHTML={{ __html: specification }} />
-      ),
+      title: '厂家',
+      dataIndex: 'manufacturer',
+      key: 'manufacturer'
     },
     {
-      title: '排序',
-      key: 'sortorder',
-      dataIndex: 'sortorder',
-      render: (sortorder: any) => (
-        <span>
-          {sortorder}
-        </span>
-      ),
+      title: '型号',
+      dataIndex: 'model',
+      key: 'model'
+    },
+    {
+      title: '设备类型',
+      dataIndex: 'type',
+      key: 'type'
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status'
+    },
+    {
+      title: '绑定信息',
+      dataIndex: 'devicename',
+      key: 'devicename'
+    },
+    {
+      title: '操作内容',
+      dataIndex: 'devicename',
+      key: 'devicename'
+    },
+    {
+      title: '操作时间',
+      dataIndex: 'devicename',
+      key: 'devicename'
+    },
+    {
+      title: '操作者',
+      dataIndex: 'devicename',
+      key: 'devicename'
     },
     {
       title: '操作',
@@ -55,10 +78,8 @@ export default ((props: IProps) => {
           <Popconfirm
             title={'确认删除？'}
             onConfirm={() => {
-              request.delete(`/products/${id}`).then(search)
+              request.delete(`/devices/${id}`).then(search)
             }}
-          // okText="Yes"
-          // cancelText="No"
           >
             <a>删除</a>
           </Popconfirm>
@@ -66,16 +87,14 @@ export default ((props: IProps) => {
       ),
     },
   ];
-
   const { formProps, tableProps, search } = useFormTable({
-    defaultPageSize:10,
+    defaultPageSize: 10,
     form,
     async search() {
-      const res: IProduct[] = await request.get('/products');
+      const res: IProduct[] = await request.get('/devices');
       return {
         dataSource: res,
         total: res.length,
-        pageSize: 10
       } as any;
     },
     async defaultFormValues() {
@@ -89,10 +108,8 @@ export default ((props: IProps) => {
 
   return <div>
     <Form layout="inline" {...formProps}>
-      <Form.Item label="产品名称" name="name" >
-
+      <Form.Item label="产品名称" name="devicename">
         <Input />
-
       </Form.Item>
 
       <Form.Item>
@@ -115,11 +132,11 @@ export default ((props: IProps) => {
     </Form>
 
     <Table
+      bordered
       style={{ marginTop: 20 }}
       columns={columns}
       rowKey="id"
       {...tableProps}
-      bordered
     />
   </div>
-});
+}

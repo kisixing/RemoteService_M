@@ -7,29 +7,11 @@ const r: IRoute = {
     path: '/device',
     routes: [
         {
-            name: 'in',
+            name: 'list',
             icon: 'smile',
-            path: '/device/in',
-            component: './device/in',
-        },
-        {
-            name: 'out',
-            icon: 'smile',
-            path: '/device/out',
-            component: './device/out',
-        },
-        {
-            name: 'recycle',
-            icon: 'smile',
-            path: '/device/recycle',
-            component: './device/recycle',
-        },
-        {
-            name: 'rein',
-            icon: 'smile',
-            path: '/device/rein',
-            component: './device/rein',
-        },
+            path: '/device/list',
+            component: './device/list',
+        }
     ],
 }
 

@@ -26,5 +26,19 @@ export interface IServicepackage {
     isdeleted: any
     sortorder: Number
     topflag: any
-    prodcuts: any[]
+    products: any[]
+}
+export interface IDevice {
+    id: Number
+    type: String,
+    manufacturer: String,
+    model: String,
+    devicename: String,
+    erpno: String,
+    sn: String,
+    btaddr: String,
+    wifiaddr: String,
+    note: String,
+    status: String,
+    subdevice: any
 }

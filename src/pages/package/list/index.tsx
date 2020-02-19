@@ -1,16 +1,15 @@
 import React from 'react';
-import { useFormTable } from 'sunflower-antd';
+import { useFormTable } from '@lianmed/hooks';
 import { Input, Button, Table, Form, Divider, Popconfirm } from 'antd';
 import request from '@lianmed/request';
-import { WrappedFormUtils } from 'antd/lib/form/Form';
 import ModalForm from "./components/ModalForm";
 import { IProduct } from "@/modelTypes";
 
 interface IProps {
-  form: WrappedFormUtils
 }
 
-export default Form.create()((props: IProps) => {
+export default (props: IProps) => {
+  const [form] = Form.useForm()
 
 
   const columns: any[] = [
@@ -33,10 +32,10 @@ export default Form.create()((props: IProps) => {
     },
     {
       title: '所属产品',
-      dataIndex: 'prodcut',
-      render: (prodcut: string) => (
-        <div dangerouslySetInnerHTML={{ __html: prodcut }} />
-      ),
+      dataIndex: 'products',
+      render: (products: IProduct[]) => {
+        return products ? products.map(_ => _.name).join('、') : ''
+      },
     },
     {
       title: '是否可用',
@@ -86,11 +85,10 @@ export default Form.create()((props: IProps) => {
       ),
     },
   ];
-
-  const { form } = props;
   const { formProps, tableProps, search } = useFormTable({
+    defaultPageSize: 10,
     form,
-    async search(values) {
+    async search() {
       const res: IProduct[] = await request.get('/servicepackages');
       return {
         dataSource: res,
@@ -104,14 +102,12 @@ export default Form.create()((props: IProps) => {
       };
     },
   });
+  tableProps.pagination.pageSize = 10
+
   return <div>
     <Form layout="inline" {...formProps}>
-      <Form.Item label="产品名称">
-        {
-          form.getFieldDecorator('name')(
-            <Input />
-          ) as any
-        }
+      <Form.Item label="产品名称" name="name">
+        <Input />
       </Form.Item>
 
       <Form.Item>
@@ -135,10 +131,10 @@ export default Form.create()((props: IProps) => {
 
     <Table
       style={{ marginTop: 20 }}
-      bodyStyle={{ background: '#fff' }}
       columns={columns}
       rowKey="id"
       {...tableProps}
+      bordered
     />
   </div>
-});
+}

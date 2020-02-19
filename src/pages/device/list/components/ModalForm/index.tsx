@@ -26,8 +26,8 @@ export default (props: IProps) => {
         autoSubmitClose: true,
         form,
         async submit({ name }) {
-            const formData = form.getFieldsValue() as { products: string[] }
-            const data = { ...formData, products: formData.products.map(id => ({ id })), id }
+            const formData = form.getFieldsValue()
+            const data = { ...formData,  id }
             await request[id ? 'put' : 'post'](`/devices`, { data })
             onsubmit && onsubmit()
             return 'ok';
@@ -71,7 +71,7 @@ export default (props: IProps) => {
 
                         <Form.Item label="类型" name="type" required >
 
-                            <DataSelect url="/products" mode="multiple" valueKey="id" labelKey="name" />
+                            <DataSelect url="/products" valueKey="id" labelKey="name" />
 
                         </Form.Item>
                         <Form.Item label="厂家" name="manufacturer" required>

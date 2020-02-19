@@ -62,8 +62,8 @@ export const routes: IRoute[] = [
                 authority: ['admin', 'user'],
                 routes: [
                     product,
-                    device,
                     _package,
+                    device,
                     propaganda,
                     onlineConsultation,
                     pregnancyBook,

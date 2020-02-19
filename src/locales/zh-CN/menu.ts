@@ -54,6 +54,8 @@ export default {
   'menu.product': '产品管理',
   'menu.product.list': '产品列表',
 
+  'menu.package': '套餐管理',
+  'menu.package.list': '套餐列表',
 
   'menu.device': '设备管理',
   'menu.device.in': '入库',
@@ -61,9 +63,6 @@ export default {
   'menu.device.recycle': '回收',
   'menu.device.rein': '重入库',
 
-  'menu.package': '套餐管理',
-  'menu.package.center': '套餐管理',
-  'menu.package.settings': '套餐管理',
 
   'menu.propaganda': '宣教管理',
   'menu.propaganda.center': '宣教管理',

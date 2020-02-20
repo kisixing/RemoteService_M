@@ -49,8 +49,6 @@ export default {
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
 
-
-
   'menu.product': '产品管理',
   'menu.product.list': '产品列表',
 
@@ -59,8 +57,6 @@ export default {
 
   'menu.device': '设备管理',
   'menu.device.list': '设备列表',
-
-
 
   'menu.propaganda': '宣教管理',
   'menu.propaganda.center': '宣教管理',
@@ -77,6 +73,7 @@ export default {
   'menu.guardianshipFile': '监护档案管理',
   'menu.guardianshipFile.center': '监护档案管理',
   'menu.guardianshipFile.settings': '监护档案管理',
-  
 
+  'menu.im': 'im ',
+  'menu.im.chat': 'im chat',
 };

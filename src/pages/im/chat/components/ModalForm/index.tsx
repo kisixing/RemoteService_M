@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useEffect } from 'react';
 import { useModalForm } from '@lianmed/hooks';
 import { DataSelect } from '@lianmed/components';
-import { Modal, Input, Form, Spin, InputNumber } from 'antd';
+import { Modal, Input, Button, Form, Spin, InputNumber, Radio, DatePicker, Select } from 'antd';
 import request from '@/utils/request';
 import { IDevice } from '@/modelTypes';
 // import { Editor } from "@lianmed/components";
@@ -17,8 +17,7 @@ export default (props: IProps) => {
     defaultVisible: false,
     autoSubmitClose: true,
     form,
-    async submit(d: any) {
-      console.log('name', d);
+    async submit({ name }) {
       const formData = form.getFieldsValue();
       const data = { ...formData, id };
       await request[id ? 'put' : 'post'](`/devices`, { data });

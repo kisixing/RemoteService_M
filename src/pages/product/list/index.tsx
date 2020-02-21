@@ -68,7 +68,7 @@ export default ((props: IProps) => {
   ];
 
   const { formProps, tableProps, search } = useFormTable({
-    defaultPageSize:10,
+    defaultPageSize: 10,
     form,
     async search() {
       const res: IProduct[] = await request.get('/products');
@@ -106,15 +106,18 @@ export default ((props: IProps) => {
           Search
         </Button>
       </Form.Item>
-      <Form.Item>
-        <ModalForm onsubmit={search}>
-          <Button>新增</Button>
-        </ModalForm>
 
-      </Form.Item>
     </Form>
 
     <Table
+      title={() => (
+        <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center' }}>
+          <span>产品列表</span>
+          <ModalForm onsubmit={search}>
+            <Button>添加产品</Button>
+          </ModalForm>
+        </div>
+      )}
       style={{ marginTop: 20 }}
       columns={columns}
       rowKey="id"

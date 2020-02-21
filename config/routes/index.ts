@@ -10,7 +10,9 @@ import dashboard from './dashboard';
 
 import product from './product';
 import device from './device';
+import service from './service';
 import _package from './package';
+import order from './order';
 import propaganda from './propaganda';
 import onlineConsultation from './onlineConsultation';
 import pregnancyBook from './pregnancyBook';
@@ -60,12 +62,13 @@ export const routes: IRoute[] = [
         routes: [
           product,
           _package,
+          order,
+          service,
           device,
-          propaganda,
-          onlineConsultation,
-          pregnancyBook,
-          guardianshipFile,
-
+          // propaganda,
+          // onlineConsultation,
+          // pregnancyBook,
+          // guardianshipFile,
           dashboard,
           // form,
           // list,
@@ -78,14 +81,8 @@ export const routes: IRoute[] = [
             name: 'im',
             icon: 'book',
             path: '/im',
-            routes: [
-              {
-                name: 'chat',
-                icon: 'smile',
-                path: '/im/lichatst',
-                component: './im/chat',
-              },
-            ],
+            component: './im/chat',
+    
           },
           {
             path: '/',

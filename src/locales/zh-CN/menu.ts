@@ -55,6 +55,11 @@ export default {
   'menu.package': '套餐管理',
   'menu.package.list': '套餐列表',
 
+  'menu.order': '订单管理',
+  'menu.order.list': '订单列表',
+
+  'menu.service': '服务记录',
+
   'menu.device': '设备管理',
   'menu.device.list': '设备列表',
 

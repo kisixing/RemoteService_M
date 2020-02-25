@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { Menu, Dropdown } from 'antd'
-import './style/ChatEmoji.less'
+import { SmileFilled, SmileOutlined } from "@ant-design/icons";
+import styles from './style/ChatEmoji.less'
 
 interface IProps {
-    emoji?: { [x: string]: string }
+    emoji: { [x: string]: string }
 
 }
 
 const ChatEmoji = (props: IProps) => {
-
-    const emoji = props.emoji || {}
+    const emoji = props.emoji
     const [state, setstate] = useState({
         tabPosition: 'bottom',
         size: '',
@@ -27,7 +27,7 @@ const ChatEmoji = (props: IProps) => {
         const height = (emojiWidth + 2 * emojiPadding) * rows
 
         return (
-            <Menu className="x-emoji" style={{ width, height }} {...props}>
+            <Menu className={styles['x-emoji']} style={{ width, height }} {...props}>
                 {renderEmoji()}
                 {/*
 				<Menu.Item key="3" style={{ display: "block" }} disabled>
@@ -57,7 +57,7 @@ const ChatEmoji = (props: IProps) => {
                     }}
                 >
                     <img
-                        src={require(`../../themes/faces/${v}`)}
+                        src={v}
                         width={emojiWidth}
                         height={emojiWidth}
                     />
@@ -74,12 +74,7 @@ const ChatEmoji = (props: IProps) => {
     return (
         <div className="ib">
             <Dropdown overlay={menu} trigger={['click']}>
-                <a className="ant-dropdown-link" href="#">
-                    <i
-                        className="iconfont icon-smile"
-                        style={{ color: 'rgba(0, 0, 0, 0.65)' }}
-                    />
-                </a>
+                <SmileOutlined />
             </Dropdown>
         </div>
     )

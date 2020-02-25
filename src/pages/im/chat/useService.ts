@@ -1,14 +1,85 @@
-import { open } from '@lianmed/im';
+import { open, imDb } from '@lianmed/im';
 import { message } from 'antd';
 import { useEffect, useState } from "react";
-
+import { IContact } from "./types";
 let IM_TOKEN_KEY = 'web_im_lianmed'
+
+interface IMsg {
+
+}
 
 export default () => {
   const [friends, setFriends] = useState<string[]>([])
+  const [msg, setMsg] = useState<{ [x: string]: IMsg[] }>({})
+  const [contacts, setContacts] = useState<IContact[]>([])
+
+
+  useEffect(() => {
+    const data = friends.map(f => {
+      const allMsg = msg[f]
+      if (allMsg) {
+        const latestMsg = allMsg[f]
+        latestMsg
+      }
+    })
+  }, [friends, msg])
+
   useEffect(() => {
     open({ user: 'ahemyugo', token: sessionStorage.getItem(IM_TOKEN_KEY) || 'admin' }).then(WebIM => {
 
+      function init() {
+
+        imDb.init(conn.user)
+
+        const b: string[] = WebIM.conn.getBlacklist()
+        WebIM.conn.getRoster({
+          success(data) { 
+            if (!data) return
+            console.log('success 1 ', data)
+
+            const friend = data.filter(d => d.subscription !== 'none').map(d => d.name)
+            setFriends(friend)
+            friend.map(f => {
+              if (b.includes(f)) return
+              return [
+                {
+                  name: '',
+                  unread: 0,
+                  latestMessage: '',
+                  latestTime: ''
+                }
+              ]
+            })
+          }
+        })
+        imDb.getUnreadList().then((res: any) => {
+          console.log('unread', res)
+          let collection = {
+            'chat': {},
+            'chatroom': {},
+            'groupchat': {},
+            'stranger': {}
+          }
+
+          // unread message count
+          res.forEach((msg: any) => {
+            if (!msg.error) {
+              let type = msg.type
+              let from = type === 'chat' ? 'from' : 'to'
+              let id = msg[from]
+              // if (collection[type][id]) {
+              //     collection[type][id] += 1
+              // } else {
+              //     collection[type][id] = 1
+              // }
+            }
+          })
+
+
+        })
+
+
+      }
       // fake login
       function fakeLogin() {
         conn.open({
@@ -18,7 +89,7 @@ export default () => {
           success(data) {
             console.log(`login success`, data.access_token)
             sessionStorage.setItem(IM_TOKEN_KEY, data.access_token)
-            location.reload()
+            // location.reload()
           },
           error(e) {
             console.log('webim error', e)
@@ -27,9 +98,8 @@ export default () => {
         })
       }
 
-
-
       const { conn, config } = WebIM
+
       conn.listen({
         // success connect to xmpp
         onOpened: msg => {
@@ -40,17 +110,8 @@ export default () => {
           // const path =
           // history.location.pathname.indexOf('login') !=== -1 ? '/contact' : history.location.pathname;
           // const redirectUrl = `${path}?username=${username}`;
-          console.log('open')
-          conn.getRoster({
-            success(data) {
-              if (!data) return
-              const d = data.filter(_ => _.subscription !== 'none').map(_ => _.name)
-              setFriends(d)
-            },
-            error(e) {
-              console.log('getRoster', e)
-            }
-          })
+          console.log('open', msg)
+          init()
 
         },
         onPresence: msg => {
@@ -118,6 +179,7 @@ export default () => {
         },
         // handle all exception
         onError: error => {
+
           fakeLogin()
 
           // 16: server-side close the websocket connection
@@ -191,8 +253,9 @@ export default () => {
         onLocationMessage: message => {
           //位置消息
         },
-        onTextMessage: message => {
-          console.log("onTextMessage", message)
+        onTextMessage(message) {
+
+          console.log("onTextMessage", this, message)
           // const { from, to } = message;
           let { type } = message;
           // const username = '';
@@ -201,7 +264,9 @@ export default () => {
           // const chatId = bySelf || type !== 'chat' ? to : from;
 
           if (type === 'chat') {
-
+            // setMsg([
+            //   ...msg,
+            // ])
           }
         },
 
@@ -221,6 +286,8 @@ export default () => {
           }
         },
         onFileMessage: message => {
+          console.log('onFileMessage', message);
+
           const { type } = message;
           switch (type) {
             case 'chat':
@@ -234,6 +301,8 @@ export default () => {
           }
         },
         onAudioMessage: message => {
+          console.log('onAudioMessage', message);
+
           const { type } = message;
 
           switch (type) {
@@ -248,6 +317,8 @@ export default () => {
           }
         },
         onVideoMessage: message => {
+          console.log('onVideoMessage', message);
+
           const { type } = message;
           switch (type) {
             case 'chat':
@@ -267,7 +338,9 @@ export default () => {
           console.log('onMutedMessage', msg);
         },
       });
-
+      conn.on('chattingMessage', m => {
+        console.log('chattingMessage', m)
+      })
     })
   }, [])
   // let history: any = window.history;

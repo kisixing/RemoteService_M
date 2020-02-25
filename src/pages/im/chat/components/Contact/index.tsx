@@ -2,16 +2,20 @@ import React from 'react'
 import { Menu, Badge } from 'antd'
 import ContactHead from './ContactHead'
 
-const SubMenu = Menu.SubMenu
-const MenuItemGroup = Menu.ItemGroup
 
-const ContactItem = ({ chatType, items, collapse, hasLogo, ...rest }) => {
+interface IProps {
+    items: any[]
+    collapse?: boolean
+    hasLogo?: boolean
+    [x: string]: any
+}
+const ContactItem = ({ items, collapse, hasLogo, ...rest }: IProps) => {
     const tabs = items //["Contacts", "Chat", "Public"]
     const tabsLen = tabs.length
     const tabCls = collapse ? '' : ''
 
     const tabsItem = tabs.map(item =>
-        <Menu.Item key={chatType == 'chatroom' || chatType == 'group' ? item.id : item.name} className={tabCls}>
+        <Menu.Item key={item.name} className={tabCls}>
             {hasLogo ? <ContactHead className="fl nav-img" name="test" width={50} /> : ''}
             <div className="nav-text">
                 <div>

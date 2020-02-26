@@ -1,15 +1,18 @@
 import React from 'react'
 import { Menu, Badge } from 'antd'
 import ContactHead from './ContactHead'
+import { ClickParam } from 'antd/lib/menu'
 
 
 interface IProps {
     items: any[]
     collapse?: boolean
     hasLogo?: boolean
+    current: string
+    onClick: (e: ClickParam) => void
     [x: string]: any
 }
-const ContactItem = ({ items, collapse, hasLogo, ...rest }: IProps) => {
+const ContactItem = ({ items, collapse, hasLogo, current, onClick }: IProps) => {
     const tabs = items //["Contacts", "Chat", "Public"]
     const tabsLen = tabs.length
     const tabCls = collapse ? '' : ''
@@ -45,7 +48,7 @@ const ContactItem = ({ items, collapse, hasLogo, ...rest }: IProps) => {
     )
 
     return (
-        <Menu id="x-contact-item" mode={'inline'} inlineIndent={24} {...rest} inlineCollapsed={false}>
+        <Menu id="x-contact-item" mode={'inline'} inlineIndent={24} onClick={onClick} selectedKeys={[current]} inlineCollapsed={false}>
             {tabsItem}
         </Menu>
     )

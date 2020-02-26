@@ -1,21 +1,27 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, ChangeEvent } from 'react'
 
 import _ from 'lodash'
 import { Input, Dropdown, Menu } from 'antd'
-import { SettingOutlined } from "@ant-design/icons";
+import { SettingOutlined, FileAddOutlined, FileImageOutlined, DeleteOutlined, SendOutlined } from "@ant-design/icons";
 import ChatMessage from './ChatMessage'
 import ChatEmoji from './ChatEmoji'
 
 import { IMessage } from '@lianmed/im/lib/types/msg';
 
+import "./style/index.less";
+import { ClickParam } from 'antd/lib/menu';
+import { sendTxtMessage } from "@lianmed/im";
 
 interface IProps {
     messageList: IMessage[]
     collapsed: boolean
+    current: string
 }
 
 
 const Chat = (props: IProps) => {
+    const { collapsed, messageList, current } = props
+
     let WebIM = (window as any).WebIM;
     let emoji = WebIM ? WebIM.emoji || {} : {};
     const input = useRef<Input>(null)
@@ -26,7 +32,6 @@ const Chat = (props: IProps) => {
     const [selectItem, setSelectItem] = useState('')
     const [value, setValue] = useState('')
     const [isLoaded, setIsLoaded] = useState(false)
-
 
     function scollBottom() {
 
@@ -41,20 +46,23 @@ const Chat = (props: IProps) => {
 
     }
 
-    function handleEmojiSelect() {
-
+    function handleEmojiSelect(e: ClickParam) {
+        setValue(value + e.key)
+        input.current && input.current.focus()
     }
 
     function handleEmojiCancel() {
 
     }
 
-    function handleChange() {
-
+    function handleChange(e: ChangeEvent<HTMLInputElement>) {
+        setValue(e.target.value)
     }
 
     function handleSend() {
-
+        sendTxtMessage(current, 'chat', value)
+        .then(data=>console.log('success',data))
+        .catch(data=>console.log('err',data))
     }
 
     function emitEmpty() {
@@ -138,11 +146,7 @@ const Chat = (props: IProps) => {
     }
     function ok() {
     }
-    let {
-        collapsed,
 
-        messageList,
-    } = props
 
 
     function back() {
@@ -187,30 +191,24 @@ const Chat = (props: IProps) => {
                 </div>
             </div>
             <div className="x-chat-content" onScroll={handleScroll}>
-                {/* fixed bug of messageList.map(...) */}
                 {isLoaded && <div style={{ width: '150px', height: '30px', lineHeight: '30px', backgroundColor: '#888', color: '#fff', borderRadius: '15px', textAlign: 'center', margin: '10px auto' }}>noMoreMessage</div>}
-                {/* {messageList.map((message, i) => {
-                    if (i > 0) {
-                        if (message.id != messageList[i - 1].id) {
-                            return <ChatMessage emoji={{}} key={i} {...message} />
-                        }
-                    } else {
-                        return <ChatMessage emoji={{  }} key={i} {...message} />
-                    }
-                })} */}
+                {messageList.map((message, i) => {
+
+                    return <ChatMessage emoji={{}} key={i} {...message} />
+                })}
             </div>
             <div className="x-chat-footer">
                 <div className="x-list-item x-chat-ops">
                     {/* emoji */}
                     <div className="x-chat-ops-icon ib">
-                        <ChatEmoji emoji={emoji} />
+                        <ChatEmoji emoji={emoji} onClick={handleEmojiSelect} />
                     </div>
                     {/* image upload */}
                     <label
                         htmlFor="uploadImage"
                         className="x-chat-ops-icon ib"
                         onClick={() => image && image.current && image.current.focus() && image.current.click()}>
-                        <i className="iconfont icon-picture" />
+                        <FileImageOutlined />
                         <input
                             id="uploadImage"
                             ref={image}
@@ -224,7 +222,8 @@ const Chat = (props: IProps) => {
                         htmlFor="uploadFile"
                         className="x-chat-ops-icon ib"
                         onClick={() => file && file.current && file.current.focus() && file.current.click()}>
-                        <i className="icon iconfont icon-file-empty" />
+                        <FileAddOutlined />
+
                         <input
                             id="uploadFile"
                             ref={file}
@@ -233,10 +232,8 @@ const Chat = (props: IProps) => {
                             className="hide"
                         />
                     </label>
-                    {/* webrtc video && audio && 发送音频 */}
-                    {/* clear */}
                     <label htmlFor="clearMessage" className="x-chat-ops-icon ib" onClick={onClearMessage}>
-                        <i className="icon iconfont icon-trash"></i>
+                        <DeleteOutlined />
                     </label>
                 </div>
                 <div className="x-list-item x-chat-send">
@@ -246,8 +243,7 @@ const Chat = (props: IProps) => {
                         onPressEnter={handleSend}
                         placeholder={'message'}
                         addonAfter={
-                            <i
-                                className="fontello icon-paper-plane"
+                            <SendOutlined
                                 onClick={handleSend}
                                 style={{ cursor: 'pointer' }}
                             />

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Menu, Dropdown, Card, Tag, Modal } from 'antd'
 import Audio from './Audio'
 import { IMessage } from '@lianmed/im/lib/types/msg'
+import './style/ChatMessage.less'
 interface IProps extends IMessage {
     emoji?: {
         [x: string]: string
@@ -12,7 +13,7 @@ export default (props: IProps) => {
 
     const [showImgModal, setShowImgModal] = useState(false)
 
-    window
+
     const renderTxt = (txt: string) => {
         let rnTxt = []
         let match = null
@@ -29,7 +30,7 @@ export default (props: IProps) => {
                 rnTxt.push(
                     <img
                         // key={WebIM.conn.getUniqueId()}
-                        src={require(`../../themes/faces/${v}`)}
+                        src={v}
                         width={20}
                         height={20}
                     />

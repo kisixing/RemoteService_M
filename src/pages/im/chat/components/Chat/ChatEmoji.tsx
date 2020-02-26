@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Menu, Dropdown } from 'antd'
 import { SmileFilled, SmileOutlined } from "@ant-design/icons";
-import styles from './style/ChatEmoji.less'
+import './style/ChatEmoji.less'
 
 interface IProps {
     emoji: { [x: string]: string }
-
+    [x: string]: any
 }
 
 const ChatEmoji = (props: IProps) => {
@@ -27,7 +27,7 @@ const ChatEmoji = (props: IProps) => {
         const height = (emojiWidth + 2 * emojiPadding) * rows
 
         return (
-            <Menu className={styles['x-emoji']} style={{ width, height }} {...props}>
+            <Menu className={'x-emoji'} style={{ width, height }} {...props}>
                 {renderEmoji()}
                 {/*
 				<Menu.Item key="3" style={{ display: "block" }} disabled>

@@ -9,10 +9,6 @@ export interface LoginParamsType {
 
 export async function fakeAccountLogin(params: LoginParamsType) {
 
-  // status: 'ok',
-  // type,
-  // currentAuthority: 'admin',
-
   return request.post('/authenticate', {
  
     data: params,

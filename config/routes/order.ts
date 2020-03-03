@@ -11,7 +11,12 @@ const r: IRoute = {
             icon: 'smile',
             path: '/order/list',
             component: './order/list',
-        }
+        },
+        {
+            hideInMenu: true,
+            path: '/order/detail',
+            component: './order/detail',
+        },
     ],
 }
 

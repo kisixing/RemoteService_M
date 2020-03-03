@@ -106,19 +106,22 @@ export default (props: IProps) => {
 
   return <div>
     <Form layout="inline" {...formProps}>
-      <Form.Item label="产品名称" name="name">
+      <Form.Item label="套餐名称" name="name">
+        <Input />
+      </Form.Item>
+      <Form.Item label="所属产品" name="name">
         <Input />
       </Form.Item>
 
       <Form.Item>
         <Button onClick={() => form.resetFields()}>
-          Reset
+          重置
         </Button>
       </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          Search
+          查询
         </Button>
       </Form.Item>
 

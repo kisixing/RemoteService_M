@@ -55,7 +55,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: '远程管理中台',
+  title: '母婴云后台管理',
   pwa: true,
   iconfontUrl: '',
 } as DefaultSettings;

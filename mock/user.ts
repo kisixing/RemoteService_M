@@ -77,30 +77,31 @@ export default {
       address: 'Sidney No. 1 Lake Park',
     },
   ],
-  'POST /api/authenticate': (req: Request, res: Response) => {
-    const { password, userName, type } = req.body;
-    if (password === 'admin' && userName === 'admin') {
-      res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'admin',
-      });
-      return;
-    }
-    if (password === 'user' && userName === 'user') {
-      res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'user',
-      });
-      return;
-    }
-    res.send({
-      status: 'error',
-      type,
-      currentAuthority: 'guest',
-    });
-  },
+  // 'POST /api/authenticate': (req: Request, res: Response) => {
+  //   const { password, userName, type } = req.body;
+  //   console.log('into mock')
+  //   if (password === 'test' && userName === 'test') {
+  //     res.send({
+  //       status: 'ok',
+  //       type,
+  //       currentAuthority: 'admin',
+  //     });
+  //     return;
+  //   }
+  //   if (password === 'user' && userName === 'user') {
+  //     res.send({
+  //       status: 'ok',
+  //       type,
+  //       currentAuthority: 'user',
+  //     });
+  //     return;
+  //   }
+  //   res.send({
+  //     status: 'error',
+  //     type,
+  //     currentAuthority: 'guest',
+  //   });
+  // },
   'POST /api/register': (req: Request, res: Response) => {
     res.send({ status: 'ok', currentAuthority: 'user' });
   },

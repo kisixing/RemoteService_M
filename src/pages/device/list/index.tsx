@@ -4,6 +4,7 @@ import { Input, Button, Table, Form, Divider, Popconfirm } from 'antd';
 import request from '@lianmed/request';
 import ModalForm from './components/ModalForm';
 import { IProduct } from '@/modelTypes';
+import queryString from 'query-string';
 
 interface IProps {}
 
@@ -96,18 +97,12 @@ export default (props: IProps) => {
   const { formProps, tableProps, search } = useFormTable({
     defaultPageSize: 10,
     form,
-    async search() {
-      const res: IProduct[] = await request.get('/devices');
+    async search(values) {
+      const res: IProduct[] = await request.get(`/devices?${queryString.stringify(values)}`);
       return {
         dataSource: res,
         total: res.length,
       } as any;
-    },
-    async defaultFormValues() {
-      await new Promise(r => setTimeout(r, 200));
-      return {
-        username: 'j',
-      };
     },
   });
   tableProps.pagination.pageSize = 10;
@@ -136,14 +131,20 @@ export default (props: IProps) => {
         <Form.Item label="输入搜索" name="devicename">
           <Input />
         </Form.Item>
+        <Form.Item label="设备类型" name="type">
+          <Input />
+        </Form.Item>
+        <Form.Item label="设备状态" name="status">
+          <Input />
+        </Form.Item>
 
         <Form.Item>
-          <Button onClick={() => form.resetFields()}>Reset</Button>
+          <Button onClick={() => form.resetFields()}>重置</Button>
         </Form.Item>
 
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            Search
+            查询
           </Button>
         </Form.Item>
       </Form>

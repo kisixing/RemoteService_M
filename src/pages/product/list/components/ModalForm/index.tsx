@@ -64,6 +64,9 @@ export default ((props: IProps) => {
                         <Form.Item label="产品名称" name="name" required>
                             <Input placeholder="name" />
                         </Form.Item>
+                        <Form.Item label="产品图片" name="picture" required>
+                            <Input placeholder="name" />
+                        </Form.Item>
                         <Form.Item label="产品介绍" name="introduction" required>
 
                             <Editor bordered style={{ height: '300px', overflowY: 'hidden' }} />

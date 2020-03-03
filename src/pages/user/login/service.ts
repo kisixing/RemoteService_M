@@ -8,19 +8,20 @@ export interface LoginParamsType {
 }
 
 export async function fakeAccountLogin(params: LoginParamsType) {
-
-  return request.post('/authenticate', {
- 
-    data: params,
-  }).then(r => {
-    return {
-      status: 'ok',
-      // type: 'account',
-      currentAuthority: 'admin',
-    }
-  });
+  console.log(params);
+  return request
+    .post('/authenticate', {
+      data: params,
+    })
+    .then(r => {
+      return {
+        status: 'ok',
+        // type: 'account',
+        currentAuthority: 'admin',
+      };
+    });
 }
 
 export async function getFakeCaptcha(mobile: string) {
-  return request.get(`/login/captcha?mobile=${mobile}`);
+  return request.post('/captcha', { data: { mobile } });
 }

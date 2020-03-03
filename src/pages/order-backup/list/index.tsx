@@ -112,13 +112,13 @@ export default (props: IProps) => {
 
       <Form.Item>
         <Button onClick={() => form.resetFields()}>
-          Reset
+          重置
         </Button>
       </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          Search
+          查询
         </Button>
       </Form.Item>
 

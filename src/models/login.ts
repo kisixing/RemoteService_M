@@ -2,6 +2,8 @@ import { Reducer } from 'redux';
 import { Effect } from 'dva';
 import { stringify } from 'querystring';
 import { router } from 'umi';
+import store from 'store';
+import { TOKEN } from '../utils/request';
 
 import { fakeAccountLogin } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
@@ -64,6 +66,7 @@ const Model: LoginModelType = {
       const { redirect } = getPageQuery();
       // Note: There may be security issues, please note
       if (window.location.pathname !== '/user/login' && !redirect) {
+        store.remove(TOKEN);
         router.replace({
           pathname: '/user/login',
           search: stringify({

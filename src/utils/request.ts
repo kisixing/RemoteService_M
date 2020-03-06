@@ -4,22 +4,27 @@
  */
 // import router from 'umi/router';
 import store from 'store';
-
 import r from '@lianmed/request';
-const TOKEN = 'lianmed-authority'
+import { notification } from 'antd';
+
+export const TOKEN = 'lianmed-authority';
+
 const request = r.config({
   prefix: '/api',
   hideErr: false,
   errHandler({ status, errortext, url }) {
-    if (status === 401) {
-      // @HACK
-      /* eslint-disable no-underscore-dangle */
-      g_app._store.dispatch({
-        type: 'login/logout',
-      });
-      return;
+    switch (status) {
+      case 401:
+        g_app._store.dispatch({
+          type: 'login/logout',
+        });
+        break;
+      case 400:
+        notification.error({ message: '登录失败，请检查账号密码' });
+        break;
+      default:
+        notification.error({ message: '发送错误' });
     }
-
   },
 });
 
@@ -29,22 +34,26 @@ const request = r.config({
 
 // request拦截器, 改变url 或 options.
 request._request.interceptors.request.use((url, options) => {
+  // 不是登录并且没有 token ，跳转到登录页面
+  if (!(['/api/authenticate'].indexOf(url) > -1) && !store.get(TOKEN)) {
+    window.location.href = '/user/login';
+  }
+
   options.headers = {
     ...options.headers,
     Authorization: store.get(TOKEN),
   };
+
   return { url, options };
 });
 
 // response拦截器, 处理response
-request._request.interceptors.response.use(
-  (response) => {
-    let token = response.headers.get('authorization');
-    if (token) {
-      store.set(TOKEN, token);
-    }
-    return response;
+request._request.interceptors.response.use(response => {
+  const token = response.headers.get('authorization');
+  if (token) {
+    store.set(TOKEN, token);
   }
-);
+  return response;
+});
 
 export default request;

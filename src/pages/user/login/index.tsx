@@ -12,7 +12,7 @@ import LoginFrom from './components/Login';
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginFrom;
 interface LoginProps {
   dispatch: Dispatch<AnyAction>;
-  userAndlogin: StateType;
+  login: StateType;
   submitting?: boolean;
 }
 
@@ -30,28 +30,27 @@ const LoginMessage: React.FC<{
 );
 
 const Login: React.FC<LoginProps> = props => {
-  const { userAndlogin = {}, submitting } = props;
-  const { status, type: loginType } = userAndlogin;
+  const { login = {}, submitting } = props;
+  const { status, type: loginType } = login;
   const [autoLogin, setAutoLogin] = useState(true);
   const [type, setType] = useState<string>('account');
 
   const handleSubmit = (values: LoginParamsType) => {
     const { dispatch } = props;
     dispatch({
-      type: 'userAndlogin/login',
+      type: 'login/login',
       payload: {
         ...values,
         type,
       },
     });
   };
+
   return (
     <div className={styles.main}>
       <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
         {/* <Tab key="account" tab="账户密码登录"> */}
-        {status === 'error' && loginType === 'account' && !submitting && (
-          <LoginMessage content="账户或密码错误（admin/ant.design）" />
-        )}
+        {status === 'error' && !submitting && <LoginMessage content="账户或密码错误" />}
 
         <UserName
           name="username"
@@ -137,17 +136,17 @@ const Login: React.FC<LoginProps> = props => {
 
 export default connect(
   ({
-    userAndlogin,
+    login,
     loading,
   }: {
-    userAndlogin: StateType;
+    login: StateType;
     loading: {
       effects: {
         [key: string]: boolean;
       };
     };
   }) => ({
-    userAndlogin,
-    submitting: loading.effects['userAndlogin/login'],
+    login,
+    submitting: loading.effects['login/login'],
   }),
 )(Login);

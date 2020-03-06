@@ -8,9 +8,20 @@ export interface LoginParamsType {
 }
 
 export async function fakeAccountLogin(params: LoginParamsType) {
-  return request.post('/login/account', {
-    data: params,
-  });
+  try {
+    await request.post('/authenticate', {
+      data: params,
+    });
+    return {
+      status: 'ok',
+      currentAuthority: 'admin',
+      type: 'login',
+    };
+  } catch (error) {
+    return {
+      status: 'error',
+    };
+  }
 }
 
 export async function getFakeCaptcha(mobile: string) {

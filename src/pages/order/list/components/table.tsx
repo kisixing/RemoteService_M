@@ -1,22 +1,17 @@
 import React from 'react';
-import BaseTable from '@/components/BaseTable';
 import { Form, Input, Button, Table } from 'antd';
-import { indexOf } from 'lodash';
+import { indexOf, get, keyBy } from 'lodash';
 import tableStyles from './table.less';
 
 import mockData from '../MockData';
 
-export class OrderTable extends BaseTable {
-  state = {
-    dataSource: mockData.dataSource,
-  };
-
+export class OrderTable extends React.Component {
   constructor(props: any) {
     super(props);
     this.columns = [
       {
         title: '订单编号',
-        dataIndex: 'orderNumber',
+        dataIndex: 'sn',
         ellipsis: true,
         align: 'center',
       },
@@ -40,19 +35,19 @@ export class OrderTable extends BaseTable {
       },
       {
         title: '订单金额',
-        dataIndex: 'orderMoney',
+        dataIndex: 'payment',
         ellipsis: true,
         align: 'center',
       },
       {
         title: '支付方式',
-        dataIndex: 'payType',
+        dataIndex: 'paytype',
         ellipsis: true,
         align: 'center',
       },
       {
         title: '订单状态',
-        dataIndex: 'orderStatus',
+        dataIndex: 'payStateString',
         ellipsis: true,
         width: '10%',
         align: 'center',
@@ -133,7 +128,7 @@ export class OrderTable extends BaseTable {
   };
 
   render() {
-    const { dataSource } = this.state;
+    const { dataSource } = this.props;
 
     return (
       <Table

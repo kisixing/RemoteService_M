@@ -98,7 +98,7 @@ export default (props: IProps) => {
         <Form.Item label="套餐名称" name="name">
           <Input placeholder="请输入套餐名称" />
         </Form.Item>
-        <Form.Item label="所属产品" name="name">
+        <Form.Item label="所属产品" name="product">
           <DataSelect
             url="/products"
             valueKey="id"

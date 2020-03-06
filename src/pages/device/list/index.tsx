@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useFormTable } from '@lianmed/hooks';
-import { Input, Button, Table, Form, Divider, Popconfirm } from 'antd';
+import { Input, Button, Table, Form, Divider, Popconfirm, Select } from 'antd';
 import request from '@lianmed/request';
-import ModalForm from './components/ModalForm';
 import { IProduct } from '@/modelTypes';
 import queryString from 'query-string';
+import { DataSelect } from '@lianmed/components';
+import { pick, get, keyBy } from 'lodash';
+import DeviceStatusSelect, { deviceStatusMapping } from './components/DeviceStatusSelect';
+import ModalForm from './components/ModalForm';
 
 interface IProps {}
 
@@ -50,6 +53,9 @@ export default (props: IProps) => {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
+      render(value: any) {
+        return get(keyBy(deviceStatusMapping, 'value'), `${value}.title`);
+      },
     },
     {
       title: '绑定信息',
@@ -94,48 +100,62 @@ export default (props: IProps) => {
       ),
     },
   ];
+
   const { formProps, tableProps, search } = useFormTable({
     defaultPageSize: 10,
     form,
-    async search(values) {
-      const res: IProduct[] = await request.get(`/devices?${queryString.stringify(values)}`);
+    async search(values: any) {
+      const params = {
+        ...pick(values, ['current', 'pageSize']),
+        'devicename.contains': get(values, 'devicename'),
+        'type.equals': get(values, 'type'),
+        'status.equals': get(values, 'status'),
+      };
+      const res: IProduct[] = await request.get(`/devices?${queryString.stringify(params)}`);
       return {
         dataSource: res,
         total: res.length,
       } as any;
     },
   });
-  tableProps.pagination.pageSize = 10;
+
   const rowSelection = {
     selectedRowKeys,
     onChange(selectedRowKeys: any[]) {
       setSelectedRowKeys(selectedRowKeys);
     },
   };
-  const TableHeader = () => {
-    return (
-      <>
-        <Button>一键入库</Button>
-        <div style={{ float: 'right' }}>
-          <Button style={{ marginRight: 10 }}>批量导入设备</Button>
-          <ModalForm onsubmit={search}>
-            <Button>设备入库</Button>
-          </ModalForm>
-        </div>
-      </>
-    );
-  };
+
+  const TableHeader = () => (
+    <>
+      <Button>一键入库</Button>
+      <div style={{ float: 'right' }}>
+        <Button style={{ marginRight: 10 }}>批量导入设备</Button>
+        <ModalForm onsubmit={search}>
+          <Button>设备入库</Button>
+        </ModalForm>
+      </div>
+    </>
+  );
+
   return (
     <div>
       <Form layout="inline" {...formProps}>
         <Form.Item label="输入搜索" name="devicename">
-          <Input />
+          <Input placeholder="请输入设备名称" />
         </Form.Item>
         <Form.Item label="设备类型" name="type">
-          <Input />
+          <DataSelect
+            url="/products"
+            valueKey="id"
+            labelKey="name"
+            placeholder="请选择设备类型"
+            style={{ width: 150 }}
+            allowClear
+          />
         </Form.Item>
         <Form.Item label="设备状态" name="status">
-          <Input />
+          <DeviceStatusSelect style={{ width: 150 }} />
         </Form.Item>
 
         <Form.Item>

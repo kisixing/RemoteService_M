@@ -75,50 +75,11 @@ export class OrderTable extends BaseTable {
         title: '操作',
         dataIndex: 'action',
         width: '15%',
-        render(value, { orderStatus, orderNumber, key }, index) {
-          const {
-            onViewOrder,
-            onCloseOrder,
-            onSendOrder,
-            onReturnDevice,
-            onRemindBack,
-            onReturnDeposit,
-          } = props;
-          const closeArray = ['待付款', '已支付'];
-          const orderSendArray = ['已支付'];
-          const remindBackArray = ['逾期中'];
-          const deviceBackArray = ['待归还', '逾期中'];
-          const depositBackArray = ['已完成'];
+        render() {
           return (
             <div>
-              <span className={tableStyles.label} onClick={onViewOrder(key)}>
-                查看订单
-              </span>
-              {indexOf(closeArray, orderStatus) > -1 && (
-                <span className={tableStyles.label} onClick={onCloseOrder(key)}>
-                  关闭订单
-                </span>
-              )}
-              {indexOf(orderSendArray, orderStatus) > -1 && (
-                <span className={tableStyles.label} onClick={onSendOrder}>
-                  订单发货
-                </span>
-              )}
-              {indexOf(deviceBackArray, orderStatus) > -1 && (
-                <span className={tableStyles.label} onClick={onReturnDevice}>
-                  设备回收
-                </span>
-              )}
-              {indexOf(remindBackArray, orderStatus) > -1 && (
-                <span className={tableStyles.label} onClick={onRemindBack}>
-                  提醒归还
-                </span>
-              )}
-              {indexOf(depositBackArray, orderStatus) > -1 && (
-                <span className={tableStyles.label} onClick={onReturnDeposit}>
-                  退还押金
-                </span>
-              )}
+              <span className={tableStyles.label}>退款</span>
+              <span className={tableStyles.label}>恢复</span>
             </div>
           );
         },
@@ -154,6 +115,7 @@ export class OrderTable extends BaseTable {
         title={this.renderTitle}
         columns={this.columns}
         dataSource={dataSource}
+        bordered
       ></Table>
     );
   }

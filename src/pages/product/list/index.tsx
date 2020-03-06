@@ -5,6 +5,7 @@ import request from '@lianmed/request';
 import ModalForm from './components/ModalForm';
 import { IProduct } from '@/modelTypes';
 import queryString from 'query-string';
+import { pick } from 'lodash';
 
 interface IProps {}
 
@@ -33,7 +34,6 @@ export default (props: IProps) => {
     {
       title: '产品规格',
       dataIndex: 'specification',
-      align: 'center',
       render: (specification: string) => (
         <div dangerouslySetInnerHTML={{ __html: specification }} />
       ),
@@ -75,8 +75,9 @@ export default (props: IProps) => {
   const { formProps, tableProps, search } = useFormTable({
     defaultPageSize: 10,
     form,
-    async search(values) {
-      const res: IProduct[] = await request.get(`/products?${queryString.stringify(values)}`);
+    async search(values: any) {
+      const params = pick(values, ['current', 'pageSize', 'name']);
+      const res: IProduct[] = await request.get(`/products?${queryString.stringify(params)}`);
       return {
         dataSource: res,
         total: res.length,
@@ -84,13 +85,11 @@ export default (props: IProps) => {
       } as any;
     },
   });
-  tableProps.pagination.pageSize = 10;
-
   return (
     <div>
       <Form layout="inline" {...formProps}>
-        <Form.Item label="产品名称" name="name">
-          <Input />
+        <Form.Item label="产品名称" name="name" >
+          <Input placeholder="请输入产品名称" />
         </Form.Item>
 
         <Form.Item>
@@ -116,6 +115,7 @@ export default (props: IProps) => {
         style={{ marginTop: 20 }}
         columns={columns}
         rowKey="id"
+        pagination={false}
         {...tableProps}
         bordered
       />

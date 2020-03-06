@@ -3,12 +3,12 @@ import { IRoute } from 'umi-types';
 
 const r: IRoute = {
     name: 'product',
-    icon: 'setting',
+    icon: 'shopping',
     path: '/product',
     routes: [
         {
             name: 'list',
-            icon: 'smile',
+            icon: 'ordered-list',
             path: '/product/list',
             component: './product/list',
         }

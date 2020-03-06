@@ -79,10 +79,15 @@ export const routes: IRoute[] = [
           // exception,
           {
             name: 'im',
-            icon: 'book',
+            icon: 'team',
             path: '/im',
-            component: './im/chat',
-    
+            component: './WebIM',
+          },
+          {
+            name: 'imtest',
+            icon: 'setting',
+            path: '/imtest',
+            component: './WebIM/test',
           },
           {
             path: '/',

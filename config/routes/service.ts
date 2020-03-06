@@ -3,7 +3,7 @@ import { IRoute } from 'umi-types';
 
 const r: IRoute = {
     name: 'service',
-    icon: 'book',
+    icon: 'customer-service',
     path: '/service',
     component: './service/list',
 

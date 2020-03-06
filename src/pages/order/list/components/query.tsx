@@ -1,25 +1,25 @@
 import React from 'react';
 import BaseQuery from '@/components/BaseQuery';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, DatePicker } from 'antd';
+import ServiceTypeSelect from './ServiceTypeSelect';
 
-export class Query extends BaseQuery {
-  handleQuery = (values: any) => {
-    const { onQuery } = this.props;
-    onQuery && onQuery(values);
-  };
-
+export default class Query extends BaseQuery {
   render() {
     return (
       <div>
-        <Form ref={this.formRef} layout="inline" onFinish={this.handleQuery}>
-          <Form.Item name="deviceName" label="输入搜索">
-            <Input placeholder="设备名称/厂家/型号" />
+        <Form
+          ref={this.formRef}
+          layout="inline"
+          onFinish={(values: any) => this.props.onSearch(values)}
+        >
+          <Form.Item name="username" label="用户相关">
+            <Input placeholder="用户姓名/手机号码" />
           </Form.Item>
-          <Form.Item name="deviceType" label="设备类型">
-            <Input />
+          <Form.Item name="submitTime" label="提交时间">
+            <DatePicker.RangePicker />
           </Form.Item>
-          <Form.Item name="deviceStatus" label="设备状态">
-            <Input />
+          <Form.Item name="orderStatus" label="订单状态">
+            <ServiceTypeSelect />
           </Form.Item>
           <Form.Item>
             <Button htmlType="reset" onClick={this.handleReset}>
@@ -36,5 +36,3 @@ export class Query extends BaseQuery {
     );
   }
 }
-
-export default Query;

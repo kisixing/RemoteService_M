@@ -1,12 +1,14 @@
 import React from 'react';
-import Query from './components/query';
-import Table from './components/Table';
 import router from 'umi/router';
+import Query from './components/query';
+import Table from './components/table';
 
 interface OrderListProps {}
 
 export class OrderList extends React.Component<OrderListProps> {
-  handleQuery = () => {};
+  handleSearch = (data: any) => {
+    console.log(data);
+  };
 
   handleClose = () => {};
 
@@ -32,7 +34,7 @@ export class OrderList extends React.Component<OrderListProps> {
   render() {
     return (
       <div>
-        <Query />
+        <Query onSearch={this.handleSearch} />
         <br />
         <Table
           onViewOrder={this.handleViewOrder}

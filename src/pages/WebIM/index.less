@@ -1,0 +1,127 @@
+@border-color: #d9d9d9;
+
+.webIMContainer {
+  min-height: 90vh;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.friendsList {
+  border-right: 1px solid @border-color;
+  height: 90vh;
+  overflow-y: auto;
+}
+
+.friendPanel {
+  padding: 8px;
+  border-bottom: 1px solid @border-color;
+  cursor: pointer;
+  &:first-child {
+    border-top-left-radius: 8px;
+  }
+  &:last-child {
+    border-bottom-left-radius: 8px;
+  }
+}
+
+.friendPanelAvatar,
+.chatWindowHeadAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.friendPanelMiddle {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.friendPanelMiddleName,
+.chatWindowHeadName {
+  display: block;
+  font-size: 16px;
+  color: #000000;
+}
+
+.friendPanelMiddleNews {
+  display: block;
+  font-size: 12px;
+  color: #434343;
+}
+
+.friendPanelTime {
+  font-size: 10px;
+}
+
+.chatWindowHead {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid @border-color;
+  padding: 8px;
+}
+
+.chatWindowHeadLeft {
+  display: flex;
+  align-items: center;
+}
+
+.chatWindowHeadName {
+  margin-left: 8px;
+}
+
+.chatWindowMiddle {
+  height: 50vh;
+  border-bottom: 1px solid @border-color;
+  overflow-y: auto;
+}
+
+.chatWindowInput {
+  margin: 8px 0;
+}
+
+.chatWindowInputMenu {
+  width: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 8px;
+}
+
+.chatWindowInputMenuIcon {
+  cursor: pointer;
+}
+
+.chatWindowInputEntry {
+  margin-top: 8px;
+  border: none;
+  height: 22vh !important;
+}
+
+.chatWindowEmpty {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.chatWindowMiddleItem {
+}
+
+.chatWindowMiddleItemContent {
+  display: flex;
+}
+
+.chatWindowMiddleItemContentBlock {
+  margin: 4px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.chatWindowMiddleItemWorlds {
+  border: 1px solid @border-color;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
+}

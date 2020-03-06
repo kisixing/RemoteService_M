@@ -4,6 +4,8 @@ import { DataSelect } from '@lianmed/components';
 import { Modal, Input, Form, Spin, InputNumber } from 'antd';
 import request from '@/utils/request';
 import { IDevice } from '@/modelTypes';
+import DeviceStatusSelect from '../DeviceStatusSelect';
+
 // import { Editor } from "@lianmed/components";
 interface IProps extends PropsWithChildren<{}> {
   id?: number;
@@ -26,24 +28,25 @@ export default (props: IProps) => {
       return 'ok';
     },
   });
+  
   useEffect(() => {
-    modalProps.visible &&
-      id &&
-      request.get(`/devices/${id}`).then((r: IDevice) => {
-        form.setFieldsValue({
-          devicename: r.devicename,
-          type: +r.type,
-          manufacturer: r.manufacturer,
-          model: r.model,
-          erpno: r.erpno,
-
-          sn: r.sn,
-          btaddr: r.btaddr,
-          wifiaddr: r.wifiaddr,
-          subdevice: r.subdevice,
-        });
+    (async () => {
+      const result = modalProps.visible && id && (await request.get(`/devices/${id}`));
+      form.setFieldsValue({
+        devicename: result.devicename,
+        type: +result.type,
+        manufacturer: result.manufacturer,
+        model: result.model,
+        erpno: result.erpno,
+        status: result.status,
+        sn: result.sn,
+        btaddr: result.btaddr,
+        wifiaddr: result.wifiaddr,
+        subdevice: result.subdevice,
       });
+    })();
   }, [id, modalProps.visible]);
+
   return (
     <>
       <Modal
@@ -66,7 +69,15 @@ export default (props: IProps) => {
             </Form.Item>
 
             <Form.Item label="类型" name="type" required>
-              <DataSelect url="/products" valueKey="id" labelKey="name" />
+              <DataSelect
+                url="/products"
+                valueKey="id"
+                labelKey="name"
+                placeholder="请选择设备类型"
+              />
+            </Form.Item>
+            <Form.Item label="状态" name="status" required>
+              <DeviceStatusSelect />
             </Form.Item>
             <Form.Item label="厂家" name="manufacturer" required>
               <Input />

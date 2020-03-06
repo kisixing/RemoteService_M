@@ -79,6 +79,6 @@ export default {
   'menu.guardianshipFile.center': '监护档案管理',
   'menu.guardianshipFile.settings': '监护档案管理',
 
-  'menu.im': 'im ',
-  'menu.im.chat': 'im chat',
+  'menu.im': '在线咨询',
+  'menu.imtest': '咨询测试(在另一浏览器打开)',
 };

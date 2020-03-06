@@ -1,16 +1,16 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
 import { FormInstance } from 'antd/lib/form/Form';
+import { get } from 'lodash';
 
-export class BaseQuery extends React.Component {
+interface IProps {
+  onSearch: (values: any) => void;
+}
+
+export class BaseQuery extends React.Component<IProps>  {
   formRef = React.createRef<FormInstance>();
 
-  handleQuery = (values: any) => {
-    console.log(values);
-  };
-
   handleReset = () => {
-    this.formRef.current.resetFields();
+    get(this, 'formRef.current.resetFields')();
   };
 
   render() {

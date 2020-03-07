@@ -50,7 +50,7 @@ export class OrderList extends React.Component {
     }
     params = {
       ...params,
-      'paystate.equals': orderStatus,
+      'state.equals': orderStatus,
     };
     const dataSource = processFromApi(
       await request.get(`/packageorders?${isNil(params) ? '' : queryString.stringify(params)}`),
@@ -96,8 +96,7 @@ export class OrderList extends React.Component {
   };
 
   handleDeviceBack = data => async () => {
-    // TODO: 要展示 deviceInfo 的 erp 编号，这里不对
-    const deviceInfo = get(await request.get(`/devices?id.equals=${get(data, 'id')}`), '0');
+    const deviceInfo = get(await request.get(`/devices?id.equals=${get(data, 'device.id')}`), '0');
     const orderInfo = await this.getOrderById(get(data, 'id'));
     this.setState({
       deviceBackModalVisible: true,
@@ -128,8 +127,12 @@ export class OrderList extends React.Component {
     const devices = await request.get(
       `/devices?${queryString.stringify({ 'erpno.equals': erpno })}`,
     );
-    await request.put('/devices', {
-      data: { id: get(devices, '0.id'), pregnancy: { id: get(orderInfo, 'pregnancyId') } },
+    await request.put('/packageorders', {
+      data: {
+        id: String(get(orderInfo, 'id')),
+        state: 2,
+        device: { id: get(devices, '0.id') },
+      },
     });
     this.setState({
       bindDeviceModalVisible: false,
@@ -154,7 +157,7 @@ export class OrderList extends React.Component {
   handleSubmitDeviceBack = async () => {
     const { orderInfo } = this.state;
     const newOrderInfo = await request.put('/packageorders', {
-      data: { id: get(orderInfo, 'id'), paystate: 5 },
+      data: { id: get(orderInfo, 'id'), state: 3 },
     });
     this.setState({
       deviceBackModalVisible: false,
@@ -169,7 +172,7 @@ export class OrderList extends React.Component {
     // TODO: data 备注信息暂时没有添加
     console.log(data);
     const newOrderInfo = await request.put('/packageorders', {
-      data: { id: get(orderInfo, 'id'), paystate: 6 },
+      data: { id: get(orderInfo, 'id'), state: 4 },
     });
     this.setState({
       orderCloseModalVisible: false,
@@ -192,7 +195,7 @@ export class OrderList extends React.Component {
   handleSubmitDepositBack = async data => {
     const { orderInfo } = this.state;
     const newOrderInfo = await request.put('/packageorders', {
-      data: { id: get(orderInfo, 'id'), paystate: 6 },
+      data: { id: get(orderInfo, 'id'), state: 4 },
     });
     this.setState({
       orderInfo: newOrderInfo,

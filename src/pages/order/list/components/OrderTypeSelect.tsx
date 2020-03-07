@@ -17,19 +17,19 @@ export const orderStatusMapping = [
   },
   {
     value: 3,
-    title: '待归还',
-  },
-  {
-    value: 4,
-    title: '逾期中',
-  },
-  {
-    value: 5,
     title: '已完成',
   },
   {
-    value: 6,
+    value: 4,
     title: '已关闭',
+  },
+  {
+    value: 5,
+    title: '逾期中',
+  },
+  {
+    value: 6,
+    title: '已取消',
   },
 ];
 

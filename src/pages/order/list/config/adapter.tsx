@@ -21,10 +21,10 @@ export const processFromApi = (data: any) => {
       username: get(item, 'pregnancy.name'),
       telephone: get(item, 'pregnancy.telephone'),
       paytypeString: get(payTypes, `${get(item, 'paytype')}.name`),
+      paystateString: get(item, 'paystate') === 1 ? '支付成功' : '支付失败',
       pregnancyId: get(item, 'pregnancy.id'),
       submitTime: formatTimeToStandard(get(item, 'createtime')),
-      orderStatus:
-        get(keyBy(orderStatusMapping, 'value'), `${get(item, 'paystate')}.title`) || '未知',
+      orderStatus: get(keyBy(orderStatusMapping, 'value'), `${get(item, 'state')}.title`) || '未知',
     };
   });
 };

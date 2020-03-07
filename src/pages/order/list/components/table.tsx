@@ -44,6 +44,12 @@ export class OrderTable extends React.Component {
         align: 'center',
       },
       {
+        title: '支付状态',
+        dataIndex: 'paystateString',
+        ellipsis: true,
+        align: 'center',
+      },
+      {
         title: '订单状态',
         dataIndex: 'orderStatus',
         ellipsis: true,
@@ -75,7 +81,7 @@ export class OrderTable extends React.Component {
           const orderBindArray = ['已支付'];
           const serviceBindArray = ['已支付', '使用中'];
           const remindBackArray = ['逾期中'];
-          const deviceBackArray = ['待归还', '逾期中'];
+          const deviceBackArray = ['待归还', '逾期中', '使用中'];
           const depositBackArray = ['已完成'];
           return (
             <div>

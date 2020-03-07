@@ -7,28 +7,78 @@ import OrdersTable from './components/OrdersTable';
 import ShopsTable from './components/ShopsTable';
 import ActionsTable from './components/ActionsTable';
 import styles from './index.less';
-
-import mockData from '../list/MockData';
+import request from '@/utils/request';
+import { processFromApi } from '../list/config/adapter';
 
 interface InterfaceOrderDetailProps {}
 interface InterfaceOrderDetailState {
   orderInfo: object;
+  ordersTableDataSource: object;
+  shopsTableDataSource: object;
+  actionsTableDataSource: object;
 }
 export class OrderDetail extends React.Component<
   InterfaceOrderDetailProps,
   InterfaceOrderDetailState
 > {
-  constructor(props: any) {
-    super(props);
+  state = {
+    orderInfo: {},
+    ordersTableDataSource: [],
+    shopsTableDataSource: [],
+    actionsTableDataSource: [],
+  };
+
+  async componentDidMount() {
     const orderNumber = get(this.props, 'history.location.query.orderNumber');
     if (!orderNumber) router.push('/order/list');
 
     // TODO: 模拟获取单个订单数据
-    const orderInfo = get(keyBy(mockData.dataSource, 'orderNumber'), orderNumber) || {};
-    this.state = {
+    // const orderInfo = get(keyBy(mockData.dataSource, 'orderNumber'), orderNumber) || {};
+    const orderInfo = await this.getOrderById(orderNumber);
+    console.log(orderInfo);
+    const ordersTableDataSource = [
+      {
+        sn: get(orderInfo, 'sn'),
+        submitTime: get(orderInfo, 'submitTime'),
+        payTime: get(orderInfo, 'payTime'),
+        paytypeString: get(orderInfo, 'paytypeString'),
+        username: get(orderInfo, 'username'),
+        telephone: get(orderInfo, 'telephone'),
+      },
+    ];
+    const shopsTableDataSource = [
+      {
+        shopsPicture: get(orderInfo, 'shopsPicture'),
+        shopsName: get(orderInfo, 'servicepackage.name'),
+        price: get(orderInfo, 'price'),
+        period: get(orderInfo, 'period'),
+        renewal: get(orderInfo, 'renewal'),
+        renewalFee: get(orderInfo, 'renewalFee'),
+        belong: get(orderInfo, 'belong'),
+        device: get(orderInfo, 'device'),
+        others: get(orderInfo, 'others'),
+      },
+    ];
+    const actionsTableDataSource = [
+      {
+        actioner: get(orderInfo, 'actioner'),
+        actionTime: get(orderInfo, 'actionTime'),
+        paytypeString: get(orderInfo, 'paytypeString'),
+        state: get(orderInfo, 'state'),
+        content: get(orderInfo, 'content'),
+        comment: get(orderInfo, 'comment'),
+      },
+    ];
+    this.setState({
       orderInfo,
-    };
+      ordersTableDataSource,
+      shopsTableDataSource,
+      actionsTableDataSource,
+    });
   }
+
+  getOrderById = async (id: any) =>
+    get(processFromApi(await request.get(`/packageorders?id.equals=${id}`)), '0');
 
   renderPanelHeader = () => {
     const orderStatus = get(this.state, 'orderInfo.orderStatus');
@@ -40,7 +90,7 @@ export class OrderDetail extends React.Component<
         </Col>
         <Col span={5} offset={15}>
           <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            {orderStatus === '已支付' && <Button>发货</Button>}
+            {orderStatus === '已支付' && <Button>绑定设备</Button>}
             {(orderStatus === '已支付' || orderStatus === '待付款') && (
               <Button>修改订单信息</Button>
             )}
@@ -56,7 +106,12 @@ export class OrderDetail extends React.Component<
   };
 
   render() {
-    const { orderInfo } = this.state;
+    const {
+      orderInfo,
+      ordersTableDataSource,
+      shopsTableDataSource,
+      actionsTableDataSource,
+    } = this.state;
 
     return (
       <div>
@@ -64,9 +119,9 @@ export class OrderDetail extends React.Component<
         <div className={styles.panel}>
           {this.renderPanelHeader()}
           <div className={styles.panelCenter}>
-            <OrdersTable />
-            <ShopsTable />
-            <ActionsTable />
+            <OrdersTable dataSource={ordersTableDataSource} />
+            <ShopsTable dataSource={shopsTableDataSource} />
+            <ActionsTable dataSource={actionsTableDataSource} />
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import BaseQuery from '@/components/BaseQuery';
 import { Form, Input, Button, DatePicker } from 'antd';
-import ServiceTypeSelect from './ServiceTypeSelect';
+import OrderTypeSelect from './OrderTypeSelect';
 
 export default class Query extends BaseQuery {
   render() {
@@ -19,7 +19,7 @@ export default class Query extends BaseQuery {
             <DatePicker.RangePicker />
           </Form.Item>
           <Form.Item name="orderStatus" label="订单状态">
-            <ServiceTypeSelect />
+            <OrderTypeSelect />
           </Form.Item>
           <Form.Item>
             <Button htmlType="reset" onClick={this.handleReset}>

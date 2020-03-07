@@ -1,9 +1,7 @@
 import React from 'react';
-import { Popconfirm, Input, Button, Table } from 'antd';
-import { indexOf, get, keyBy } from 'lodash';
+import { Button, Table } from 'antd';
+import { indexOf } from 'lodash';
 import tableStyles from './table.less';
-
-import mockData from '../MockData';
 
 export class OrderTable extends React.Component {
   constructor(props: any) {
@@ -29,7 +27,7 @@ export class OrderTable extends React.Component {
       },
       {
         title: '联系方式',
-        dataIndex: 'contactType',
+        dataIndex: 'telephone',
         ellipsis: true,
         align: 'center',
       },
@@ -110,9 +108,9 @@ export class OrderTable extends React.Component {
                 </span>
               )}
               {indexOf(depositBackArray, orderStatus) > -1 && (
-                <Popconfirm title="确定退回押金吗？" onConfirm={onReturnDeposit(orderInfo)}>
-                  <span className={tableStyles.label}>退还押金</span>
-                </Popconfirm>
+                <span className={tableStyles.label} onClick={onReturnDeposit(orderInfo)}>
+                  退还押金
+                </span>
               )}
             </div>
           );
@@ -146,11 +144,11 @@ export class OrderTable extends React.Component {
 
     return (
       <Table
-        rowSelection={{
-          type: 'checkbox',
-          onChange: this.handleCheckBoxChange,
-        }}
-        title={this.renderTitle}
+        // rowSelection={{
+        //   type: 'checkbox',
+        //   onChange: this.handleCheckBoxChange,
+        // }}
+        // title={this.renderTitle}
         columns={this.columns}
         dataSource={dataSource}
       ></Table>

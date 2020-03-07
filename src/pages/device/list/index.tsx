@@ -82,8 +82,12 @@ export default (props: IProps) => {
       key: 'action',
       render: (text: any, { id }: any) => (
         <span>
+          {/* <ModalForm id={id} editable={false}> 
+            <a>查看设备</a>
+          </ModalForm> */}
+
           <ModalForm id={id} onsubmit={search}>
-            <a>编辑</a>
+            <a>编辑设备</a>
           </ModalForm>
 
           <Divider type="vertical" />
@@ -131,7 +135,7 @@ export default (props: IProps) => {
       <Button>一键入库</Button>
       <div style={{ float: 'right' }}>
         <Button style={{ marginRight: 10 }}>批量导入设备</Button>
-        <ModalForm onsubmit={search}>
+        <ModalForm callback={search}>
           <Button>设备入库</Button>
         </ModalForm>
       </div>
@@ -170,8 +174,8 @@ export default (props: IProps) => {
       </Form>
 
       <Table
-        title={TableHeader}
-        rowSelection={rowSelection}
+        // title={TableHeader}
+        // rowSelection={rowSelection}
         bordered
         style={{ marginTop: 20 }}
         columns={columns}

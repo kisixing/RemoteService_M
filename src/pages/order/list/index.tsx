@@ -7,11 +7,12 @@ import BindServiceModal from './components/BindServiceModal';
 import DeviceBackModal from './components/DeviceBackModal';
 import OrderCloseModal from './components/OrderCloseModal';
 import RemindBackModal from './components/RemindBackModal';
+import DepositBackModal from './components/DepositBackModal';
 import request from '@/utils/request';
 import { processFromApi } from './config/adapter';
 import { message } from 'antd';
 import queryString from 'query-string';
-import { get, pick } from 'lodash';
+import { get, pick, keys, keyBy, join, isNil, set } from 'lodash';
 
 export class OrderList extends React.Component {
   state = {
@@ -21,6 +22,7 @@ export class OrderList extends React.Component {
     deviceBackModalVisible: false,
     orderCloseModalVisible: false,
     remindBackModalVisible: false,
+    depositBackModalVisible: false,
     orderInfo: {},
     deviceInfo: {},
   };
@@ -30,7 +32,29 @@ export class OrderList extends React.Component {
   }
 
   handleSearch = async (query: any = {}) => {
-    const dataSource = processFromApi(await request.get('/packageorders'));
+    const { username, telephone, orderStatus } = query;
+    let params = {};
+    if (username || telephone) {
+      params = {
+        'name.contains': username,
+        'telephone.contains': telephone,
+      };
+      // 获取查询到的孕妇 ID
+      const pregnancies = await request.get(`/pregnancies?${queryString.stringify(params)}`);
+      const pregnancyIds = join(keys(keyBy(pregnancies, 'id')), ',');
+      if (pregnancyIds) {
+        params = {
+          'pregnancyId.in': pregnancyIds,
+        };
+      }
+    }
+    params = {
+      ...params,
+      'paystate.equals': orderStatus,
+    };
+    const dataSource = processFromApi(
+      await request.get(`/packageorders?${isNil(params) ? '' : queryString.stringify(params)}`),
+    );
     this.setState({ dataSource });
   };
 
@@ -41,7 +65,6 @@ export class OrderList extends React.Component {
   handleReturn = () => {};
 
   handleViewOrder = (orderNumber: any) => () => {
-    console.log(orderNumber);
     router.push(`/order/detail?orderNumber=${orderNumber}`);
   };
 
@@ -76,7 +99,6 @@ export class OrderList extends React.Component {
     // TODO: 要展示 deviceInfo 的 erp 编号，这里不对
     const deviceInfo = get(await request.get(`/devices?id.equals=${get(data, 'id')}`), '0');
     const orderInfo = await this.getOrderById(get(data, 'id'));
-
     this.setState({
       deviceBackModalVisible: true,
       deviceInfo,
@@ -86,9 +108,16 @@ export class OrderList extends React.Component {
 
   handleRemindBack = data => async () => {
     const orderInfo = await this.getOrderById(get(data, 'id'));
-
     this.setState({
       remindBackModalVisible: true,
+      orderInfo,
+    });
+  };
+
+  handleReturnDeposit = data => async () => {
+    const orderInfo = await this.getOrderById(get(data, 'id'));
+    this.setState({
+      depositBackModalVisible: true,
       orderInfo,
     });
   };
@@ -159,21 +188,24 @@ export class OrderList extends React.Component {
     this.handleSearch();
   };
 
+  // TODO: 执行退还押金
+  handleSubmitDepositBack = async data => {
+    const { orderInfo } = this.state;
+    const newOrderInfo = await request.put('/packageorders', {
+      data: { id: get(orderInfo, 'id'), paystate: 6 },
+    });
+    this.setState({
+      orderInfo: newOrderInfo,
+      depositBackModalVisible: false,
+    });
+    message.success('押金退还成功');
+    this.handleSearch();
+  };
+
   handleModalCancel = (value: string) => () => {
     this.setState({
       [value]: false,
     });
-  };
-
-  handleReturnDeposit = data => async () => {
-    const newOrderInfo = await request.put('/packageorders', {
-      data: { id: get(data, 'id'), paystate: 6 },
-    });
-    this.setState({
-      orderInfo: newOrderInfo,
-    });
-    message.success('押金退还成功');
-    this.handleSearch();
   };
 
   render() {
@@ -184,6 +216,7 @@ export class OrderList extends React.Component {
       deviceBackModalVisible,
       orderCloseModalVisible,
       remindBackModalVisible,
+      depositBackModalVisible,
       orderInfo,
       deviceInfo,
     } = this.state;
@@ -240,6 +273,14 @@ export class OrderList extends React.Component {
             orderInfo={orderInfo}
             onCancel={this.handleModalCancel('remindBackModalVisible')}
             onSubmit={this.handleSubmitRemindBack}
+          />
+        )}
+        {depositBackModalVisible && (
+          <DepositBackModal
+            visible={depositBackModalVisible}
+            orderInfo={orderInfo}
+            onCancel={this.handleModalCancel('depositBackModalVisible')}
+            onSubmit={this.handleSubmitDepositBack}
           />
         )}
       </div>

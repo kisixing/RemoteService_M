@@ -1,7 +1,8 @@
 import React, { PropsWithChildren, useEffect } from 'react';
 import { useModalForm } from '@lianmed/hooks';
 import { DataSelect } from '@lianmed/components';
-import { Modal, Input, Form, Spin, InputNumber } from 'antd';
+import { Modal, Input, Form, Spin, InputNumber, Tabs, Table } from 'antd';
+import { get, omit } from 'lodash';
 import request from '@/utils/request';
 import { IDevice } from '@/modelTypes';
 import DeviceStatusSelect from '../DeviceStatusSelect';
@@ -9,51 +10,167 @@ import DeviceStatusSelect from '../DeviceStatusSelect';
 // import { Editor } from "@lianmed/components";
 interface IProps extends PropsWithChildren<{}> {
   id?: number;
-  onsubmit?: (data?: any) => void;
+  editable?: boolean;
+  callback?: (data?: any) => void;
 }
 
 export default (props: IProps) => {
-  const { children, id, onsubmit } = props;
+  const { children, id, callback } = props;
   const [form] = Form.useForm();
+  const subDevicesColumns = [
+    {
+      title: '部件名称',
+      dataIndex: 'module',
+      key: 'module',
+    },
+    {
+      title: '生产编号',
+      dataIndex: 'erpno',
+      key: 'erpno',
+    },
+    {
+      title: '蓝牙地址',
+      dataIndex: 'btaddr',
+      key: 'btaddr',
+    },
+    {
+      title: 'WiFi地址',
+      dataIndex: 'wifiaddr',
+      key: 'wifiaddr',
+    },
+  ];
   const { modalProps, formProps, show, formLoading, defaultFormValuesLoading } = useModalForm({
     defaultVisible: false,
     autoSubmitClose: true,
     form,
-    async submit(d: any) {
-      console.log('name', d);
-      const formData = form.getFieldsValue();
-      const data = { ...formData, id };
+    async submit(values: any) {
+      console.log('values', values);
+      const data = {
+        ...omit(values, [
+          'fhrModule',
+          'fhrErpno',
+          'fhrBtaddr',
+          'fhrWifiaddr',
+          'tocoModule',
+          'tocoErpno',
+          'tocoBtaddr',
+          'tocoWifiaddr',
+          'otherModule',
+          'otherErpno',
+          'otherBtaddr',
+          'otherWifiaddr',
+        ]),
+        id,
+        subdevices: [
+          {
+            module: get(values, 'fhrModule'),
+            erpno: get(values, 'fhrErpno'),
+            btaddr: get(values, 'fhrBtaddr'),
+            wifiaddr: get(values, 'fhrWifiaddr'),
+          },
+          {
+            module: get(values, 'tocoModule'),
+            erpno: get(values, 'tocoErpno'),
+            btaddr: get(values, 'tocoBtaddr'),
+            wifiaddr: get(values, 'tocoWifiaddr'),
+          },
+          {
+            module: get(values, 'otherModule'),
+            erpno: get(values, 'otherErpno'),
+            btaddr: get(values, 'otherBtaddr'),
+            wifiaddr: get(values, 'otherWifiaddr'),
+          },
+        ],
+      };
       await request[id ? 'put' : 'post'](`/devices`, { data });
-      onsubmit && onsubmit();
-      return 'ok';
+      callback && callback();
     },
   });
-  
+
   useEffect(() => {
     (async () => {
       const result = modalProps.visible && id && (await request.get(`/devices/${id}`));
-      form.setFieldsValue({
-        devicename: result.devicename,
-        type: +result.type,
-        manufacturer: result.manufacturer,
-        model: result.model,
-        erpno: result.erpno,
-        status: result.status,
-        sn: result.sn,
-        btaddr: result.btaddr,
-        wifiaddr: result.wifiaddr,
-        subdevice: result.subdevice,
+      id && form.setFieldsValue({
+        devicename: get(result, 'devicename'),
+        type: Number(get(result, 'type')),
+        manufacturer: get(result, 'manufacturer'),
+        model: get(result, 'model'),
+        erpno: get(result, 'erpno'),
+        status: get(result, 'status'),
+        sn: get(result, 'sn'),
+        btaddr: get(result, 'btaddr'),
+        wifiaddr: get(result, 'wifiaddr'),
+        fhrModule: get(result, 'subdevices.0.module'),
+        fhrErpno: get(result, 'subdevices.0.erpno'),
+        fhrBtaddr: get(result, 'subdevices.0.btaddr'),
+        fhrWifiaddr: get(result, 'subdevices.0.wifiaddr'),
+        tocoModule: get(result, 'subdevices.1.module'),
+        tocoErpno: get(result, 'subdevices.1.erpno'),
+        tocoBtaddr: get(result, 'subdevices.1.btaddr'),
+        tocoWifiaddr: get(result, 'subdevices.1.wifiaddr'),
+        othersModule: get(result, 'subdevices.2.module'),
+        othersErpno: get(result, 'subdevices.2.erpno'),
+        othersBtaddr: get(result, 'subdevices.2.btaddr'),
+        othersWifiaddr: get(result, 'subdevices.2.wifiaddr'),
       });
     })();
   }, [id, modalProps.visible]);
 
+  const renderSubDevice = () => {
+    return (
+      <Tabs defaultActiveKey="1">
+        <Tabs.TabPane tab="FHR探头" key="1" forceRender>
+          <Form.Item label="部件名称" name="fhrModule">
+            <Input />
+          </Form.Item>
+          <Form.Item label="生产编号" name="fhrErpno">
+            <Input />
+          </Form.Item>
+          <Form.Item label="蓝牙地址" name="fhrBtaddr">
+            <Input />
+          </Form.Item>
+          <Form.Item label="WiFi地址" name="fhrWifiaddr">
+            <Input />
+          </Form.Item>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="TOCO探头" key="2" forceRender>
+          <Form.Item label="部件名称" name="tocoModule">
+            <Input />
+          </Form.Item>
+          <Form.Item label="生产编号" name="tocoErpno">
+            <Input />
+          </Form.Item>
+          <Form.Item label="蓝牙地址" name="tocoBtaddr">
+            <Input />
+          </Form.Item>
+          <Form.Item label="WiFi地址" name="tocoWifiaddr">
+            <Input />
+          </Form.Item>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="其它部件" key="3" forceRender>
+          <Form.Item label="部件名称" name="otherModule">
+            <Input />
+          </Form.Item>
+          <Form.Item label="生产编号" name="otherErpno">
+            <Input />
+          </Form.Item>
+          <Form.Item label="蓝牙地址" name="otherBtaddr">
+            <Input />
+          </Form.Item>
+          <Form.Item label="WiFi地址" name="otherWifiaddr">
+            <Input />
+          </Form.Item>
+        </Tabs.TabPane>
+      </Tabs>
+    );
+  };
   return (
     <>
       <Modal
         destroyOnClose={true}
         {...modalProps}
         title={id ? '编辑' : '新增'}
-        okText="submit"
+        okText="提交"
         width={1200}
       >
         <Spin spinning={formLoading || defaultFormValuesLoading}>
@@ -99,11 +216,11 @@ export default (props: IProps) => {
               <Input />
             </Form.Item>
             <Form.Item label="部件信息" name="subdevice" required>
-              <InputNumber />
+              {renderSubDevice()}
             </Form.Item>
-            <Form.Item label="绑定记录" name="service2amount" required>
+            {/* <Form.Item label="绑定记录" name="service2amount" required>
               <InputNumber />
-            </Form.Item>
+            </Form.Item> */}
           </Form>
         </Spin>
       </Modal>

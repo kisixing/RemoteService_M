@@ -55,7 +55,6 @@ export default ((props: IProps) => {
                 destroyOnClose={true}
                 {...modalProps}
                 title={id ? '编辑' : '新增'}
-                okText="submit"
                 width={1200}
             >
                 <Spin spinning={formLoading || defaultFormValuesLoading}>

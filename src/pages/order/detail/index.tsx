@@ -31,11 +31,7 @@ export class OrderDetail extends React.Component<
   async componentDidMount() {
     const orderNumber = get(this.props, 'history.location.query.orderNumber');
     if (!orderNumber) router.push('/order/list');
-
-    // TODO: 模拟获取单个订单数据
-    // const orderInfo = get(keyBy(mockData.dataSource, 'orderNumber'), orderNumber) || {};
     const orderInfo = await this.getOrderById(orderNumber);
-    console.log(orderInfo);
     const ordersTableDataSource = [
       {
         sn: get(orderInfo, 'sn'),
@@ -43,7 +39,7 @@ export class OrderDetail extends React.Component<
         payTime: get(orderInfo, 'payTime'),
         paytypeString: get(orderInfo, 'paytypeString'),
         username: get(orderInfo, 'username'),
-        telephone: get(orderInfo, 'telephone'),
+        telephone: get(orderInfo, 'pregnancy.telephone'),
       },
     ];
     const shopsTableDataSource = [

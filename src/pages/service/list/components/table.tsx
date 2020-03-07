@@ -4,25 +4,19 @@ import { Form, Input, Button, Table } from 'antd';
 import { indexOf } from 'lodash';
 import tableStyles from './table.less';
 
-import mockData from '../MockData';
-
 export class OrderTable extends BaseTable {
-  state = {
-    dataSource: mockData.dataSource,
-  };
-
   constructor(props: any) {
     super(props);
     this.columns = [
       {
         title: '订单编号',
-        dataIndex: 'orderNumber',
+        dataIndex: 'sn',
         ellipsis: true,
         align: 'center',
       },
       {
         title: '服务类型',
-        dataIndex: 'submitTime',
+        dataIndex: 'type',
         ellipsis: true,
         align: 'center',
       },
@@ -34,32 +28,32 @@ export class OrderTable extends BaseTable {
       },
       {
         title: '联系方式',
-        dataIndex: 'contactType',
+        dataIndex: 'telephone',
         ellipsis: true,
         align: 'center',
       },
       {
         title: '订单金额',
-        dataIndex: 'orderMoney',
+        dataIndex: 'payment',
         ellipsis: true,
         align: 'center',
       },
       {
         title: '支付方式',
-        dataIndex: 'payType',
+        dataIndex: 'paytypeString',
         ellipsis: true,
         align: 'center',
       },
       {
         title: '服务发起时间',
-        dataIndex: 'orderStatus',
+        dataIndex: 'prenatalVisitTime',
         ellipsis: true,
         width: '10%',
         align: 'center',
       },
       {
         title: '医生回复时间',
-        dataIndex: 'orderStatus',
+        dataIndex: 'lastReplayTime',
         ellipsis: true,
         width: '10%',
         align: 'center',
@@ -71,19 +65,19 @@ export class OrderTable extends BaseTable {
         width: '10%',
         align: 'center',
       },
-      {
-        title: '操作',
-        dataIndex: 'action',
-        width: '15%',
-        render() {
-          return (
-            <div>
-              <span className={tableStyles.label}>退款</span>
-              <span className={tableStyles.label}>恢复</span>
-            </div>
-          );
-        },
-      },
+      // {
+      //   title: '操作',
+      //   dataIndex: 'action',
+      //   width: '15%',
+      //   render() {
+      //     return (
+      //       <div>
+      //         <span className={tableStyles.label}>退款</span>
+      //         <span className={tableStyles.label}>恢复</span>
+      //       </div>
+      //     );
+      //   },
+      // },
     ];
   }
 
@@ -104,15 +98,15 @@ export class OrderTable extends BaseTable {
   };
 
   render() {
-    const { dataSource } = this.state;
+    const { dataSource } = this.props;
 
     return (
       <Table
-        rowSelection={{
-          type: 'checkbox',
-          onChange: this.handleCheckBoxChange,
-        }}
-        title={this.renderTitle}
+        // rowSelection={{
+        //   type: 'checkbox',
+        //   onChange: this.handleCheckBoxChange,
+        // }}
+        // title={this.renderTitle}
         columns={this.columns}
         dataSource={dataSource}
         bordered

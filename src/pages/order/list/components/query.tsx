@@ -12,8 +12,11 @@ export default class Query extends BaseQuery {
           layout="inline"
           onFinish={(values: any) => this.props.onSearch(values)}
         >
-          <Form.Item name="username" label="用户相关">
-            <Input placeholder="用户姓名/手机号码" />
+          <Form.Item name="username" label="用户姓名">
+            <Input placeholder="用户姓名" />
+          </Form.Item>
+          <Form.Item name="telephone" label="联系方式">
+            <Input placeholder="联系方式" />
           </Form.Item>
           <Form.Item name="submitTime" label="提交时间">
             <DatePicker.RangePicker />

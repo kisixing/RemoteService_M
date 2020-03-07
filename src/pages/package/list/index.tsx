@@ -94,7 +94,7 @@ export default (props: IProps) => {
 
   return (
     <div>
-      <Form layout="inline" {...formProps}>
+      {/* <Form layout="inline" {...formProps}>
         <Form.Item label="套餐名称" name="name">
           <Input placeholder="请输入套餐名称" />
         </Form.Item>
@@ -118,7 +118,7 @@ export default (props: IProps) => {
             查询
           </Button>
         </Form.Item>
-      </Form>
+      </Form> */}
 
       <Table
         title={() => (

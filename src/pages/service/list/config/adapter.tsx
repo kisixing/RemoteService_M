@@ -1,7 +1,4 @@
-import { map, get, keyBy } from 'lodash';
-import { formatTimeToStandard } from '@/utils/format';
-import { orderStatusMapping } from '../components/OrderTypeSelect';
-
+import { get, map, keyBy } from 'lodash';
 export const payTypeMapping = [
   {
     code: 'WX',
@@ -15,16 +12,15 @@ export const payTypeMapping = [
 
 export const processFromApi = (data: any) => {
   const payTypes = keyBy(payTypeMapping, 'code');
+
   return map(data, item => {
     return {
       ...item,
       username: get(item, 'pregnancy.name'),
       telephone: get(item, 'pregnancy.telephone'),
-      paytypeString: get(payTypes, `${get(item, 'paytype')}.name`),
+      paytypeString: get(payTypes, `${get(item, 'paytype')}.name`) || '未知',
       pregnancyId: get(item, 'pregnancy.id'),
-      submitTime: formatTimeToStandard(get(item, 'createtime')),
-      orderStatus:
-        get(keyBy(orderStatusMapping, 'value'), `${get(item, 'paystate')}.title`) || '未知',
+      prenatalVisitTime: get(item, 'prenatalvisit.visitTime'),
     };
   });
 };

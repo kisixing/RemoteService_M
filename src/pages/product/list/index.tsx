@@ -6,6 +6,7 @@ import ModalForm from './components/ModalForm';
 import { IProduct } from '@/modelTypes';
 import queryString from 'query-string';
 import { pick } from 'lodash';
+import Query from './components/query';
 
 interface IProps {}
 
@@ -87,22 +88,7 @@ export default (props: IProps) => {
   });
   return (
     <div>
-      {/* <Form layout="inline" {...formProps}>
-        <Form.Item label="产品名称" name="name" >
-          <Input placeholder="请输入产品名称" />
-        </Form.Item>
-
-        <Form.Item>
-          <Button onClick={() => form.resetFields()}>重置</Button>
-        </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            查询
-          </Button>
-        </Form.Item>
-      </Form> */}
-
+      {/* <Query /> */}
       <Table
         title={() => (
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -81,4 +81,6 @@ export default {
 
   'menu.im': '在线咨询',
   'menu.imtest': '咨询测试(在另一浏览器打开)',
+
+  'menu.ctgfees': '判图费管理',
 };

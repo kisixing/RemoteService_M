@@ -48,8 +48,8 @@ export class OrderList extends React.Component<OrderListProps> {
 
     return (
       <div>
-        <Query onSearch={this.handleSearch} />
-        <br />
+        {/* <Query onSearch={this.handleSearch} /> */}
+        {/* <br /> */}
         <Table
           dataSource={dataSource}
           onViewOrder={this.handleViewOrder}

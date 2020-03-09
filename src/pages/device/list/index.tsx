@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useFormTable } from '@lianmed/hooks';
-import { Input, Button, Table, Form, Divider, Popconfirm, Select } from 'antd';
+import { Button, Table, Form, Divider, Popconfirm } from 'antd';
 import request from '@lianmed/request';
 import { IProduct } from '@/modelTypes';
 import queryString from 'query-string';
-import { DataSelect } from '@lianmed/components';
 import { pick, get, keyBy } from 'lodash';
-import DeviceStatusSelect, { deviceStatusMapping } from './components/DeviceStatusSelect';
+import { deviceStatusMapping } from './components/DeviceStatusSelect';
 import ModalForm from './components/ModalForm';
+import Query from './components/query';
 
 interface IProps {}
 
@@ -144,34 +144,7 @@ export default (props: IProps) => {
 
   return (
     <div>
-      <Form layout="inline" {...formProps}>
-        <Form.Item label="输入搜索" name="devicename">
-          <Input placeholder="请输入设备名称" />
-        </Form.Item>
-        <Form.Item label="设备类型" name="type">
-          <DataSelect
-            url="/products"
-            valueKey="id"
-            labelKey="name"
-            placeholder="请选择设备类型"
-            style={{ width: 150 }}
-            allowClear
-          />
-        </Form.Item>
-        <Form.Item label="设备状态" name="status">
-          <DeviceStatusSelect style={{ width: 150 }} />
-        </Form.Item>
-
-        <Form.Item>
-          <Button onClick={() => form.resetFields()}>重置</Button>
-        </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            查询
-          </Button>
-        </Form.Item>
-      </Form>
+      <Query onSearch={search} />
 
       <Table
         // title={TableHeader}

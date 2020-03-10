@@ -88,7 +88,7 @@ export default class CtgFees extends React.Component {
           <CtgFeesModal
             visible={visible}
             editable={editable}
-            ctgFeesId={ctgFeesId}
+            id={ctgFeesId}
             onCancel={this.handleCancel}
             onSearch={this.handleSearch}
           />

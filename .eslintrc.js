@@ -14,5 +14,6 @@ module.exports = {
     'no-return-await': 0,
     'import/no-extraneous-dependencies': 0,
     'import/order': 0,
+    'react/prefer-stateless-function': 0,
   },
 };

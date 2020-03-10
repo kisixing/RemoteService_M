@@ -1,67 +1,14 @@
 import React from 'react';
 import { Button, Table } from 'antd';
 import { indexOf } from 'lodash';
+import { tableColumns } from '../config/table';
 import tableStyles from './table.less';
 
 export class OrderTable extends React.Component {
   constructor(props: any) {
     super(props);
     this.columns = [
-      {
-        title: '订单编号',
-        dataIndex: 'sn',
-        ellipsis: true,
-        align: 'center',
-      },
-      {
-        title: '提交时间',
-        dataIndex: 'submitTime',
-        ellipsis: true,
-        align: 'center',
-      },
-      {
-        title: '用户姓名',
-        dataIndex: 'username',
-        ellipsis: true,
-        align: 'center',
-      },
-      {
-        title: '联系方式',
-        dataIndex: 'telephone',
-        ellipsis: true,
-        align: 'center',
-      },
-      {
-        title: '订单金额',
-        dataIndex: 'payment',
-        ellipsis: true,
-        align: 'center',
-      },
-      {
-        title: '支付方式',
-        dataIndex: 'paytypeString',
-        ellipsis: true,
-        align: 'center',
-      },
-      {
-        title: '支付状态',
-        dataIndex: 'paystateString',
-        ellipsis: true,
-        align: 'center',
-      },
-      {
-        title: '订单状态',
-        dataIndex: 'orderStatus',
-        ellipsis: true,
-        width: '10%',
-        align: 'center',
-        render(value) {
-          if (value === '逾期中') {
-            return <span style={{ color: '#ff0000' }}>{value}</span>;
-          }
-          return <span>{value}</span>;
-        },
-      },
+      ...tableColumns,
       {
         title: '操作',
         dataIndex: 'action',

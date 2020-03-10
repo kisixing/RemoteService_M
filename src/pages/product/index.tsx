@@ -1,21 +1,22 @@
 import React, { Fragment } from 'react';
 import Table from './components/table';
-import CtgFeesModal from './components/CtgFeesModal';
+import ProductModal from './components/ProductModal';
 import { tableColumns } from './config/table';
 import { Popconfirm } from 'antd';
-import { get } from 'lodash';
-import BaseList from '@/components/BaseList';
 import styles from './index.less';
+import BaseList from '@/components/BaseList';
+import Query from './components/query';
+import { get } from 'lodash';
 
-export default class CtgFees extends BaseList {
+export default class ProductsList extends BaseList {
   state = {
     dataSource: [],
     visible: false,
     editable: false,
     id: undefined,
     showQuery: false,
-    baseUrl: '/ctgapplyfees',
-    baseTitle: '判图费',
+    baseUrl: '/products',
+    baseTitle: '产品',
   };
 
   columns = [
@@ -45,9 +46,10 @@ export default class CtgFees extends BaseList {
 
   render() {
     const { dataSource, visible, editable, id, baseTitle } = this.state;
-
     return (
       <Fragment>
+        {/* <Query />
+        <br /> */}
         <Table
           columns={this.columns}
           dataSource={dataSource}
@@ -55,7 +57,7 @@ export default class CtgFees extends BaseList {
           baseTitle={baseTitle}
         />
         {visible && (
-          <CtgFeesModal
+          <ProductModal
             visible={visible}
             editable={editable}
             id={id}

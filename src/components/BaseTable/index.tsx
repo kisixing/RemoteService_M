@@ -1,43 +1,21 @@
 import React, { Component } from 'react';
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
+import styles from './index.less';
 
-const dataSource = [
-  {
-    key: '1',
-    name: '胡彦斌',
-    age: 32,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '2',
-    name: '胡彦祖',
-    age: 42,
-    address: '西湖区湖底公园1号',
-  },
-];
+export default class BaseTable extends Component {
+  renderTitle = () => {
+    const { onAdd, baseTitle } = this.props;
+    return (
+      <div className={styles.title}>
+        <span className={styles.titleName}>{baseTitle}列表</span>
+        <Button className={styles.titleAddBtn} onClick={onAdd}>
+          添加{baseTitle}
+        </Button>
+      </div>
+    );
+  };
 
-const columns = [
-  {
-    title: '姓名',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: '年龄',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: '住址',
-    dataIndex: 'address',
-    key: 'address',
-  },
-];
-
-export class BaseTable extends Component {
   render() {
-    return <Table dataSource={dataSource} columns={columns} />;
+    return <Table title={this.renderTitle} {...this.props} />;
   }
 }
-
-export default BaseTable;

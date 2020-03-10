@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react';
 import Table from './components/table';
-import CtgFeesModal from './components/CtgFeesModal';
+import PackageModal from './components/PackageModal';
 import { tableColumns } from './config/table';
-import { Popconfirm } from 'antd';
+import { Popconfirm, Switch, message } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
 import styles from './index.less';
+import request from '@/utils/request';
 
 export default class CtgFees extends BaseList {
   state = {
@@ -14,12 +15,33 @@ export default class CtgFees extends BaseList {
     editable: false,
     id: undefined,
     showQuery: false,
-    baseUrl: '/ctgapplyfees',
-    baseTitle: '判图费',
+    baseUrl: '/servicepackages',
+    baseTitle: '套餐',
   };
 
   columns = [
     ...tableColumns,
+    {
+      title: '是否可用',
+      dataIndex: 'isdeleted',
+      render: (isdeleted, rowData) => {
+        return (
+          <Switch
+            defaultChecked={isdeleted}
+            onChange={this.handleChangeFields('isdeleted', rowData)}
+          />
+        );
+      },
+    },
+    {
+      title: '是否置顶',
+      dataIndex: 'topflag',
+      render: (topflag, rowData) => {
+        return (
+          <Switch defaultChecked={topflag} onChange={this.handleChangeFields('topflag', rowData)} />
+        );
+      },
+    },
     {
       title: '操作',
       align: 'center',
@@ -43,6 +65,18 @@ export default class CtgFees extends BaseList {
     },
   ];
 
+  handleChangeFields = (field, rowData) => async value => {
+    const { baseUrl } = this.state;
+    await request.put(baseUrl, {
+      data: {
+        id: get(rowData, 'id'),
+        [field]: value ? 1 : 0,
+      },
+    });
+    message.success('切换成功');
+    this.handleSearch();
+  };
+
   render() {
     const { dataSource, visible, editable, id, baseTitle } = this.state;
 
@@ -55,7 +89,7 @@ export default class CtgFees extends BaseList {
           baseTitle={baseTitle}
         />
         {visible && (
-          <CtgFeesModal
+          <PackageModal
             visible={visible}
             editable={editable}
             id={id}

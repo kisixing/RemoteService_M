@@ -11,7 +11,7 @@ const r: IRoute = {
             name: 'list',
             icon: 'ordered-list',
             path: '/package/list',
-            component: './package/list',
+            component: './package',
         }
     ],
 }

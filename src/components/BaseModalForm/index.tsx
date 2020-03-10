@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Form, Modal, message } from 'antd';
+import { isFunction } from 'lodash';
 import { DynamicForm } from '@lianmed/components';
 import request from '@/utils/request';
 import FormSection from './FormSection';
@@ -8,6 +9,9 @@ export default ({
   formDescriptions,
   url,
   title,
+  fromApi,
+  toApi,
+  modalProps = {},
   fixedFormParams = {},
   formItemLayout = {
     labelCol: {
@@ -28,7 +32,9 @@ export default ({
       setTimeout(async () => {
         this.form = this.formRef.current;
         if (id) {
-          const values = await request.get(`/${url}/${id}`);
+          const values = isFunction(fromApi)
+            ? fromApi(await request.get(`/${url}/${id}`))
+            : await request.get(`/${url}/${id}`);
           this.form.setFieldsValue(values);
         }
       }, 100);
@@ -39,7 +45,9 @@ export default ({
       let tip = '';
       let method = '';
       await this.form.validateFields();
-      const values = this.form.getFieldsValue();
+      const values = isFunction(toApi)
+        ? toApi({ ...this.form.getFieldsValue(), id })
+        : this.form.getFieldsValue();
       if (id) {
         tip = `修改${title}成功`;
         method = 'put';
@@ -72,12 +80,15 @@ export default ({
       const { visible, onCancel, id } = this.props;
       return (
         <Modal
+          {...modalProps}
           visible={visible}
           onCancel={onCancel}
           onOk={this.handleSubmit}
           title={id ? `修改${title}` : `添加${title}`}
         >
-          <Form ref={this.formRef}>{this.renderEditContent()}</Form>
+          <Form ref={this.formRef} {...formItemLayout}>
+            {this.renderEditContent()}
+          </Form>
         </Modal>
       );
     }

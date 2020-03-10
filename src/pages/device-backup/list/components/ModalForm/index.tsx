@@ -5,7 +5,7 @@ import { Modal, Input, Form, Spin, InputNumber, Tabs, Table } from 'antd';
 import { get, omit } from 'lodash';
 import request from '@/utils/request';
 import { IDevice } from '@/modelTypes';
-import DeviceStatusSelect from '../DeviceStatusSelect';
+import DeviceStatusSelect from '@/components/selects/DeviceStatusSelect';
 
 // import { Editor } from "@lianmed/components";
 interface IProps extends PropsWithChildren<{}> {
@@ -203,7 +203,7 @@ export default (props: IProps) => {
               <Input />
             </Form.Item>
 
-            <Form.Item label=" 生产编号" name="erpno" required>
+            <Form.Item label="生产编号" name="erpno" required>
               <Input />
             </Form.Item>
             <Form.Item label="设备序号" name="sn" required>

@@ -10,7 +10,7 @@ const r: IRoute = {
             name: 'list',
             icon: 'ordered-list',
             path: '/device/list',
-            component: './device/list',
+            component: './device',
         }
     ],
 }

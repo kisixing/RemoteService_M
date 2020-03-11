@@ -93,7 +93,7 @@ export class OrderTable extends React.Component {
   };
 
   render() {
-    const { dataSource } = this.props;
+    const { dataSource, pagination } = this.props;
 
     return (
       <Table
@@ -102,6 +102,7 @@ export class OrderTable extends React.Component {
         //   onChange: this.handleCheckBoxChange,
         // }}
         // title={this.renderTitle}
+        pagination={pagination}
         columns={this.columns}
         dataSource={dataSource}
       ></Table>

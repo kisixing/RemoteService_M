@@ -8,7 +8,7 @@ import BaseList from '@/components/BaseList';
 import styles from './index.less';
 import request from '@/utils/request';
 
-export default class CtgFees extends BaseList {
+export default class PackageList extends BaseList {
   state = {
     dataSource: [],
     visible: false,

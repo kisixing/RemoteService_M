@@ -22,7 +22,7 @@ export default ({
     },
   },
 }) => {
-  return class CtgFeesModal extends DynamicForm {
+  return class BaseModalForm extends DynamicForm {
     renderEditItem = this.generateRenderEditItem(formDescriptions, {
       formItemLayout,
     });

@@ -1,6 +1,6 @@
 import { map, get, keyBy } from 'lodash';
 import { formatTimeToStandard } from '@/utils/format';
-import { orderStatusMapping } from '../components/OrderTypeSelect';
+import { orderStatusMapping } from '@/components/selects/OrderTypeSelect';
 
 export const payTypeMapping = [
   {
@@ -13,18 +13,18 @@ export const payTypeMapping = [
   },
 ];
 
-export const processFromApi = (data: any) => {
+export const fromApi = data => {
   const payTypes = keyBy(payTypeMapping, 'code');
-  return map(data, item => {
-    return {
-      ...item,
-      username: get(item, 'pregnancy.name'),
-      telephone: get(item, 'pregnancy.telephone'),
-      paytypeString: get(payTypes, `${get(item, 'paytype')}.name`),
-      paystateString: get(item, 'paystate') === 1 ? '支付成功' : '支付失败',
-      pregnancyId: get(item, 'pregnancy.id'),
-      submitTime: formatTimeToStandard(get(item, 'createtime')),
-      orderStatus: get(keyBy(orderStatusMapping, 'value'), `${get(item, 'state')}.title`) || '未知',
-    };
-  });
+  return {
+    ...data,
+    username: get(data, 'pregnancy.name'),
+    telephone: get(data, 'pregnancy.telephone'),
+    paytypeString: get(payTypes, `${get(data, 'paytype')}.name`),
+    paystateString: get(data, 'paystate') === 1 ? '支付成功' : '支付失败',
+    pregnancyId: get(data, 'pregnancy.id'),
+    submitTime: formatTimeToStandard(get(data, 'createtime')),
+    orderStatus: get(keyBy(orderStatusMapping, 'value'), `${get(data, 'state')}.title`) || '未知',
+  };
 };
+
+export const processFromApi = (data: any) => map(data, item => fromApi(item));

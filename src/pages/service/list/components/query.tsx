@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form, Button, DatePicker } from 'antd';
 import BaseQuery from '@/components/BaseQuery';
-import ServiceTypeSelect from './ServiceTypeSelect';
-import ServiceTypeStatus from './ServiceTypeStatus';
+import ServiceTypeSelect from '@/components/selects/ServiceTypeSelect';
+import ServiceTypeStatus from '@/components/selects/ServiceTypeStatus';
 
 export default class Query extends BaseQuery {
   render() {

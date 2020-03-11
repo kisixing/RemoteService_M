@@ -1,13 +1,35 @@
 import React, { Fragment } from 'react';
 import { Input, InputNumber, Tabs, Form, Radio } from 'antd';
-import { map, get } from 'lodash';
+import { map, get, keyBy } from 'lodash';
 import { Editor } from '@lianmed/components';
 import { DataSelect } from '@lianmed/components';
 import DeviceStatusSelect from '@/components/selects/DeviceStatusSelect';
+import request from '@/utils/request';
 
-export default class FormSection extends React.Component {
-  renderItem = formDescription => {
-    const { renderEditItem, id } = this.props;
+interface IProps {
+  renderEditItem: (key: any, reactNode: any) => any;
+  formDescriptions: {};
+  id?: Number | String;
+  data?: any;
+}
+
+interface IState {
+  products: Array<any>;
+}
+
+export default class FormSection extends React.Component<IProps, IState> {
+  state = {
+    products: [],
+  };
+
+  async componentDidMount() {
+    const products = await request.get('/products');
+    this.setState({ products });
+  }
+
+  renderItem = (formDescription: any) => {
+    const { renderEditItem, id, data } = this.props;
+    const { products } = this.state;
 
     switch (get(formDescription, 'inputType')) {
       case 'id':
@@ -39,7 +61,7 @@ export default class FormSection extends React.Component {
       case 'input_number':
         return renderEditItem(
           get(formDescription, 'key'),
-          <InputNumber {...get(formDescription, 'inputProps')} />,
+          <InputNumber min={0} {...get(formDescription, 'inputProps')} />,
         );
       case 'validdate':
         return renderEditItem(
@@ -61,19 +83,31 @@ export default class FormSection extends React.Component {
           <Editor {...get(formDescription, 'inputProps')} />,
         );
       case 'product':
-        return renderEditItem(
-          get(formDescription, 'key'),
-          <DataSelect
-            url="/products"
-            valueKey="id"
-            labelKey="name"
-            {...get(formDescription, 'inputProps')}
-          />,
-        );
+        return get(formDescription, 'viewOnly')
+          ? renderEditItem(
+              get(formDescription, 'key'),
+              <span>
+                {get(keyBy(products, 'id'), `${get(data, get(formDescription, 'path'))}.name`)}
+              </span>,
+            )
+          : renderEditItem(
+              get(formDescription, 'key'),
+              <DataSelect
+                url="/products"
+                valueKey="id"
+                labelKey="name"
+                {...get(formDescription, 'inputProps')}
+              />,
+            );
       case 'device_status':
         return renderEditItem(
           get(formDescription, 'key'),
           <DeviceStatusSelect {...get(formDescription, 'inputProps')} />,
+        );
+      case 'view_only':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <span>{get(data, get(formDescription, 'path'))}</span>,
         );
       default:
         return renderEditItem(
@@ -87,10 +121,10 @@ export default class FormSection extends React.Component {
     const { formDescriptions } = this.props;
     return (
       <Fragment>
-        {map(formDescriptions, formDescription => {
+        {map(formDescriptions, (formDescription, index) => {
           if (get(formDescription, 'childs')) {
             return (
-              <Form.Item label="部件信息" name="subdevice">
+              <Form.Item key={index} label="部件信息" name="subdevice">
                 <Tabs defaultActiveKey="1">
                   {map(get(formDescription, 'childs'), child => {
                     return (

@@ -9,13 +9,18 @@ import OrderCloseModal from './components/OrderCloseModal';
 import RemindBackModal from './components/RemindBackModal';
 import DepositBackModal from './components/DepositBackModal';
 import request from '@/utils/request';
-import { processFromApi } from './config/adapter';
+import { processFromApi, fromApi } from './config/adapter';
 import { message } from 'antd';
 import queryString from 'query-string';
 import { get, pick, keys, keyBy, join, isNil, set } from 'lodash';
 
 export class OrderList extends React.Component {
   state = {
+    defaultQuery: {
+      page: 0,
+      size: 20,
+    },
+    total: 0,
     dataSource: [],
     bindDeviceModalVisible: false,
     bindServiceModalVisible: false,
@@ -32,6 +37,7 @@ export class OrderList extends React.Component {
   }
 
   handleSearch = async (query: any = {}) => {
+    const { defaultQuery } = this.state;
     const { username, telephone, orderStatus } = query;
     let params = {};
     if (username || telephone) {
@@ -49,13 +55,15 @@ export class OrderList extends React.Component {
       }
     }
     params = {
+      ...defaultQuery,
       ...params,
       'state.equals': orderStatus,
     };
-    const dataSource = processFromApi(
+    const dataSource = await processFromApi(
       await request.get(`/packageorders?${isNil(params) ? '' : queryString.stringify(params)}`),
     );
-    this.setState({ dataSource });
+    const total = await request.get('/packageorders/count?criteria');
+    this.setState({ dataSource, total });
   };
 
   handleClose = () => {};
@@ -76,8 +84,7 @@ export class OrderList extends React.Component {
     });
   };
 
-  getOrderById = async (id: any) =>
-    get(processFromApi(await request.get(`/packageorders?id.equals=${id}`)), '0');
+  getOrderById = async (id: any) => await fromApi(await request.get(`/packageorders/${id}`));
 
   handleBindDevice = data => async () => {
     const orderInfo = await this.getOrderById(get(data, 'id'));
@@ -211,8 +218,24 @@ export class OrderList extends React.Component {
     });
   };
 
+  handlePageChange = (page, pageSize) => {
+    this.setState(
+      {
+        defaultQuery: {
+          page: page - 1,
+          size: pageSize,
+        },
+      },
+      () => {
+        this.handleSearch();
+      },
+    );
+  };
+
   render() {
     const {
+      total,
+      defaultQuery,
       dataSource,
       bindDeviceModalVisible,
       bindServiceModalVisible,
@@ -228,6 +251,13 @@ export class OrderList extends React.Component {
         <Query onSearch={this.handleSearch} />
         <br />
         <Table
+          pagination={{
+            total,
+            showTotal: () => `一共${total}条记录`,
+            pageSize: defaultQuery.size,
+            defaultCurrent: 1,
+            onChange: this.handlePageChange,
+          }}
           dataSource={dataSource}
           onViewOrder={this.handleViewOrder}
           onCloseOrder={this.handleCloseOrder}
@@ -240,7 +270,7 @@ export class OrderList extends React.Component {
         {bindDeviceModalVisible && (
           <BindDeviceModal
             visible={bindDeviceModalVisible}
-            orderInfo={orderInfo}
+            data={orderInfo}
             onCancel={this.handleModalCancel('bindDeviceModalVisible')}
             onSubmit={this.handleSubmitBindDevice}
           />
@@ -248,7 +278,7 @@ export class OrderList extends React.Component {
         {bindServiceModalVisible && (
           <BindServiceModal
             visible={bindServiceModalVisible}
-            orderInfo={orderInfo}
+            data={orderInfo}
             onCancel={this.handleModalCancel('bindServiceModalVisible')}
             onSubmit={this.handleSubmitBindService}
           />
@@ -256,8 +286,7 @@ export class OrderList extends React.Component {
         {deviceBackModalVisible && (
           <DeviceBackModal
             visible={deviceBackModalVisible}
-            deviceInfo={deviceInfo}
-            orderInfo={orderInfo}
+            data={{ ...orderInfo, erpno: get(deviceInfo, 'erpno') }}
             onCancel={this.handleModalCancel('deviceBackModalVisible')}
             onSubmit={this.handleSubmitDeviceBack}
           />
@@ -265,7 +294,7 @@ export class OrderList extends React.Component {
         {orderCloseModalVisible && (
           <OrderCloseModal
             visible={orderCloseModalVisible}
-            orderInfo={orderInfo}
+            data={orderInfo}
             onCancel={this.handleModalCancel('orderCloseModalVisible')}
             onSubmit={this.handleSubmitOrderClose}
           />
@@ -273,7 +302,7 @@ export class OrderList extends React.Component {
         {remindBackModalVisible && (
           <RemindBackModal
             visible={remindBackModalVisible}
-            orderInfo={orderInfo}
+            data={orderInfo}
             onCancel={this.handleModalCancel('remindBackModalVisible')}
             onSubmit={this.handleSubmitRemindBack}
           />
@@ -281,7 +310,7 @@ export class OrderList extends React.Component {
         {depositBackModalVisible && (
           <DepositBackModal
             visible={depositBackModalVisible}
-            orderInfo={orderInfo}
+            data={orderInfo}
             onCancel={this.handleModalCancel('depositBackModalVisible')}
             onSubmit={this.handleSubmitDepositBack}
           />

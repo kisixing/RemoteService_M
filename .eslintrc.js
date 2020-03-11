@@ -16,5 +16,6 @@ module.exports = {
     'import/order': 0,
     'react/prefer-stateless-function': 0,
     'consistent-return': 0,
+    '@typescript-eslint/no-unused-vars': 0,
   },
 };

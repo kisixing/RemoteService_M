@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import BaseQuery from '@/components/BaseQuery';
 import { Input, DatePicker } from 'antd';
-import OrderTypeSelect from './OrderTypeSelect';
+import OrderTypeSelect from '@/components/selects/OrderTypeSelect';
 import { queryFormDescriptions as formDescriptions } from '../config/form';
 
 export default class Query extends BaseQuery {

@@ -1,0 +1,59 @@
+export const modalFormDescriptions = {
+  // id: {
+  //   key: 'id',
+  //   label: '编号',
+  //   inputType: 'id',
+  //   inputProps: {
+  //     disabled: true,
+  //   },
+  // },
+  login: {
+    key: 'login',
+    label: '登录账号',
+    rules: [{ required: true, message: '登录账号是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入登录账号',
+    },
+  },
+  imageUrl: {
+    key: 'imageUrl',
+    label: '头像',
+    rules: [{ required: true, message: '头像是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入头像',
+    },
+  },
+  firstName: {
+    key: 'firstName',
+    label: '姓名',
+    rules: [{ required: true, message: '姓名是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入姓名',
+    },
+  },
+  email: {
+    key: 'email',
+    label: '邮箱',
+    rules: [{ required: true, message: '邮箱是必填项' }],
+    inputType: 'inpur',
+    inputProps: {
+      placeholder: '请输入邮箱',
+    },
+  },
+  roles: {
+    key: 'roles',
+    label: '角色',
+    rules: [{ required: true, message: '角色是必选项' }],
+    inputType: 'roles',
+    inputProps: {
+      placeholder: '请选择角色',
+    },
+  },
+};
+
+export default {
+  modalFormDescriptions,
+};

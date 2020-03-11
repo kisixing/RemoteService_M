@@ -1,23 +1,21 @@
 import React, { Fragment } from 'react';
 import Table from './components/table';
-import CtgFeesModal from './components/CtgFeesModal';
+import RolesModal from './components/RolesModal';
 import { tableColumns } from './config/table';
 import { Popconfirm } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
 import styles from './index.less';
 
-export default class CtgFees extends BaseList {
+export default class Roles extends BaseList {
   state = {
-    total: 0,
-    needPagination: false,
     dataSource: [],
     visible: false,
     editable: false,
     id: undefined,
     showQuery: false,
-    baseUrl: '/ctgapplyfees',
-    baseTitle: '判图费',
+    baseUrl: '/groups',
+    baseTitle: '角色',
   };
 
   columns = [
@@ -46,19 +44,18 @@ export default class CtgFees extends BaseList {
   ];
 
   render() {
-    const { dataSource, visible, editable, id, baseTitle, needPagination } = this.state;
+    const { dataSource, visible, editable, id, baseTitle } = this.state;
 
     return (
       <Fragment>
         <Table
-          pagination={needPagination}
           columns={this.columns}
           dataSource={dataSource}
           onAdd={this.handleAdd}
           baseTitle={baseTitle}
         />
         {visible && (
-          <CtgFeesModal
+          <RolesModal
             visible={visible}
             editable={editable}
             id={id}

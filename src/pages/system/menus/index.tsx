@@ -9,8 +9,6 @@ import styles from './index.less';
 
 export default class CtgFees extends BaseList {
   state = {
-    total: 0,
-    needPagination: false,
     dataSource: [],
     visible: false,
     editable: false,
@@ -46,12 +44,11 @@ export default class CtgFees extends BaseList {
   ];
 
   render() {
-    const { dataSource, visible, editable, id, baseTitle, needPagination } = this.state;
+    const { dataSource, visible, editable, id, baseTitle } = this.state;
 
     return (
       <Fragment>
         <Table
-          pagination={needPagination}
           columns={this.columns}
           dataSource={dataSource}
           onAdd={this.handleAdd}

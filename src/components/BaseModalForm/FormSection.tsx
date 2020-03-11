@@ -99,6 +99,16 @@ export default class FormSection extends React.Component<IProps, IState> {
                 {...get(formDescription, 'inputProps')}
               />,
             );
+      case 'roles':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <DataSelect
+            url="/groups"
+            valueKey="id"
+            labelKey="nickname"
+            {...get(formDescription, 'inputProps')}
+          />,
+        );
       case 'device_status':
         return renderEditItem(
           get(formDescription, 'key'),

@@ -10,6 +10,8 @@ import request from '@/utils/request';
 
 export default class PackageList extends BaseList {
   state = {
+    total: 0,
+    needPagination: false,
     dataSource: [],
     visible: false,
     editable: false,
@@ -78,7 +80,7 @@ export default class PackageList extends BaseList {
   };
 
   render() {
-    const { dataSource, visible, editable, id, baseTitle } = this.state;
+    const { dataSource, visible, editable, id, baseTitle, needPagination } = this.state;
 
     return (
       <Fragment>
@@ -87,6 +89,7 @@ export default class PackageList extends BaseList {
           dataSource={dataSource}
           onAdd={this.handleAdd}
           baseTitle={baseTitle}
+          pagination={needPagination}
         />
         {visible && (
           <PackageModal

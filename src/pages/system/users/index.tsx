@@ -1,27 +1,39 @@
 import React, { Fragment } from 'react';
 import Table from './components/table';
-import CtgFeesModal from './components/CtgFeesModal';
+import UsersModal from './components/UsersModal';
 import { tableColumns } from './config/table';
+// import { processFromApi } from './config/adapter';
 import { Popconfirm } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
 import styles from './index.less';
 
-export default class CtgFees extends BaseList {
+export default class Users extends BaseList {
+  // static defaultProps = {
+  //   processFromApi
+  // }
+
   state = {
     total: 0,
-    needPagination: false,
+    // needPagination: true,
     dataSource: [],
     visible: false,
     editable: false,
     id: undefined,
     showQuery: false,
-    baseUrl: '/ctgapplyfees',
-    baseTitle: '判图费',
+    baseUrl: '/users',
+    baseTitle: '用户',
   };
 
   columns = [
     ...tableColumns,
+    {
+      title: '是否禁用',
+      dataIndex: 'activated',
+      key: 'activated',
+      align: 'center',
+      render: value => (!value ? '是' : '否'),
+    },
     {
       title: '操作',
       align: 'center',
@@ -46,19 +58,18 @@ export default class CtgFees extends BaseList {
   ];
 
   render() {
-    const { dataSource, visible, editable, id, baseTitle, needPagination } = this.state;
+    const { dataSource, visible, editable, id, baseTitle, total, needPagination } = this.state;
 
     return (
       <Fragment>
         <Table
-          pagination={needPagination}
           columns={this.columns}
           dataSource={dataSource}
           onAdd={this.handleAdd}
           baseTitle={baseTitle}
         />
         {visible && (
-          <CtgFeesModal
+          <UsersModal
             visible={visible}
             editable={editable}
             id={id}

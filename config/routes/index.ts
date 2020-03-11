@@ -13,6 +13,7 @@ import device from './device';
 import service from './service';
 import _package from './package';
 import order from './order';
+import system from './system';
 import propaganda from './propaganda';
 import onlineConsultation from './onlineConsultation';
 import pregnancyBook from './pregnancyBook';
@@ -84,6 +85,7 @@ export const routes: IRoute[] = [
             path: '/imtest',
             component: './WebIM/test',
           },
+          system,
 
           {
             path: '/',

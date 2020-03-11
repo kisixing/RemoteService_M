@@ -5,6 +5,8 @@ import { message } from 'antd';
 
 export default class BaseList extends React.Component {
   state = {
+    total: 0,
+    needPagination: false,
     dataSource: [],
     visible: false,
     editable: false,
@@ -49,9 +51,13 @@ export default class BaseList extends React.Component {
   };
 
   handleSearch = async () => {
-    const { baseUrl } = this.state;
-    const dataSource = await request.get(`${baseUrl}`);
-    this.setState({ dataSource });
+    const { baseUrl, needPagination } = this.state;
+    const dataSource = await request.get(baseUrl);
+    let total = 0;
+    if (needPagination) {
+      total = await request.get(`${baseUrl}/count?criteria`);
+    }
+    this.setState({ dataSource, total });
   };
 
   render() {

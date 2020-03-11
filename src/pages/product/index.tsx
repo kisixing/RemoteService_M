@@ -10,6 +10,8 @@ import { get } from 'lodash';
 
 export default class ProductsList extends BaseList {
   state = {
+    total: 0,
+    needPagination: false,
     dataSource: [],
     visible: false,
     editable: false,
@@ -45,7 +47,7 @@ export default class ProductsList extends BaseList {
   ];
 
   render() {
-    const { dataSource, visible, editable, id, baseTitle } = this.state;
+    const { dataSource, visible, editable, id, baseTitle, needPagination } = this.state;
     return (
       <Fragment>
         {/* <Query />
@@ -55,6 +57,7 @@ export default class ProductsList extends BaseList {
           dataSource={dataSource}
           onAdd={this.handleAdd}
           baseTitle={baseTitle}
+          pagination={needPagination}
         />
         {visible && (
           <ProductModal

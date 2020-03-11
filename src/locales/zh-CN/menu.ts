@@ -83,4 +83,9 @@ export default {
   'menu.imtest': '咨询测试(在另一浏览器打开)',
 
   'menu.ctgfees': '判图费管理',
+
+  'menu.system': '系统管理',
+  'menu.system.users': '用户管理',
+  'menu.system.menus': '菜单管理',
+  'menu.system.roles': '角色管理',
 };

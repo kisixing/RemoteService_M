@@ -3,11 +3,11 @@ import { deviceStatusMapping } from '@/components/selects/DeviceStatusSelect';
 import { get, keyBy } from 'lodash';
 
 export const tableColumns = [
-  {
-    title: '设备编号',
-    dataIndex: 'erpno',
-    key: 'erpno',
-  },
+  // {
+  //   title: '设备编号',
+  //   dataIndex: 'erpno',
+  //   key: 'erpno',
+  // },
   {
     title: '设备名称',
     dataIndex: 'devicename',

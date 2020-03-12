@@ -33,13 +33,14 @@ export default class FormSection extends React.Component<IProps, IState> {
 
     switch (get(formDescription, 'inputType')) {
       case 'id':
-        return (
-          id &&
-          renderEditItem(
-            get(formDescription, 'key'),
-            <Input {...get(formDescription, 'inputProps')} />,
-          )
-        );
+        return <span></span>
+        // return (
+        //   id &&
+        //   renderEditItem(
+        //     get(formDescription, 'key'),
+        //     <Input {...get(formDescription, 'inputProps')} />,
+        //   )
+        // );
       case 'radio':
         return renderEditItem(
           get(formDescription, 'key'),

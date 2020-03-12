@@ -1,12 +1,12 @@
 import React from 'react';
 
 export const tableColumns = [
-  {
-    title: '编号',
-    dataIndex: 'id',
-    key: 'id',
-    align: 'center',
-  },
+  // {
+  //   title: '编号',
+  //   dataIndex: 'id',
+  //   key: 'id',
+  //   align: 'center',
+  // },
   {
     title: '产品名称',
     dataIndex: 'name',

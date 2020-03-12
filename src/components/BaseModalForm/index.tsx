@@ -47,7 +47,7 @@ export default ({
       await this.form.validateFields();
       const values = isFunction(toApi)
         ? toApi({ ...this.form.getFieldsValue(), id })
-        : this.form.getFieldsValue();
+        : { ...this.form.getFieldsValue(), id };
       if (id) {
         tip = `修改${title}成功`;
         method = 'put';

@@ -3,18 +3,7 @@ import { modalFormDescriptions as formDescriptions } from '../config/form';
 
 export default generateModalForm({
   formDescriptions,
-  url: 'groups',
-  title: '角色',
+  url: 'ctgapplyfees',
+  title: '判图费',
   fixedFormParams: { type: 'CTGAPPLY' },
-  modalProps: {
-    width: 500,
-  },
-  formItemLayout: {
-    labelCol: {
-      span: 4,
-    },
-    wrapperCol: {
-      span: 16,
-    },
-  },
 });

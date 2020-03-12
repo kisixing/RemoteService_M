@@ -88,4 +88,6 @@ export default {
   'menu.system.users': '用户管理',
   'menu.system.menus': '菜单管理',
   'menu.system.roles': '角色管理',
+  'menu.system.task': '任务管理',
+  'menu.system.audit': '审计管理',
 };

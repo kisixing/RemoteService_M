@@ -23,6 +23,18 @@ const r: IRoute = {
       path: '/system/menus',
       component: './system/menus',
     },
+    {
+      name: 'task',
+      icon: 'code',
+      path: '/system/task',
+      component: './system/task',
+    },
+    {
+      name: 'audit',
+      icon: 'audit',
+      path: '/system/audit',
+      component: './system/audit',
+    },
   ],
 };
 

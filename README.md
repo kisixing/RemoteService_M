@@ -19,6 +19,12 @@ yarn dev:no-mock
 
 ## 生产模式
 
+未编译的情况下
 ```
 yarn prod
+```
+
+已编译的情况下
+```
+yarn start
 ```

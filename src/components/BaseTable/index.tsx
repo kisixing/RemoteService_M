@@ -16,6 +16,6 @@ export default class BaseTable extends Component {
   };
 
   render() {
-    return <Table title={this.renderTitle} {...this.props} />;
+    return <Table title={this.renderTitle} bordered {...this.props} />;
   }
 }

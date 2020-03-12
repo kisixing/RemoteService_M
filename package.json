@@ -28,6 +28,7 @@
     "test:component": "umi test ./src/components",
     "tsc": "tsc",
     "prod": "yarn build && node index.js",
+    "start": "node index.js",
     "ui": "umi ui"
   },
   "husky": {

@@ -34,6 +34,15 @@ export const modalFormDescriptions = {
       placeholder: '请输入角色描述',
     },
   },
+  permissions: {
+    key: 'permissions',
+    label: '管理权限',
+    rules: [{ required: true, message: '管理权限是必填项' }],
+    inputType: 'tree_select',
+    inputProps: {
+      placeholder: '请输入管理权限',
+    },
+  },
   // test: {
   //   key: 'test',
   //   label: 'test',

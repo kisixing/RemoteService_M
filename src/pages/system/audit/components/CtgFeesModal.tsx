@@ -3,9 +3,8 @@ import { modalFormDescriptions as formDescriptions } from '../config/form';
 
 export default generateModalForm({
   formDescriptions,
-  url: 'groups',
-  title: '角色',
-  fixedFormParams: { type: 'CTGAPPLY' },
+  url: 'auditspage',
+  title: '审计',
   modalProps: {
     width: 500,
   },

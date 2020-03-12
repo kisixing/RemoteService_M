@@ -5,6 +5,7 @@ import { Editor } from '@lianmed/components';
 import { DataSelect } from '@lianmed/components';
 import DeviceStatusSelect from '@/components/selects/DeviceStatusSelect';
 import request from '@/utils/request';
+import BaseTreeSelect from '@/components/selects/TreeSelect';
 
 interface IProps {
   renderEditItem: (key: any, reactNode: any) => any;
@@ -33,14 +34,14 @@ export default class FormSection extends React.Component<IProps, IState> {
 
     switch (get(formDescription, 'inputType')) {
       case 'id':
-        return <span></span>
-        // return (
-        //   id &&
-        //   renderEditItem(
-        //     get(formDescription, 'key'),
-        //     <Input {...get(formDescription, 'inputProps')} />,
-        //   )
-        // );
+        return <span></span>;
+      // return (
+      //   id &&
+      //   renderEditItem(
+      //     get(formDescription, 'key'),
+      //     <Input {...get(formDescription, 'inputProps')} />,
+      //   )
+      // );
       case 'radio':
         return renderEditItem(
           get(formDescription, 'key'),
@@ -58,6 +59,11 @@ export default class FormSection extends React.Component<IProps, IState> {
         return renderEditItem(
           get(formDescription, 'key'),
           <Input.TextArea {...get(formDescription, 'inputProps')} />,
+        );
+      case 'tree_select':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <BaseTreeSelect {...get(formDescription, 'inputProps')} />,
         );
       case 'input_number':
         return renderEditItem(

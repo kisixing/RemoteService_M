@@ -36,7 +36,8 @@ const request = r.config({
 request._request.interceptors.request.use((url, options) => {
   // 不是登录并且没有 token ，跳转到登录页面
   if (!(['/api/authenticate'].indexOf(url) > -1) && !store.get(TOKEN)) {
-    window.location.href = '/user/login';
+    window.location.href = '/#/user/login';
+    return { url, options };
   }
 
   options.headers = {

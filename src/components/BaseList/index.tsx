@@ -7,6 +7,10 @@ export default class BaseList extends React.Component {
   state = {
     total: 0,
     needPagination: false,
+    defaultQuery: {
+      page: 0,
+      size: 20,
+    },
     dataSource: [],
     visible: false,
     editable: false,
@@ -58,6 +62,20 @@ export default class BaseList extends React.Component {
       total = await request.get(`${baseUrl}/count?criteria`);
     }
     this.setState({ dataSource, total });
+  };
+
+  handlePageChange = (page, pageSize) => {
+    this.setState(
+      {
+        defaultQuery: {
+          page: page - 1,
+          size: pageSize,
+        },
+      },
+      () => {
+        this.handleSearch();
+      },
+    );
   };
 
   render() {

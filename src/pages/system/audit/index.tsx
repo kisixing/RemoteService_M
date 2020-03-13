@@ -20,7 +20,7 @@ export default class CtgFees extends BaseList {
     editable: false,
     id: undefined,
     showQuery: false,
-    baseUrl: '/auditspage',
+    baseUrl: '/audits',
     baseTitle: '审计',
   };
 

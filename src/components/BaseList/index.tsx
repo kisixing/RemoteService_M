@@ -26,7 +26,7 @@ export default class BaseList extends React.Component {
 
   handleDelete = rowData => async () => {
     const { baseUrl, baseTitle } = this.state;
-    await request.delete(`/${baseUrl}/${get(rowData, 'id')}`);
+    await request.delete(`${baseUrl}/${get(rowData, 'id')}`);
     message.success(`删除${baseTitle}成功`);
     this.handleSearch();
   };

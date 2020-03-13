@@ -234,7 +234,7 @@ export const modalFormDescriptions = {
           fhrId: {
             key: 'fhrId',
             label: 'ID',
-            inputType: 'id',
+            inputType: 'subdevice_id',
             isChild: true,
             inputProps: {
               disabled: true,
@@ -281,7 +281,7 @@ export const modalFormDescriptions = {
           tocoId: {
             key: 'tocoId',
             label: 'ID',
-            inputType: 'id',
+            inputType: 'subdevice_id',
             isChild: true,
             inputProps: {
               disabled: true,
@@ -328,7 +328,7 @@ export const modalFormDescriptions = {
           othersId: {
             key: 'othersId',
             label: 'ID',
-            inputType: 'id',
+            inputType: 'subdevice_id',
             isChild: true,
             inputProps: {
               disabled: true,

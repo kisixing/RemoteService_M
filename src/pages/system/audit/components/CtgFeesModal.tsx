@@ -3,7 +3,7 @@ import { modalFormDescriptions as formDescriptions } from '../config/form';
 
 export default generateModalForm({
   formDescriptions,
-  url: 'auditspage',
+  url: 'audits',
   title: '审计',
   modalProps: {
     width: 500,

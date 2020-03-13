@@ -42,6 +42,14 @@ export default class FormSection extends React.Component<IProps, IState> {
       //     <Input {...get(formDescription, 'inputProps')} />,
       //   )
       // );
+      case 'subdevice_id':
+        return (
+          id &&
+          renderEditItem(
+            get(formDescription, 'key'),
+            <Input {...get(formDescription, 'inputProps')} />,
+          )
+        );
       case 'radio':
         return renderEditItem(
           get(formDescription, 'key'),

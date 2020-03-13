@@ -52,11 +52,18 @@ export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
  * use Authorized check all menu item
  */
 
-const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
-  menuList.map(item => {
-    const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
-    return Authorized.check(item.authority, localItem, null) as MenuDataItem;
+const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] => {
+  // TODO: 从后端获取 menu 权限
+  const menusPermissions = ['/product', '/product/list'];
+  return menuList.map(item => {
+    let localItem = item;
+    // let localItem = {};
+    if (menusPermissions.indexOf(item.path || '/') > -1) {
+      localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
+    }
+    return localItem as MenuDataItem;
   });
+};
 
 const defaultFooterDom = (
   <DefaultFooter
@@ -178,8 +185,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
             return first ? (
               <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
             ) : (
-                <span>{route.breadcrumbName}</span>
-              );
+              <span>{route.breadcrumbName}</span>
+            );
           }}
           // footerRender={footerRender}
           menuDataRender={menuDataRender}
@@ -201,7 +208,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
           }
         /> */}
       </>
-
     </>
   );
 };

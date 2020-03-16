@@ -8,19 +8,19 @@ const r: IRoute = {
     {
       name: 'users',
       icon: 'user',
-      path: '/system/users',
+      path: '/system/user',
       component: './system/users',
     },
     {
       name: 'roles',
       icon: 'usergroup-add',
-      path: '/system/roles',
+      path: '/system/role',
       component: './system/roles',
     },
     {
       name: 'menus',
       icon: 'menu',
-      path: '/system/menus',
+      path: '/system/menu',
       component: './system/menus',
     },
     {

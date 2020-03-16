@@ -10,7 +10,7 @@ import ProLayout, {
   DefaultFooter,
 } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'umi';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
@@ -21,6 +21,9 @@ import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import { isAntDesignPro, getAuthorityFromRouter } from '@/utils/utils';
 import logo from '../assets/logo.svg';
+import request from '@/utils/request';
+import { map, keyBy, keys } from 'lodash';
+
 const noMatch = (
   <Result
     status="403"
@@ -51,72 +54,6 @@ export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
 /**
  * use Authorized check all menu item
  */
-
-const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] => {
-  // TODO: 从后端获取 menu 权限
-  const menusPermissions = ['/product', '/product/list'];
-  return menuList.map(item => {
-    let localItem = item;
-    // let localItem = {};
-    if (menusPermissions.indexOf(item.path || '/') > -1) {
-      localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
-    }
-    return localItem as MenuDataItem;
-  });
-};
-
-const defaultFooterDom = (
-  <DefaultFooter
-    copyright="2019 蚂蚁金服体验技术部出品"
-    links={[
-      {
-        key: 'Ant Design Pro',
-        title: 'Ant Design Pro',
-        href: 'https://pro.ant.design',
-        blankTarget: true,
-      },
-      {
-        key: 'github',
-        title: <GithubOutlined />,
-        href: 'https://github.com/ant-design/ant-design-pro',
-        blankTarget: true,
-      },
-      {
-        key: 'Ant Design',
-        title: 'Ant Design',
-        href: 'https://ant.design',
-        blankTarget: true,
-      },
-    ]}
-  />
-);
-
-// const footerRender: BasicLayoutProps['footerRender'] = () => {
-//   if (!isAntDesignPro()) {
-//     return defaultFooterDom;
-//   }
-
-//   return (
-//     <>
-//       {defaultFooterDom}
-//       <div
-//         style={{
-//           padding: '0px 24px 24px',
-//           textAlign: 'center',
-//         }}
-//       >
-//         <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">
-//           <img
-//             src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"
-//             width="82px"
-//             alt="netlify logo"
-//           />
-//         </a>
-//       </div>
-//     </>
-//   );
-// };
-
 const BasicLayout: React.FC<BasicLayoutProps> = props => {
   const {
     dispatch,
@@ -126,16 +63,21 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
       pathname: '/',
     },
   } = props;
+
+  const [menusPermissions = [], setMenusPermissions] = useState();
   /**
    * constructor
    */
 
   useEffect(() => {
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
-    }
+    (async () => {
+      if (dispatch) {
+        dispatch({
+          type: 'user/fetchCurrent',
+        });
+      }
+      setMenusPermissions(keys(keyBy(await request.get('/permissions?type.equals=menu'), 'key')));
+    })();
   }, []);
   /**
    * init variables
@@ -153,6 +95,17 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
+
+  const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] => {
+    return menuList.map(item => {
+      let localItem = {};
+      if (menusPermissions.indexOf(item.path || '/') > -1) {
+        localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
+      }
+      return localItem as MenuDataItem;
+    });
+  };
+
   return (
     <>
       <>

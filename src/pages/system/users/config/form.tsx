@@ -16,15 +16,24 @@ export const modalFormDescriptions = {
       placeholder: '请输入登录账号',
     },
   },
-  imageUrl: {
-    key: 'imageUrl',
-    label: '头像',
-    rules: [{ required: true, message: '头像是必填项' }],
-    inputType: 'input',
+  password: {
+    key: 'password',
+    label: '登录密码',
+    rules: [{ required: true, message: '登录密码是必填项' }],
+    inputType: 'password',
     inputProps: {
-      placeholder: '请输入头像',
+      placeholder: '请输入登录密码',
     },
   },
+  // imageUrl: {
+  //   key: 'imageUrl',
+  //   label: '头像',
+  //   rules: [{ required: true, message: '头像是必填项' }],
+  //   inputType: 'input',
+  //   inputProps: {
+  //     placeholder: '请输入头像',
+  //   },
+  // },
   firstName: {
     key: 'firstName',
     label: '姓名',
@@ -34,15 +43,15 @@ export const modalFormDescriptions = {
       placeholder: '请输入姓名',
     },
   },
-  email: {
-    key: 'email',
-    label: '邮箱',
-    rules: [{ required: true, message: '邮箱是必填项' }],
-    inputType: 'inpur',
-    inputProps: {
-      placeholder: '请输入邮箱',
-    },
-  },
+  // email: {
+  //   key: 'email',
+  //   label: '邮箱',
+  //   rules: [{ required: true, message: '邮箱是必填项' }],
+  //   inputType: 'input',
+  //   inputProps: {
+  //     placeholder: '请输入邮箱',
+  //   },
+  // },
   roles: {
     key: 'roles',
     label: '角色',

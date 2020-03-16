@@ -18,6 +18,7 @@ export default class BaseList extends React.Component {
     showQuery: false,
     baseUrl: '',
     baseTitle: '',
+    processFromApi: undefined,
   };
 
   componentDidMount() {
@@ -55,8 +56,10 @@ export default class BaseList extends React.Component {
   };
 
   handleSearch = async () => {
-    const { baseUrl, needPagination } = this.state;
-    const dataSource = await request.get(baseUrl);
+    const { baseUrl, needPagination, processFromApi } = this.state;
+    const dataSource = processFromApi
+      ? processFromApi(await request.get(baseUrl))
+      : await request.get(baseUrl);
     let total = 0;
     if (needPagination) {
       total = await request.get(`${baseUrl}/count?criteria`);

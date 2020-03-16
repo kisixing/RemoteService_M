@@ -124,6 +124,15 @@ export const modalFormDescriptions = {
       disabled: true,
     },
   },
+  othersId2: {
+    key: 'othersId2',
+    label: 'ID',
+    inputType: 'input',
+    isChild: true,
+    inputProps: {
+      disabled: true,
+    },
+  },
   fhrErpno: {
     key: 'fhrErpno',
     label: '生产编号',
@@ -223,12 +232,48 @@ export const modalFormDescriptions = {
       placeholder: '请输入WiFi地址',
     },
   },
+  othersModule2: {
+    key: 'othersModule2',
+    label: '部件名称',
+    inputType: 'input',
+    isChild: true,
+    inputProps: {
+      placeholder: '请输入部件名称',
+    },
+  },
+  othersErpno2: {
+    key: 'othersErpno2',
+    label: '生产编号',
+    inputType: 'input',
+    isChild: true,
+    inputProps: {
+      placeholder: '请输入生产编号',
+    },
+  },
+  othersBtaddr2: {
+    key: 'othersBtaddr2',
+    label: '蓝牙地址',
+    inputType: 'input',
+    isChild: true,
+    inputProps: {
+      placeholder: '请输入蓝牙地址',
+    },
+  },
+  othersWifiaddr2: {
+    key: 'othersWifiaddr2',
+    label: 'WiFi地址',
+    inputType: 'input',
+    isChild: true,
+    inputProps: {
+      placeholder: '请输入WiFi地址',
+    },
+  },
   subdevices: {
     key: 'btaddr',
     label: '部件信息',
     childs: [
       {
-        tabTitle: 'FHR探头',
+        tabTitle: '部件一',
         key: '1',
         formDescription: {
           fhrId: {
@@ -275,7 +320,7 @@ export const modalFormDescriptions = {
         },
       },
       {
-        tabTitle: 'TOCO探头',
+        tabTitle: '部件二',
         key: '2',
         formDescription: {
           tocoId: {
@@ -322,7 +367,7 @@ export const modalFormDescriptions = {
         },
       },
       {
-        tabTitle: '其它部件',
+        tabTitle: '部件三',
         key: '3',
         formDescription: {
           othersId: {
@@ -360,6 +405,53 @@ export const modalFormDescriptions = {
           },
           othersWifiaddr: {
             key: 'othersWifiaddr',
+            label: 'WiFi地址',
+            inputType: 'input',
+            inputProps: {
+              placeholder: '请输入WiFi地址',
+            },
+          },
+        },
+      },
+      {
+        tabTitle: '部件四',
+        key: '4',
+        formDescription: {
+          othersId2: {
+            key: 'othersId2',
+            label: 'ID',
+            inputType: 'subdevice_id',
+            isChild: true,
+            inputProps: {
+              disabled: true,
+            },
+          },
+          othersModule2: {
+            key: 'othersModule2',
+            label: '部件名称',
+            inputType: 'input',
+            inputProps: {
+              placeholder: '请输入部件名称',
+            },
+          },
+          othersErpno2: {
+            key: 'othersErpno2',
+            label: '生产编号',
+            inputType: 'input',
+            inputProps: {
+              placeholder: '请输入生产编号',
+            },
+          },
+          othersBtaddr2: {
+            key: 'othersBtaddr2',
+            label: '蓝牙地址',
+            inputType: 'input',
+            inputProps: {
+              placeholder: '请输入蓝牙地址',
+            },
+          },
+          othersWifiaddr2: {
+            key: 'othersWifiaddr2',
             label: 'WiFi地址',
             inputType: 'input',
             inputProps: {

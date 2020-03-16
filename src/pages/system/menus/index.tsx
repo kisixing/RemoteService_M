@@ -1,21 +1,23 @@
 import React, { Fragment } from 'react';
 import Table from './components/table';
-import CtgFeesModal from './components/CtgFeesModal';
+import MenuModal from './components/MenuModal';
 import { tableColumns } from './config/table';
 import { Popconfirm } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
 import styles from './index.less';
+import { processFromApi } from './config/adapter';
 
-export default class CtgFees extends BaseList {
+export default class Menus extends BaseList {
   state = {
     dataSource: [],
     visible: false,
     editable: false,
     id: undefined,
     showQuery: false,
-    baseUrl: '/ctgapplyfees',
-    baseTitle: '判图费',
+    baseUrl: '/permissions',
+    baseTitle: '菜单/权限',
+    processFromApi,
   };
 
   columns = [
@@ -48,14 +50,17 @@ export default class CtgFees extends BaseList {
 
     return (
       <Fragment>
-        <Table
-          columns={this.columns}
-          dataSource={dataSource}
-          onAdd={this.handleAdd}
-          baseTitle={baseTitle}
-        />
+        {dataSource.length > 0 && (
+          <Table
+            expandable={{ defaultExpandAllRows: true, expandRowByClick: true }}
+            columns={this.columns}
+            dataSource={dataSource}
+            onAdd={this.handleAdd}
+            baseTitle={baseTitle}
+          />
+        )}
         {visible && (
-          <CtgFeesModal
+          <MenuModal
             visible={visible}
             editable={editable}
             id={id}

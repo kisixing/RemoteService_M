@@ -28,13 +28,13 @@ export default ({
     });
 
     componentDidMount() {
-      const { id } = this.props;
+      const { id, paramryKey } = this.props;
       setTimeout(async () => {
         this.form = this.formRef.current;
         if (id) {
           const values = isFunction(fromApi)
-            ? fromApi(await request.get(`/${url}/${id}`))
-            : await request.get(`/${url}/${id}`);
+            ? fromApi(await request.get(`/${url}/${paramryKey || id}`))
+            : await request.get(`/${url}/${paramryKey || id}`);
           this.form.setFieldsValue(values);
         }
       }, 100);
@@ -45,6 +45,7 @@ export default ({
       let tip = '';
       let method = '';
       await this.form.validateFields();
+      // console.log(this.form.getFieldsValue());return;
       const values = isFunction(toApi)
         ? toApi({ ...this.form.getFieldsValue(), id })
         : { ...this.form.getFieldsValue(), id };

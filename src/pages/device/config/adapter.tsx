@@ -27,6 +27,11 @@ export const fromApi = (data: any) => {
     othersErpno: get(data, 'subdevices.2.erpno'),
     othersBtaddr: get(data, 'subdevices.2.btaddr'),
     othersWifiaddr: get(data, 'subdevices.2.wifiaddr'),
+    othersId2: get(data, 'subdevices.3.id'),
+    othersModule2: get(data, 'subdevices.3.module'),
+    othersErpno2: get(data, 'subdevices.3.erpno'),
+    othersBtaddr2: get(data, 'subdevices.3.btaddr'),
+    othersWifiaddr2: get(data, 'subdevices.3.wifiaddr'),
   };
 };
 
@@ -68,6 +73,13 @@ export const toApi = (data: any) => {
         erpno: get(data, 'othersErpno'),
         btaddr: get(data, 'othersBtaddr'),
         wifiaddr: get(data, 'othersWifiaddr'),
+      },
+      {
+        id: get(data, 'othersId2'),
+        module: get(data, 'othersErpno2'),
+        erpno: get(data, 'othersErpno2'),
+        btaddr: get(data, 'othersBtaddr2'),
+        wifiaddr: get(data, 'othersWifiaddr2'),
       },
     ],
   };

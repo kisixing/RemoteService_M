@@ -1,13 +1,15 @@
 import generateModalForm from '@/components/BaseModalForm';
 import { modalFormDescriptions as formDescriptions } from '../config/form';
+import { fromApi, toApi } from '../config/adapter';
 
 export default generateModalForm({
   formDescriptions,
   url: 'groups',
   title: '角色',
-  fixedFormParams: { type: 'CTGAPPLY' },
+  fromApi,
+  toApi,
   modalProps: {
-    width: 500,
+    width: 800,
   },
   formItemLayout: {
     labelCol: {

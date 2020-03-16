@@ -2,37 +2,43 @@ import React, { Fragment } from 'react';
 import Table from './components/table';
 import UsersModal from './components/UsersModal';
 import { tableColumns } from './config/table';
-// import { processFromApi } from './config/adapter';
-import { Popconfirm } from 'antd';
+import { processFromApi } from './config/adapter';
+import { Popconfirm, Switch } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
 import styles from './index.less';
+import request from '@/utils/request';
 
 export default class Users extends BaseList {
-  // static defaultProps = {
-  //   processFromApi
-  // }
-
   state = {
     total: 0,
-    // needPagination: true,
+    needPagination: false,
+    defaultQuery: {
+      page: 0,
+      size: 20,
+    },
     dataSource: [],
     visible: false,
     editable: false,
     id: undefined,
+    paramryKey: undefined,
     showQuery: false,
     baseUrl: '/users',
     baseTitle: '用户',
+    processFromApi,
   };
 
   columns = [
     ...tableColumns,
     {
-      title: '是否禁用',
+      title: '禁用',
       dataIndex: 'activated',
       key: 'activated',
       align: 'center',
-      render: value => (!value ? '是' : '否'),
+      // render: value => (!value ? '是' : '否'),
+      render: (value, rowData) => {
+        return <Switch defaultChecked={value} onChange={this.handleDisableUser(rowData)} />;
+      },
     },
     {
       title: '操作',
@@ -57,12 +63,50 @@ export default class Users extends BaseList {
     },
   ];
 
+  handleEdit = rowData => () => {
+    this.setState({
+      visible: true,
+      editable: true,
+      id: get(rowData, 'id'),
+      paramryKey: get(rowData, 'login'),
+    });
+  };
+
+  handleDisableUser = rowData => async () => {
+    const { baseUrl } = this.state;
+
+    await request.put(baseUrl, {
+      data: {
+        id: get(rowData, 'id'),
+        activated: !get(rowData, 'activated'),
+      },
+    });
+
+    this.handleSearch();
+  };
+
   render() {
-    const { dataSource, visible, editable, id, baseTitle, total, needPagination } = this.state;
+    const {
+      dataSource,
+      visible,
+      editable,
+      id,
+      baseTitle,
+      total,
+      defaultQuery,
+      paramryKey,
+    } = this.state;
 
     return (
       <Fragment>
         <Table
+          // pagination={{
+          //   total,
+          //   showTotal: () => `一共${total}条记录`,
+          //   pageSize: defaultQuery.size,
+          //   defaultCurrent: 1,
+          //   onChange: this.handlePageChange,
+          // }}
           columns={this.columns}
           dataSource={dataSource}
           onAdd={this.handleAdd}
@@ -73,6 +117,7 @@ export default class Users extends BaseList {
             visible={visible}
             editable={editable}
             id={id}
+            paramryKey={paramryKey}
             onCancel={this.handleCancel}
             onSearch={this.handleSearch}
           />

@@ -1,9 +1,11 @@
 import generateModalForm from '@/components/BaseModalForm';
 import { modalFormDescriptions as formDescriptions } from '../config/form';
+import { toApi, fromApi } from '../config/adapter';
 
 export default generateModalForm({
   formDescriptions,
   url: 'users',
   title: '用户',
-  fixedFormParams: { type: 'CTGAPPLY' },
+  toApi,
+  fromApi,
 });

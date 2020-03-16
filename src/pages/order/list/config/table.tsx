@@ -37,6 +37,11 @@ export const tableColumns = [
     align: 'center',
   },
   {
+    title: '判图次数',
+    dataIndex: 'service1amount',
+    align: 'center',
+  },
+  {
     title: '订单状态',
     dataIndex: 'orderStatus',
     width: '10%',

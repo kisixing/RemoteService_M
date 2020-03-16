@@ -5,7 +5,9 @@ import { Editor } from '@lianmed/components';
 import { DataSelect } from '@lianmed/components';
 import DeviceStatusSelect from '@/components/selects/DeviceStatusSelect';
 import request from '@/utils/request';
-import BaseTreeSelect from '@/components/selects/TreeSelect';
+import PermissionSelect from '@/components/selects/PermissionSelect';
+import ParentPermissionSelect from '../selects/ParentPermissionSelect';
+import PermissionTypeSelect from '../selects/PermissionTypeSelect';
 
 interface IProps {
   renderEditItem: (key: any, reactNode: any) => any;
@@ -71,12 +73,22 @@ export default class FormSection extends React.Component<IProps, IState> {
       case 'tree_select':
         return renderEditItem(
           get(formDescription, 'key'),
-          <BaseTreeSelect {...get(formDescription, 'inputProps')} />,
+          <PermissionSelect {...get(formDescription, 'inputProps')} />,
+        );
+      case 'parent_select':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <ParentPermissionSelect {...get(formDescription, 'inputProps')} />,
         );
       case 'input_number':
         return renderEditItem(
           get(formDescription, 'key'),
           <InputNumber min={0} {...get(formDescription, 'inputProps')} />,
+        );
+      case 'password':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <Input.Password {...get(formDescription, 'inputProps')} />,
         );
       case 'validdate':
         return renderEditItem(
@@ -121,6 +133,7 @@ export default class FormSection extends React.Component<IProps, IState> {
             url="/groups"
             valueKey="id"
             labelKey="nickname"
+            mode="multiple"
             {...get(formDescription, 'inputProps')}
           />,
         );
@@ -128,6 +141,11 @@ export default class FormSection extends React.Component<IProps, IState> {
         return renderEditItem(
           get(formDescription, 'key'),
           <DeviceStatusSelect {...get(formDescription, 'inputProps')} />,
+        );
+      case 'permission_type':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <PermissionTypeSelect {...get(formDescription, 'inputProps')} />,
         );
       case 'view_only':
         return renderEditItem(

@@ -37,7 +37,6 @@ export const modalFormDescriptions = {
   permissions: {
     key: 'permissions',
     label: '管理权限',
-    rules: [{ required: true, message: '管理权限是必填项' }],
     inputType: 'tree_select',
     inputProps: {
       placeholder: '请输入管理权限',

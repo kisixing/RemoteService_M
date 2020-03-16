@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import request from '@/utils/request';
 import { get } from 'lodash';
 import { message } from 'antd';
+import queryString from 'query-string';
 
 export default class BaseList extends React.Component {
   state = {
@@ -56,10 +57,10 @@ export default class BaseList extends React.Component {
   };
 
   handleSearch = async () => {
-    const { baseUrl, needPagination, processFromApi } = this.state;
+    const { baseUrl, needPagination, processFromApi, defaultQuery } = this.state;
     const dataSource = processFromApi
-      ? processFromApi(await request.get(baseUrl))
-      : await request.get(baseUrl);
+      ? processFromApi(await request.get(`${baseUrl}?${queryString.stringify(defaultQuery)}`))
+      : await request.get(`${baseUrl}?${queryString.stringify(defaultQuery)}`);
     let total = 0;
     if (needPagination) {
       total = await request.get(`${baseUrl}/count?criteria`);

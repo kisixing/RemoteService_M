@@ -11,6 +11,11 @@ import { get } from 'lodash';
 export default class ProductsList extends BaseList {
   state = {
     total: 0,
+    defaultQuery: {
+      page: 0,
+      size: 20,
+      sort: 'sortorder,desc'
+    },
     needPagination: false,
     dataSource: [],
     visible: false,

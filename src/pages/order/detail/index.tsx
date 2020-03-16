@@ -84,7 +84,7 @@ export class OrderDetail extends React.Component<
         <Col span={4}>
           <span style={{ color: 'red' }}>当前订单状态：{orderStatus}</span>
         </Col>
-        <Col span={5} offset={15}>
+        {/* <Col span={5} offset={15}>
           <div style={{ display: 'flex', justifyContent: 'space-around' }}>
             {orderStatus === '已支付' && <Button>绑定设备</Button>}
             {(orderStatus === '已支付' || orderStatus === '待付款') && (
@@ -96,7 +96,7 @@ export class OrderDetail extends React.Component<
               <Button>提醒用户归还</Button>
             )}
           </div>
-        </Col>
+        </Col> */}
       </Row>
     );
   };

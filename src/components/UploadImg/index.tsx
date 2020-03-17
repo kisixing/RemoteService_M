@@ -51,6 +51,7 @@ export default class UploadImg extends React.Component<IProps> {
     });
     this.setState({
       fileList,
+      isUpdated: true,
     });
     onSuccess(ret);
   };

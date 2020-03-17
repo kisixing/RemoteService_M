@@ -4,7 +4,7 @@ import { Input, Button, Table, Form, Divider, Popconfirm } from 'antd';
 import request from '@lianmed/request';
 import ModalForm from './components/ModalForm';
 import { IProduct } from '@/modelTypes';
-import { DataSelect } from '@lianmed/components';
+import DataSelect from '@/components/DataSelect';
 
 interface IProps {}
 

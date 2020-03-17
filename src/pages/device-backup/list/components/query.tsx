@@ -3,7 +3,7 @@ import BaseQuery from '@/components/BaseQuery';
 import { Input } from 'antd';
 import { queryFormDescriptions as formDescriptions } from '../config/form';
 import DeviceStatusSelect from './DeviceStatusSelect';
-import { DataSelect } from '@lianmed/components';
+import DataSelect from '@/components/DataSelect';
 
 export default class Query extends BaseQuery {
   renderEditItem = this.generateRenderEditItem(formDescriptions, {

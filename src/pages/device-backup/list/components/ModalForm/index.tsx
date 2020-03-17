@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useEffect } from 'react';
 import { useModalForm } from '@lianmed/hooks';
-import { DataSelect } from '@lianmed/components';
+import DataSelect from '@/components/DataSelect';
 import { Modal, Input, Form, Spin, InputNumber, Tabs, Table } from 'antd';
 import { get, omit } from 'lodash';
 import request from '@/utils/request';

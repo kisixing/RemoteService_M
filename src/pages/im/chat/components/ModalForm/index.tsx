@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useEffect } from 'react';
 import { useModalForm } from '@lianmed/hooks';
-import { DataSelect } from '@lianmed/components';
+import DataSelect from '@/components/DataSelect';
 import { Modal, Input, Button, Form, Spin, InputNumber, Radio, DatePicker, Select } from 'antd';
 import request from '@/utils/request';
 import { IDevice } from '@/modelTypes';

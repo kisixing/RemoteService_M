@@ -4,32 +4,27 @@
  */
 // import router from 'umi/router';
 import store from 'store';
-import { extend } from 'umi-request';
+import r from '@lianmed/request';
 import { notification } from 'antd';
 
 export const TOKEN = 'lianmed-authority';
 
-const isDev = process.env.isDev || true;
-
-const request = extend({
-  prefix: '/api',
-  timeout: 1000,
-  credentials: 'include', // 默认请求是否带上cookie
-  headers: {
-    Accept: 'application/json',
-  },
-  useCache: true,
-  errorHandler: error => {
-    const { response } = error;
-    switch (response.status) {
+const request = r.config({
+  prefix: 'http://192.168.123.10:3333/api',
+  hideErr: false,
+  errHandler({ status, errortext, url }) {
+    switch (status) {
       case 401:
-        notification.error({ message: '请先登录' });
-        window.location.href = '/#/user/login';
+        g_app._store.dispatch({
+          type: 'login/logout',
+        });
+        break;
+      case 400:
+        notification.error({ message: '登录失败，请检查账号密码' });
         break;
       default:
-        break;
+        notification.error({ message: '发送错误' });
     }
-    isDev && console.log(response);
   },
 });
 
@@ -38,7 +33,7 @@ const request = extend({
  */
 
 // request拦截器, 改变url 或 options.
-request.interceptors.request.use((url, options) => {
+request._request.interceptors.request.use((url, options) => {
   // 不是登录并且没有 token ，跳转到登录页面
   if (!(['/api/authenticate'].indexOf(url) > -1) && !store.get(TOKEN)) {
     window.location.href = '/#/user/login';
@@ -54,7 +49,7 @@ request.interceptors.request.use((url, options) => {
 });
 
 // response拦截器, 处理response
-request.interceptors.response.use(response => {
+request._request.interceptors.response.use(response => {
   const token = response.headers.get('authorization');
   if (token) {
     store.set(TOKEN, token);

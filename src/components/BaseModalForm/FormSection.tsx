@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { Input, InputNumber, Tabs, Form, Radio } from 'antd';
 import { map, get, keyBy } from 'lodash';
-import { DataSelect } from '@lianmed/components';
 import DeviceStatusSelect from '@/components/selects/DeviceStatusSelect';
 import request from '@/utils/request';
 import PermissionSelect from '@/components/selects/PermissionSelect';
@@ -9,6 +8,7 @@ import ParentPermissionSelect from '../selects/ParentPermissionSelect';
 import PermissionTypeSelect from '../selects/PermissionTypeSelect';
 import UploadImg from '@/components/UploadImg';
 import CustomEditor from '@/components/CustomEditor';
+import DataSelect from '@/components/DataSelect';
 
 interface IProps {
   renderEditItem: (key: any, reactNode: any) => any;

@@ -6,6 +6,7 @@
 import store from 'store';
 import { extend } from 'umi-request';
 import { notification } from 'antd';
+import { get } from 'lodash';
 
 export const TOKEN = 'lianmed-authority';
 
@@ -21,7 +22,7 @@ const request = extend({
   useCache: false,
   errorHandler: error => {
     const { response } = error;
-    switch (response.status) {
+    switch (get(response, 'status')) {
       case 401:
         notification.error({ message: '请先登录' });
         window.location.href = '/#/user/login';

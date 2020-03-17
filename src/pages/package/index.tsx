@@ -69,14 +69,16 @@ export default class PackageList extends BaseList {
 
   handleChangeFields = (field, rowData) => async value => {
     const { baseUrl } = this.state;
+    console.log(rowData);
     await request.put(baseUrl, {
       data: {
+        ...rowData,
         id: get(rowData, 'id'),
         [field]: value ? 1 : 0,
       },
     });
+    await this.handleSearch();
     message.success('切换成功');
-    this.handleSearch();
   };
 
   render() {

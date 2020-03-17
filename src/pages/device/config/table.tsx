@@ -31,11 +31,11 @@ export const tableColumns = [
       return get(keyBy(deviceStatusMapping, 'value'), `${value}.title`);
     },
   },
-  {
-    title: '绑定信息',
-    dataIndex: 'service2amount',
-    key: 'service2amount',
-  },
+  // {
+  //   title: '绑定信息',
+  //   dataIndex: 'service2amount',
+  //   key: 'service2amount',
+  // },
   {
     title: '操作内容',
     dataIndex: 'devicename',

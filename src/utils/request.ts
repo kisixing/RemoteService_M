@@ -18,7 +18,7 @@ const request = extend({
   headers: {
     Accept: 'application/json',
   },
-  useCache: true,
+  useCache: false,
   errorHandler: error => {
     const { response } = error;
     switch (response.status) {

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import request from '@/utils/request';
-import { get } from 'lodash';
+import { get, isFunction } from 'lodash';
 import { message } from 'antd';
 import queryString from 'query-string';
 
@@ -58,7 +58,7 @@ export default class BaseList extends React.Component {
 
   handleSearch = async () => {
     const { baseUrl, needPagination, processFromApi, defaultQuery } = this.state;
-    const dataSource = processFromApi
+    const dataSource = isFunction(processFromApi)
       ? processFromApi(await request.get(`${baseUrl}?${queryString.stringify(defaultQuery)}`))
       : await request.get(`${baseUrl}?${queryString.stringify(defaultQuery)}`);
     let total = 0;

@@ -23,6 +23,10 @@ export default ({
   },
 }) => {
   return class BaseModalForm extends DynamicForm {
+    state = {
+      data: {},
+    };
+
     renderEditItem = this.generateRenderEditItem(formDescriptions, {
       formItemLayout,
     });
@@ -36,19 +40,22 @@ export default ({
             ? fromApi(await request.get(`/${url}/${paramryKey || id}`))
             : await request.get(`/${url}/${paramryKey || id}`);
           this.form.setFieldsValue(values);
+          this.setState({ data: values });
         }
       }, 100);
     }
 
     handleSubmit = async () => {
+      const { data } = this.state;
       const { id, onCancel, onSearch } = this.props;
       let tip = '';
       let method = '';
+
       await this.form.validateFields();
       // console.log(this.form.getFieldsValue());return;
       const values = isFunction(toApi)
-        ? toApi({ ...this.form.getFieldsValue(), id })
-        : { ...this.form.getFieldsValue(), id };
+        ? toApi({ ...data, ...this.form.getFieldsValue(), id })
+        : { ...data, ...this.form.getFieldsValue(), id };
       if (id) {
         tip = `修改${title}成功`;
         method = 'put';

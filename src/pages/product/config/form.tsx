@@ -20,7 +20,7 @@ export const modalFormDescriptions = {
     key: 'picture',
     label: '产品图片',
     rules: [{ required: true, message: '产品图片是必填项' }],
-    inputType: 'input',
+    inputType: 'upload_img',
     inputProps: {
       placeholder: '请输入产品图片',
     },

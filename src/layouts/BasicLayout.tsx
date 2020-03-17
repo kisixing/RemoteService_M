@@ -23,6 +23,7 @@ import { isAntDesignPro, getAuthorityFromRouter } from '@/utils/utils';
 import logo from '../assets/logo.svg';
 import request from '@/utils/request';
 import { map, keyBy, keys } from 'lodash';
+import store from 'store';
 
 const noMatch = (
   <Result
@@ -70,10 +71,14 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
    */
 
   useEffect(() => {
+    const username = store.get('username');
     (async () => {
       if (dispatch) {
         dispatch({
-          type: 'user/fetchCurrent',
+          type: 'user/fetchCurrentUser',
+          payload: {
+            username,
+          },
         });
       }
       setMenusPermissions(keys(keyBy(await request.get('/permissions?type.equals=menu'), 'key')));

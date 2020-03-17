@@ -10,7 +10,7 @@ import { notification } from 'antd';
 export const TOKEN = 'lianmed-authority';
 
 const request = r.config({
-  prefix: '/api',
+  prefix: 'http://localhost:8000/api',
   hideErr: false,
   errHandler({ status, errortext, url }) {
     switch (status) {

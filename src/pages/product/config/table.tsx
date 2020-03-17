@@ -18,6 +18,9 @@ export const tableColumns = [
     dataIndex: 'picture',
     key: 'picture',
     align: 'center',
+    render: value => {
+      return <img src={value} alt="产品图片" style={{ width: 200, height: 200 }} />;
+    },
   },
   {
     title: '产品规格',

@@ -23,7 +23,7 @@ export const tableColumns = [
   },
   {
     title: '订单金额',
-    dataIndex: 'payment',
+    dataIndex: 'price',
     align: 'center',
   },
   {

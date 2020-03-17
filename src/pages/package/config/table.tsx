@@ -6,11 +6,11 @@ export const tableColumns = [
     dataIndex: 'name',
     key: 'name',
   },
-  {
-    title: '商品图片',
-    dataIndex: 'picture',
-    key: 'picture',
-  },
+  // {
+  //   title: '商品图片',
+  //   dataIndex: 'picture',
+  //   key: 'picture',
+  // },
   {
     title: '价格',
     dataIndex: 'price',

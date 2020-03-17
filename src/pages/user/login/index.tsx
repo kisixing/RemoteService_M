@@ -8,6 +8,7 @@ import { StateType } from './model';
 import styles from './style.less';
 import { LoginParamsType } from './service';
 import LoginFrom from './components/Login';
+import store from 'store';
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginFrom;
 interface LoginProps {

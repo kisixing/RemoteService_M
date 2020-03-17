@@ -3,6 +3,7 @@ import { Effect } from 'dva';
 import { stringify } from 'querystring';
 import { router } from 'umi';
 import store from 'store';
+import { get } from 'lodash';
 import { TOKEN } from '../utils/request';
 
 import { fakeAccountLogin } from '@/services/login';
@@ -45,6 +46,7 @@ const Model: LoginModelType = {
       if (response.status === 'ok') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
+        store.set('username', get(payload, 'username'));
         let { redirect } = params as { redirect: string };
         if (redirect) {
           const redirectUrlParams = new URL(redirect);

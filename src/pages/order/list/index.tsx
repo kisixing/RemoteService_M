@@ -19,6 +19,7 @@ export class OrderList extends React.Component {
     defaultQuery: {
       page: 0,
       size: 20,
+      sort: 'createtime,desc',
     },
     total: 0,
     dataSource: [],

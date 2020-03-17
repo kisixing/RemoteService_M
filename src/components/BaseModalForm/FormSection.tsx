@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react';
 import { Input, InputNumber, Tabs, Form, Radio } from 'antd';
 import { map, get, keyBy } from 'lodash';
-import { Editor } from '@lianmed/components';
 import { DataSelect } from '@lianmed/components';
 import DeviceStatusSelect from '@/components/selects/DeviceStatusSelect';
 import request from '@/utils/request';
 import PermissionSelect from '@/components/selects/PermissionSelect';
 import ParentPermissionSelect from '../selects/ParentPermissionSelect';
 import PermissionTypeSelect from '../selects/PermissionTypeSelect';
+import UploadImg from '@/components/UploadImg';
+import CustomEditor from '@/components/CustomEditor';
 
 interface IProps {
   renderEditItem: (key: any, reactNode: any) => any;
@@ -107,7 +108,7 @@ export default class FormSection extends React.Component<IProps, IState> {
       case 'editor':
         return renderEditItem(
           get(formDescription, 'key'),
-          <Editor {...get(formDescription, 'inputProps')} />,
+          <CustomEditor {...get(formDescription, 'inputProps')} />,
         );
       case 'product':
         return get(formDescription, 'viewOnly')
@@ -146,6 +147,11 @@ export default class FormSection extends React.Component<IProps, IState> {
         return renderEditItem(
           get(formDescription, 'key'),
           <PermissionTypeSelect {...get(formDescription, 'inputProps')} />,
+        );
+      case 'upload_img':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <UploadImg {...get(formDescription, 'inputProps')} />,
         );
       case 'view_only':
         return renderEditItem(

@@ -1,5 +1,6 @@
 import { Effect } from 'dva';
 import { Reducer } from 'redux';
+import { get } from 'lodash';
 
 import { queryCurrent, query as queryUsers } from '@/services/user';
 
@@ -49,9 +50,9 @@ const UserModel: UserModelType = {
         payload: response,
       });
     },
-    *fetchCurrent(_, { call, put }) {
-      console.log(_);
-      const response = yield call(queryCurrent);
+    *fetchCurrent(_, { call, put }) {},
+    *fetchCurrentUser(_, { call, put }) {
+      const response = yield call(queryCurrent(get(_, 'payload.username')));
       yield put({
         type: 'saveCurrentUser',
         payload: response,

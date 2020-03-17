@@ -23,7 +23,9 @@ export const fromApi = data => {
     paystateString: get(data, 'paystate') === 1 ? '支付成功' : '支付失败',
     pregnancyId: get(data, 'pregnancy.id'),
     submitTime: formatTimeToStandard(get(data, 'createtime')),
-    orderStatus: get(keyBy(orderStatusMapping, 'value'), `${get(data, 'state')}.title`) || '未知',
+    orderStatus:
+      get(keyBy(orderStatusMapping, 'value'), `${get(data, 'state')}.title`) ||
+      get(orderStatusMapping, '0.title'),
   };
 };
 

@@ -4,8 +4,9 @@ export async function query(): Promise<any> {
   return request.get('/users');
 }
 
-export async function queryCurrent(): Promise<any> {
+export const queryCurrent = username => async () => {
   // return request.get('/currentUser');
+  return await request.get(`/users/${username}`);
   // TODO: 返回当前用户的信息
   return {
     name: 'admin',
@@ -57,7 +58,7 @@ export async function queryCurrent(): Promise<any> {
     address: '西湖区工专路 77 号',
     phone: '0752-268888888',
   };
-}
+};
 
 export async function queryNotices(): Promise<any> {
   return request.get('/notices');

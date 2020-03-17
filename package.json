@@ -57,6 +57,7 @@
     "@types/lodash.isequal": "^4.5.5",
     "@types/react-router": "^5.0.2",
     "@types/store": "^2.0.2",
+    "ali-oss": "^6.5.1",
     "antd": "^4.0.0-rc.5",
     "bizcharts": "^3.5.3-beta.0",
     "classnames": "^2.2.6",

@@ -134,11 +134,12 @@ export default class BaseModalForm extends DynamicForm {
           }
         });
         this.form.setFieldsValue({
-          erpno: value,
+          erpno: value.slice(0, 21),
           type: 'LMF0基座+单胎',
           manufacturer: '莲印',
           model: 'F0',
-          sn: value,
+          screen: '',
+          sn: value.slice(0, 21),
           status: 0,
           btaddr,
         });
@@ -148,6 +149,7 @@ export default class BaseModalForm extends DynamicForm {
           type: 'XICCO-aVS02',
           manufacturer: '希科',
           model: 'aVS02',
+          screen: '',
           sn: value,
           status: 0,
         });
@@ -171,7 +173,8 @@ export default class BaseModalForm extends DynamicForm {
         });
         this.form.setFieldsValue({
           [`subDeviceName${key}`]: key === '1' ? 'base' : '',
-          [`subDeviceErpno${key}`]: value,
+          [`subDeviceScreen${key}`]: '',
+          [`subDeviceErpno${key}`]: value.slice(0, 21),
           [`subDeviceBtaddr${key}`]: btaddr,
         });
       }

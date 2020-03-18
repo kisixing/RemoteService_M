@@ -23,11 +23,8 @@ const request = extend({
   errorHandler: error => {
     const { response } = error;
     switch (get(response, 'status')) {
-      case 401:
-        notification.error({ message: '请先登录' });
-        window.location.href = '/#/user/login';
-        break;
       default:
+        notification.error({ message: '发生错误，请在控制台查看' });
         break;
     }
     isDev && console.log(response);

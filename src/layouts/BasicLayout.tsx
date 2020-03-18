@@ -15,7 +15,7 @@ import { Link } from 'umi';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
 import { GithubOutlined } from '@ant-design/icons';
-import { Result, Button } from 'antd';
+import { Result, Button, notification } from 'antd';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
@@ -24,6 +24,7 @@ import logo from '../assets/logo.svg';
 import request from '@/utils/request';
 import { map, keyBy, keys } from 'lodash';
 import store from 'store';
+import { TOKEN } from '@/utils/request';
 
 const noMatch = (
   <Result
@@ -72,6 +73,16 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
 
   useEffect(() => {
     const username = store.get('username');
+    const token = store.get(TOKEN);
+    if (!token) {
+      notification.error({ message: '请先登录' });
+      if (dispatch) {
+        dispatch({
+          type: 'login/logout',
+        });
+      }
+      return;
+    }
     (async () => {
       if (dispatch) {
         dispatch({
@@ -153,7 +164,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
           {...settings}
         >
           <Authorized authority={authorized!.authority} noMatch={noMatch}>
-            {children}
+            {!!store.get(TOKEN) && children}
           </Authorized>
         </ProLayout>
         {/* <SettingDrawer

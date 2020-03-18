@@ -13,7 +13,7 @@ export const fromApi = (data: any) => {
   return {
     ...data,
     ...subDevicesData,
-    type: Number(get(data, 'type')),
+    type: get(data, 'type'),
   };
 };
 

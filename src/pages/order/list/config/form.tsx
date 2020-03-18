@@ -63,11 +63,20 @@ export const bindServiceFormDescriptions = {
   },
   service1amount: {
     key: 'service1amount',
-    label: '服务次数',
+    label: '剩余服务次数',
     inputType: 'input_number',
+    inputProps: {
+      disabled: true,
+    },
+  },
+  addService: {
+    key: 'addService',
+    label: '增加服务次数',
     rules: [{ required: true, message: '服务次数是必填项' }],
+    inputType: 'add_service',
     inputProps: {
       placeholder: '请输入服务次数',
+      disabled: true,
     },
   },
 };

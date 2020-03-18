@@ -12,9 +12,14 @@ export const tableColumns = [
   //   key: 'picture',
   // },
   {
-    title: '套餐类型',
-    dataIndex: 'type',
-    key: 'type',
+    title: '胎监判图次数',
+    dataIndex: 'service1amount',
+    key: 'service1amount',
+  },
+  {
+    title: '在线咨询次数',
+    dataIndex: 'service2amount',
+    key: 'service2amount',
   },
   {
     title: '价格',
@@ -22,7 +27,7 @@ export const tableColumns = [
     render: (price: string) => <div dangerouslySetInnerHTML={{ __html: price }} />,
   },
   {
-    title: '所属产品',
+    title: '包含产品',
     dataIndex: 'products',
     render: products => {
       return products ? products.map(_ => _.name).join('、') : '';

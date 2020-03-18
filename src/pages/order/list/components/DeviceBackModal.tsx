@@ -6,6 +6,13 @@ export default class DepositBackModal extends BaseModal {
   static defaultProps = {
     title: '回收设备',
     formDescriptions,
-    formItemLayout: {},
+    formItemLayout: {
+      labelCol: {
+        span: 6,
+      },
+      wrapperCol: {
+        span: 12,
+      },
+    },
   };
 }

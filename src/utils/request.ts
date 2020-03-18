@@ -14,7 +14,7 @@ const isDev = process.env.isDev || true;
 
 const request = extend({
   prefix: '/api',
-  timeout: 1000,
+  timeout: 3000,
   credentials: 'include', // 默认请求是否带上cookie
   headers: {
     Accept: 'application/json',
@@ -25,9 +25,9 @@ const request = extend({
     switch (get(response, 'status')) {
       default:
         notification.error({ message: '发生错误，请在控制台查看' });
-        break;
+        isDev && console.log(response);
+        return Promise.reject(error);
     }
-    isDev && console.log(response);
   },
 });
 

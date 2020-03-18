@@ -7,13 +7,19 @@ export default class Base extends DynamicForm {
   static defaultProps = {
     title: '',
     formDescriptions: {},
-    formItemLayout: {},
+    formItemLayout: {
+      labelCol: {
+        span: 6,
+      },
+      wrapperCol: {
+        span: 12,
+      },
+    },
   };
 
   constructor(props: any) {
     super(props);
     const { formDescriptions, formItemLayout } = props;
-
     this.renderEditItem = this.generateRenderEditItem(formDescriptions, {
       formItemLayout,
     });
@@ -21,8 +27,9 @@ export default class Base extends DynamicForm {
 
   renderEditItem = (key: any, ReactNode: any) => {};
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { onSubmit } = this.props;
+    await this.form.validateFields();
     onSubmit(this.form.getFieldsValue());
   };
 

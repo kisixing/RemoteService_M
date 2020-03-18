@@ -25,6 +25,7 @@ export const tableColumns = [
   {
     title: '产品规格',
     dataIndex: 'specification',
+    width: "60%",
     render: (specification: string) => <div dangerouslySetInnerHTML={{ __html: specification }} />,
   },
   {

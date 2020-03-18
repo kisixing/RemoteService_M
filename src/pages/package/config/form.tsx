@@ -16,6 +16,15 @@ export const modalFormDescriptions = {
       placeholder: '请输入套餐名称',
     },
   },
+  type: {
+    key: 'type',
+    label: '套餐类型',
+    rules: [{ required: true, message: '套餐类型是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入套餐类型',
+    },
+  },
   products: {
     key: 'products',
     label: '包含产品（多选）',

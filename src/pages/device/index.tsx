@@ -34,11 +34,11 @@ export default class DeviceList extends BaseList {
       title: '设备类型',
       dataIndex: 'type',
       key: 'type',
-      render: (type: string) => {
-        const { products } = this.state;
-        const t = products.find(product => get(product, 'id') === +type);
-        return t ? get(t, 'name') : '';
-      },
+      // render: (type: string) => {
+      //   const { products } = this.state;
+      //   const t = products.find(product => get(product, 'id') === +type);
+      //   return t ? get(t, 'name') : '';
+      // },
     },
     {
       title: '操作',

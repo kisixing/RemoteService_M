@@ -1,86 +1,33 @@
-import { omit, get } from 'lodash';
+import { set, get, keys, map } from 'lodash';
 
 export const fromApi = (data: any) => {
+  const { subdevices } = data;
+  const subDevicesData = {};
+  map(subdevices, (subDevice, index) => {
+    set(subDevicesData, `subDeviceId${index + 1}`, get(subDevice, 'id'));
+    set(subDevicesData, `subDeviceName${index + 1}`, get(subDevice, 'module'));
+    set(subDevicesData, `subDeviceErpno${index + 1}`, get(subDevice, 'erpno'));
+    set(subDevicesData, `subDeviceBtaddr${index + 1}`, get(subDevice, 'btaddr'));
+    set(subDevicesData, `subDeviceWifiaddr${index + 1}`, get(subDevice, 'wifiaddr'));
+  });
   return {
-    id: get(data, 'id'),
-    devicename: get(data, 'devicename'),
+    ...data,
+    ...subDevicesData,
     type: Number(get(data, 'type')),
-    manufacturer: get(data, 'manufacturer'),
-    model: get(data, 'model'),
-    erpno: get(data, 'erpno'),
-    status: get(data, 'status'),
-    sn: get(data, 'sn'),
-    btaddr: get(data, 'btaddr'),
-    wifiaddr: get(data, 'wifiaddr'),
-    fhrId: get(data, 'subdevices.0.id'),
-    fhrModule: get(data, 'subdevices.0.module'),
-    fhrErpno: get(data, 'subdevices.0.erpno'),
-    fhrBtaddr: get(data, 'subdevices.0.btaddr'),
-    fhrWifiaddr: get(data, 'subdevices.0.wifiaddr'),
-    tocoId: get(data, 'subdevices.1.id'),
-    tocoModule: get(data, 'subdevices.1.module'),
-    tocoErpno: get(data, 'subdevices.1.erpno'),
-    tocoBtaddr: get(data, 'subdevices.1.btaddr'),
-    tocoWifiaddr: get(data, 'subdevices.1.wifiaddr'),
-    othersId: get(data, 'subdevices.2.id'),
-    othersModule: get(data, 'subdevices.2.module'),
-    othersErpno: get(data, 'subdevices.2.erpno'),
-    othersBtaddr: get(data, 'subdevices.2.btaddr'),
-    othersWifiaddr: get(data, 'subdevices.2.wifiaddr'),
-    othersId2: get(data, 'subdevices.3.id'),
-    othersModule2: get(data, 'subdevices.3.module'),
-    othersErpno2: get(data, 'subdevices.3.erpno'),
-    othersBtaddr2: get(data, 'subdevices.3.btaddr'),
-    othersWifiaddr2: get(data, 'subdevices.3.wifiaddr'),
   };
 };
 
-export const toApi = (data: any) => {
+export const toApi = (data: any, { subDevicePanes }) => {
   return {
-    ...omit(data, [
-      'fhrModule',
-      'fhrErpno',
-      'fhrBtaddr',
-      'fhrWifiaddr',
-      'tocoModule',
-      'tocoErpno',
-      'tocoBtaddr',
-      'tocoWifiaddr',
-      'otherModule',
-      'otherErpno',
-      'otherBtaddr',
-      'otherWifiaddr',
-    ]),
-    id: get(data, 'id'),
-    subdevices: [
-      {
-        id: get(data, 'fhrId'),
-        module: get(data, 'fhrModule'),
-        erpno: get(data, 'fhrErpno'),
-        btaddr: get(data, 'fhrBtaddr'),
-        wifiaddr: get(data, 'fhrWifiaddr'),
-      },
-      {
-        id: get(data, 'tocoId'),
-        module: get(data, 'tocoModule'),
-        erpno: get(data, 'tocoErpno'),
-        btaddr: get(data, 'tocoBtaddr'),
-        wifiaddr: get(data, 'tocoWifiaddr'),
-      },
-      {
-        id: get(data, 'othersId'),
-        module: get(data, 'othersErpno'),
-        erpno: get(data, 'othersErpno'),
-        btaddr: get(data, 'othersBtaddr'),
-        wifiaddr: get(data, 'othersWifiaddr'),
-      },
-      {
-        id: get(data, 'othersId2'),
-        module: get(data, 'othersErpno2'),
-        erpno: get(data, 'othersErpno2'),
-        btaddr: get(data, 'othersBtaddr2'),
-        wifiaddr: get(data, 'othersWifiaddr2'),
-      },
-    ],
+    ...data,
+    subdevices: map(subDevicePanes, pane => {
+      return {
+        id: get(data, `subDeviceId${pane.key}`),
+        module: get(data, `subDeviceName${pane.key}`),
+        erpno: get(data, `subDeviceErpno${pane.key}`),
+        btaddr: get(data, `subDeviceBtaddr${pane.key}`),
+        wifiaddr: get(data, `subDeviceWifiaddr${pane.key}`),
+      };
+    }),
   };
 };

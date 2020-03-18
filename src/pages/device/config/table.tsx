@@ -3,11 +3,11 @@ import { deviceStatusMapping } from '@/components/selects/DeviceStatusSelect';
 import { get, keyBy } from 'lodash';
 
 export const tableColumns = [
-  // {
-  //   title: '设备编号',
-  //   dataIndex: 'erpno',
-  //   key: 'erpno',
-  // },
+  {
+    title: '设备编号',
+    dataIndex: 'erpno',
+    key: 'erpno',
+  },
   {
     title: '设备名称',
     dataIndex: 'devicename',
@@ -24,6 +24,11 @@ export const tableColumns = [
     key: 'model',
   },
   {
+    title: '蓝牙地址',
+    dataIndex: 'btaddr',
+    key: 'btaddr',
+  },
+  {
     title: '状态',
     dataIndex: 'status',
     key: 'status',
@@ -36,19 +41,19 @@ export const tableColumns = [
   //   dataIndex: 'service2amount',
   //   key: 'service2amount',
   // },
-  {
-    title: '操作内容',
-    dataIndex: 'devicename',
-    key: 'devicename',
-  },
-  {
-    title: '操作时间',
-    dataIndex: 'devicename',
-    key: 'devicename',
-  },
-  {
-    title: '操作者',
-    dataIndex: 'devicename',
-    key: 'devicename',
-  },
+  // {
+  //   title: '操作内容',
+  //   dataIndex: 'devicename',
+  //   key: 'devicename',
+  // },
+  // {
+  //   title: '操作时间',
+  //   dataIndex: 'devicename',
+  //   key: 'devicename',
+  // },
+  // {
+  //   title: '操作者',
+  //   dataIndex: 'devicename',
+  //   key: 'devicename',
+  // },
 ];

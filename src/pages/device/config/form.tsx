@@ -7,6 +7,14 @@ export const modalFormDescriptions = {
       disabled: true,
     },
   },
+  screen: {
+    key: 'screen',
+    label: '扫描输入',
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请使用扫码枪扫描输入',
+    },
+  },
   devicename: {
     key: 'devicename',
     label: '设备名称',
@@ -20,7 +28,7 @@ export const modalFormDescriptions = {
     key: 'type',
     label: '设备类型',
     rules: [{ required: true, message: '设备类型是必选项' }],
-    inputType: 'product',
+    inputType: 'input',
     inputProps: {
       placeholder: '请选择设备类型',
     },
@@ -46,19 +54,19 @@ export const modalFormDescriptions = {
   model: {
     key: 'model',
     label: '型号',
-    rules: [{ required: true, message: '型号是必选项' }],
+    rules: [{ required: true, message: '型号是必填项' }],
     inputType: 'input',
     inputProps: {
-      placeholder: '请选择型号',
+      placeholder: '请输入型号',
     },
   },
   erpno: {
     key: 'erpno',
-    label: '生产编号',
-    rules: [{ required: true, message: '生产编号是必填项' }],
+    label: 'ERP编号',
+    rules: [{ required: true, message: 'ERP编号是必填项' }],
     inputType: 'input',
     inputProps: {
-      placeholder: '请输入生产编号',
+      placeholder: '请输入ERP编号',
     },
   },
   sn: {
@@ -73,7 +81,6 @@ export const modalFormDescriptions = {
   btaddr: {
     key: 'btaddr',
     label: '蓝牙地址',
-    rules: [{ required: true, message: '蓝牙地址是必填项' }],
     inputType: 'input',
     inputProps: {
       placeholder: '请输入蓝牙地址',
@@ -82,385 +89,55 @@ export const modalFormDescriptions = {
   wifiaddr: {
     key: 'wifiaddr',
     label: 'wifi地址',
-    rules: [{ required: true, message: 'wifi地址是必填项' }],
     inputType: 'input',
     inputProps: {
       placeholder: '请输入wifi地址',
     },
   },
-  fhrModule: {
-    key: 'fhrModule',
+};
+
+export const subDeviceFormDescriptions = {
+  subDeviceScreen: {
+    key: 'subDeviceScreen',
+    label: '扫描输入',
+    inputProps: {
+      placeholder: '请使用扫码枪扫描输入',
+    },
+  },
+  subDeviceId: {
+    key: 'subDeviceId',
+    label: 'ID',
+    inputProps: {
+      disabled: true
+    },
+  },
+  subDeviceName: {
+    key: 'subDeviceName',
     label: '部件名称',
-    inputType: 'input',
-    isChild: true,
     inputProps: {
       placeholder: '请输入部件名称',
     },
   },
-  fhrId: {
-    key: 'fhrId',
-    label: 'ID',
-    inputType: 'input',
-    isChild: true,
+  subDeviceErpno: {
+    key: 'subDeviceErpno',
+    label: 'ERP编号',
     inputProps: {
-      disabled: true,
+      placeholder: '请输入ERP编号',
     },
   },
-  tocoId: {
-    key: 'tocoId',
-    label: 'ID',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      disabled: true,
-    },
-  },
-  othersId: {
-    key: 'othersId',
-    label: 'ID',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      disabled: true,
-    },
-  },
-  othersId2: {
-    key: 'othersId2',
-    label: 'ID',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      disabled: true,
-    },
-  },
-  fhrErpno: {
-    key: 'fhrErpno',
-    label: '生产编号',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      placeholder: '请输入生产编号',
-    },
-  },
-  fhrBtaddr: {
-    key: 'fhrBtaddr',
+  subDeviceBtaddr: {
+    key: 'subDeviceBtaddr',
     label: '蓝牙地址',
-    inputType: 'input',
-    isChild: true,
     inputProps: {
       placeholder: '请输入蓝牙地址',
     },
   },
-  fhrWifiaddr: {
-    key: 'fhrWifiaddr',
+  subDeviceWifiaddr: {
+    key: 'subDeviceWifiaddr',
     label: 'WiFi地址',
-    inputType: 'input',
-    isChild: true,
     inputProps: {
-      placeholder: '请输入WiFi地址',
+      placeholder: '请输入wifi地址',
     },
-  },
-  tocoModule: {
-    key: 'tocoModule',
-    label: '部件名称',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      placeholder: '请输入部件名称',
-    },
-  },
-  tocoErpno: {
-    key: 'tocoErpno',
-    label: '生产编号',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      placeholder: '请输入生产编号',
-    },
-  },
-  tocoBtaddr: {
-    key: 'tocoBtaddr',
-    label: '蓝牙地址',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      placeholder: '请输入蓝牙地址',
-    },
-  },
-  tocoWifiaddr: {
-    key: 'tocoWifiaddr',
-    label: 'WiFi地址',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      placeholder: '请输入WiFi地址',
-    },
-  },
-  othersModule: {
-    key: 'othersModule',
-    label: '部件名称',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      placeholder: '请输入部件名称',
-    },
-  },
-  othersErpno: {
-    key: 'othersErpno',
-    label: '生产编号',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      placeholder: '请输入生产编号',
-    },
-  },
-  othersBtaddr: {
-    key: 'othersBtaddr',
-    label: '蓝牙地址',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      placeholder: '请输入蓝牙地址',
-    },
-  },
-  othersWifiaddr: {
-    key: 'othersWifiaddr',
-    label: 'WiFi地址',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      placeholder: '请输入WiFi地址',
-    },
-  },
-  othersModule2: {
-    key: 'othersModule2',
-    label: '部件名称',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      placeholder: '请输入部件名称',
-    },
-  },
-  othersErpno2: {
-    key: 'othersErpno2',
-    label: '生产编号',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      placeholder: '请输入生产编号',
-    },
-  },
-  othersBtaddr2: {
-    key: 'othersBtaddr2',
-    label: '蓝牙地址',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      placeholder: '请输入蓝牙地址',
-    },
-  },
-  othersWifiaddr2: {
-    key: 'othersWifiaddr2',
-    label: 'WiFi地址',
-    inputType: 'input',
-    isChild: true,
-    inputProps: {
-      placeholder: '请输入WiFi地址',
-    },
-  },
-  subdevices: {
-    key: 'btaddr',
-    label: '部件信息',
-    childs: [
-      {
-        tabTitle: '部件一',
-        key: '1',
-        formDescription: {
-          fhrId: {
-            key: 'fhrId',
-            label: 'ID',
-            inputType: 'subdevice_id',
-            isChild: true,
-            inputProps: {
-              disabled: true,
-            },
-          },
-          fhrModule: {
-            key: 'fhrModule',
-            label: '部件名称',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入部件名称',
-            },
-          },
-          fhrErpno: {
-            key: 'fhrErpno',
-            label: '生产编号',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入生产编号',
-            },
-          },
-          fhrBtaddr: {
-            key: 'fhrBtaddr',
-            label: '蓝牙地址',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入蓝牙地址',
-            },
-          },
-          fhrWifiaddr: {
-            key: 'fhrWifiaddr',
-            label: 'WiFi地址',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入WiFi地址',
-            },
-          },
-        },
-      },
-      {
-        tabTitle: '部件二',
-        key: '2',
-        formDescription: {
-          tocoId: {
-            key: 'tocoId',
-            label: 'ID',
-            inputType: 'subdevice_id',
-            isChild: true,
-            inputProps: {
-              disabled: true,
-            },
-          },
-          tocoModule: {
-            key: 'tocoModule',
-            label: '部件名称',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入部件名称',
-            },
-          },
-          tocoErpno: {
-            key: 'tocoErpno',
-            label: '生产编号',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入生产编号',
-            },
-          },
-          tocoBtaddr: {
-            key: 'tocoBtaddr',
-            label: '蓝牙地址',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入蓝牙地址',
-            },
-          },
-          tocoWifiaddr: {
-            key: 'tocoWifiaddr',
-            label: 'WiFi地址',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入WiFi地址',
-            },
-          },
-        },
-      },
-      {
-        tabTitle: '部件三',
-        key: '3',
-        formDescription: {
-          othersId: {
-            key: 'othersId',
-            label: 'ID',
-            inputType: 'subdevice_id',
-            isChild: true,
-            inputProps: {
-              disabled: true,
-            },
-          },
-          othersModule: {
-            key: 'othersModule',
-            label: '部件名称',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入部件名称',
-            },
-          },
-          othersErpno: {
-            key: 'othersErpno',
-            label: '生产编号',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入生产编号',
-            },
-          },
-          othersBtaddr: {
-            key: 'othersBtaddr',
-            label: '蓝牙地址',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入蓝牙地址',
-            },
-          },
-          othersWifiaddr: {
-            key: 'othersWifiaddr',
-            label: 'WiFi地址',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入WiFi地址',
-            },
-          },
-        },
-      },
-      {
-        tabTitle: '部件四',
-        key: '4',
-        formDescription: {
-          othersId2: {
-            key: 'othersId2',
-            label: 'ID',
-            inputType: 'subdevice_id',
-            isChild: true,
-            inputProps: {
-              disabled: true,
-            },
-          },
-          othersModule2: {
-            key: 'othersModule2',
-            label: '部件名称',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入部件名称',
-            },
-          },
-          othersErpno2: {
-            key: 'othersErpno2',
-            label: '生产编号',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入生产编号',
-            },
-          },
-          othersBtaddr2: {
-            key: 'othersBtaddr2',
-            label: '蓝牙地址',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入蓝牙地址',
-            },
-          },
-          othersWifiaddr2: {
-            key: 'othersWifiaddr2',
-            label: 'WiFi地址',
-            inputType: 'input',
-            inputProps: {
-              placeholder: '请输入WiFi地址',
-            },
-          },
-        },
-      },
-    ],
   },
 };
 

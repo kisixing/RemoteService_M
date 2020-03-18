@@ -12,6 +12,11 @@ export const tableColumns = [
   //   key: 'picture',
   // },
   {
+    title: '套餐类型',
+    dataIndex: 'type',
+    key: 'type',
+  },
+  {
     title: '价格',
     dataIndex: 'price',
     render: (price: string) => <div dangerouslySetInnerHTML={{ __html: price }} />,

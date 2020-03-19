@@ -14,7 +14,7 @@ export default class ProductsList extends BaseList {
     defaultQuery: {
       page: 0,
       size: 20,
-      sort: 'sortorder,desc'
+      sort: 'sortorder,desc',
     },
     needPagination: false,
     dataSource: [],
@@ -28,6 +28,40 @@ export default class ProductsList extends BaseList {
 
   columns = [
     ...tableColumns,
+    {
+      title: '产品规格',
+      dataIndex: 'specification',
+      width: '20%',
+      ellipsis: true,
+      render: (specification: string) => (
+        <div className={styles.editorCell} dangerouslySetInnerHTML={{ __html: specification }} />
+      ),
+    },
+    {
+      title: '产品介绍',
+      dataIndex: 'introduction',
+      width: '20%',
+      ellipsis: true,
+      render: (specification: string) => (
+        <div className={styles.editorCell} dangerouslySetInnerHTML={{ __html: specification }} />
+      ),
+    },
+    {
+      title: '注意事项',
+      dataIndex: 'note',
+      width: '20%',
+      ellipsis: true,
+      render: (specification: string) => (
+        <div className={styles.editorCell} dangerouslySetInnerHTML={{ __html: specification }} />
+      ),
+    },
+    {
+      title: '排序',
+      key: 'sortorder',
+      dataIndex: 'sortorder',
+      align: 'center',
+      width: 100,
+    },
     {
       title: '操作',
       align: 'center',

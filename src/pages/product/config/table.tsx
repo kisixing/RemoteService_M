@@ -19,20 +19,8 @@ export const tableColumns = [
     key: 'picture',
     align: 'center',
     render: value => {
-      return <img src={value} alt="产品图片" style={{ width: 200, height: 200 }} />;
+      return <img src={value} alt="产品图片" style={{ width: 100, height: 100 }} />;
     },
   },
-  {
-    title: '产品规格',
-    dataIndex: 'specification',
-    width: "60%",
-    render: (specification: string) => <div dangerouslySetInnerHTML={{ __html: specification }} />,
-  },
-  {
-    title: '排序',
-    key: 'sortorder',
-    dataIndex: 'sortorder',
-    align: 'center',
-    render: (sortorder: any) => <span>{sortorder}</span>,
-  },
+  
 ];

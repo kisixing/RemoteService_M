@@ -21,7 +21,7 @@ export default (props: any) => {
 
   useEffect(() => {
     (async () => {
-      const newMenus = transferMenus(await request.get('/permissions?type.equals=menu'));
+      const newMenus = transferMenus(await request.get('/permissions?type.equals=menu&size=100'));
       setMenus([{ id: 0, value: 0, title: '无父级', children: newMenus }]);
     })();
   }, []);

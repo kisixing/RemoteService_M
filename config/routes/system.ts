@@ -35,6 +35,12 @@ const r: IRoute = {
       path: '/system/audit',
       component: './system/audit',
     },
+    {
+      name: 'version',
+      icon: 'audit',
+      path: '/system/version',
+      component: './system/version',
+    },
   ],
 };
 

@@ -1,29 +1,27 @@
 import React, { Fragment } from 'react';
 import Table from './components/table';
-import MenuModal from './components/MenuModal';
+import CtgFeesModal from './components/VersionModal';
 import { tableColumns } from './config/table';
 import { Popconfirm } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
 import styles from './index.less';
-import { processFromApi } from './config/adapter';
 
-export default class Menus extends BaseList {
+export default class Versions extends BaseList {
   state = {
     total: 0,
-    needPagination: true,
     defaultQuery: {
       page: 0,
-      size: 100,
+      size: 20,
     },
+    needPagination: false,
     dataSource: [],
     visible: false,
     editable: false,
     id: undefined,
     showQuery: false,
-    baseUrl: '/permissions',
-    baseTitle: '菜单/权限',
-    processFromApi,
+    baseUrl: '/versions',
+    baseTitle: '版本',
   };
 
   columns = [
@@ -52,28 +50,36 @@ export default class Menus extends BaseList {
   ];
 
   render() {
-    const { dataSource, visible, editable, id, baseTitle, total, defaultQuery } = this.state;
+    const {
+      dataSource,
+      visible,
+      editable,
+      id,
+      baseTitle,
+      total,
+      defaultQuery,
+      needPagination,
+    } = this.state;
 
     return (
       <Fragment>
-        {dataSource.length > 0 && (
-          <Table
-            pagination={{
+        <Table
+          pagination={
+            needPagination && {
               total,
               showTotal: () => `一共${total}条记录`,
               pageSize: defaultQuery.size,
               defaultCurrent: 1,
               onChange: this.handlePageChange,
-            }}
-            expandable={{ expandRowByClick: true }}
-            columns={this.columns}
-            dataSource={dataSource}
-            onAdd={this.handleAdd}
-            baseTitle={baseTitle}
-          />
-        )}
+            }
+          }
+          columns={this.columns}
+          dataSource={dataSource}
+          onAdd={this.handleAdd}
+          baseTitle={baseTitle}
+        />
         {visible && (
-          <MenuModal
+          <CtgFeesModal
             visible={visible}
             editable={editable}
             id={id}

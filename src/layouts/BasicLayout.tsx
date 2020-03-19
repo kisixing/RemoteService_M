@@ -92,7 +92,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
           },
         });
       }
-      setMenusPermissions(keys(keyBy(await request.get('/permissions?type.equals=menu'), 'key')));
+      setMenusPermissions(keys(keyBy(await request.get('/permissions?type.equals=menu&size=100'), 'key')));
     })();
   }, []);
   /**

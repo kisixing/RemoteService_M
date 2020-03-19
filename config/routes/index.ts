@@ -59,13 +59,26 @@ export const routes: IRoute[] = [
           _package,
           order,
           device,
-          service,
+          {
+            name: 'pregnancies',
+            icon: 'user',
+            path: '/pregnancies',
+            routes: [
+              {
+                name: 'list',
+                icon: 'ordered-list',
+                path: '/pregnancies/list',
+                component: './ctg-fees',
+              },
+            ],
+          },
           {
             name: 'ctgfees',
             icon: 'setting',
             path: '/ctg-fees',
             component: './ctg-fees',
           },
+          service,
           dashboard,
           {
             name: 'im',

@@ -9,7 +9,7 @@ export default class PermissionSelect extends React.Component {
   };
 
   async componentDidMount() {
-    const treeData = this.transferMenus(await request.get('/permissions'));
+    const treeData = this.transferMenus(await request.get('/permissions?size=100'));
     this.setState({ treeData });
   }
 

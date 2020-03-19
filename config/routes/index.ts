@@ -68,7 +68,7 @@ export const routes: IRoute[] = [
                 name: 'list',
                 icon: 'ordered-list',
                 path: '/pregnancies/list',
-                component: './ctg-fees',
+                component: './pregnancies/list',
               },
             ],
           },

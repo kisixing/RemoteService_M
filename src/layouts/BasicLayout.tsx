@@ -17,6 +17,7 @@ import { isNil, keyBy, keys, get, map } from 'lodash';
 import store from 'store';
 import { TOKEN } from '@/utils/request';
 import styles from './Layout.less';
+import Welcome from '@/pages/Welcome';
 
 export interface BasicLayoutProps extends ProLayoutProps {
   breadcrumbNameMap: {
@@ -166,7 +167,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   const renderHome = tab => {
     return (
       <Tabs.TabPane tab={get(tab, 'title')} key={get(tab, 'key')} closable={get(tab, 'closable')}>
-        <div className={styles.customPanelContent}>这里是首页</div>
+        <Welcome />
       </Tabs.TabPane>
     );
   };

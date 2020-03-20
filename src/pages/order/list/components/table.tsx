@@ -47,7 +47,7 @@ export class OrderTable extends React.Component {
                   className={tableStyles.label}
                   onClick={onBindDevice(orderInfo)}
                 >
-                  关闭订单
+                  绑定设备
                 </Button>
               )}
               {indexOf(serviceBindArray, orderStatus) > -1 && (
@@ -57,7 +57,7 @@ export class OrderTable extends React.Component {
                   className={tableStyles.label}
                   onClick={onBindService(orderInfo)}
                 >
-                  关闭订单
+                  服务次数
                 </Button>
               )}
               {indexOf(deviceBackArray, orderStatus) > -1 && (
@@ -84,7 +84,7 @@ export class OrderTable extends React.Component {
                   className={tableStyles.label}
                   onClick={onReturnDeposit(orderInfo)}
                 >
-                  提醒归还
+                  退还押金
                 </Button>
               )}
             </div>

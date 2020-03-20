@@ -1,43 +1,23 @@
-/**
- * Ant Design Pro v4 use `@ant-design/pro-layout` to handle Layout.
- * You can view component api by:
- * https://github.com/ant-design/ant-design-pro-layout
- */
 import ProLayout, {
   MenuDataItem,
   BasicLayoutProps as ProLayoutProps,
   Settings,
-  DefaultFooter,
 } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'umi';
+import { Link, router } from 'umi';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
-import { GithubOutlined } from '@ant-design/icons';
-import { Result, Button, notification } from 'antd';
-import Authorized from '@/utils/Authorized';
+import { notification, Tabs } from 'antd';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
-import { isAntDesignPro, getAuthorityFromRouter } from '@/utils/utils';
 import logo from '../assets/logo.svg';
 import request from '@/utils/request';
-import { map, keyBy, keys } from 'lodash';
+import { isNil, keyBy, keys, get, map } from 'lodash';
 import store from 'store';
 import { TOKEN } from '@/utils/request';
+import styles from './Layout.less';
 
-const noMatch = (
-  <Result
-    status="403"
-    title="403"
-    subTitle="Sorry, you are not authorized to access this page."
-    extra={
-      <Button type="primary">
-        <Link to="/user/login">Go Login</Link>
-      </Button>
-    }
-  />
-);
 export interface BasicLayoutProps extends ProLayoutProps {
   breadcrumbNameMap: {
     [path: string]: MenuDataItem;
@@ -53,38 +33,26 @@ export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
     [path: string]: MenuDataItem;
   };
 };
-/**
- * use Authorized check all menu item
- */
+
 const BasicLayout: React.FC<BasicLayoutProps> = props => {
-  const {
-    dispatch,
-    children,
-    settings,
-    location = {
-      pathname: '/',
-    },
-  } = props;
+  const { dispatch, children, settings } = props;
 
   const [menusPermissions = [], setMenusPermissions] = useState();
-  /**
-   * constructor
-   */
 
   useEffect(() => {
+    const { location } = props;
     const username = store.get('username');
     const token = store.get(TOKEN);
     if (!token) {
       notification.error({ message: '请先登录' });
-      if (dispatch) {
-        dispatch({
-          type: 'login/logout',
-        });
-      }
+      dispatch({
+        type: 'login/logout',
+      });
       return;
     }
+
     (async () => {
-      if (dispatch) {
+      if (!!username && !!token) {
         dispatch({
           type: 'user/fetchCurrentUser',
           payload: {
@@ -92,12 +60,30 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
           },
         });
       }
-      setMenusPermissions(keys(keyBy(await request.get('/permissions?type.equals=menu&size=100'), 'key')));
+
+      const permissions = await request.get('/permissions?type.equals=menu&size=200');
+      const permissionsMapping = keyBy(permissions, 'key');
+      setMenusPermissions(keys(permissionsMapping));
+
+      if (location && location.pathname !== '/') {
+        const menuItemProps = get(permissionsMapping, get(location, 'pathname'));
+
+        const data = {
+          title: get(menuItemProps, 'name'),
+          key: get(menuItemProps, 'key'),
+          path: get(menuItemProps, 'key'),
+          closable: true,
+        };
+        dispatch({
+          type: 'tab/changeTabs',
+          payload: {
+            type: 'addTab',
+            data,
+          },
+        });
+      }
     })();
   }, []);
-  /**
-   * init variables
-   */
 
   const handleMenuCollapse = (payload: boolean): void => {
     if (dispatch) {
@@ -106,10 +92,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
         payload,
       });
     }
-  }; // get children authority
-
-  const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
-    authority: undefined,
   };
 
   const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] => {
@@ -122,66 +104,152 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
     });
   };
 
+  const handleClickMenuItem = menuItemProps => () => {
+    const { dispatch, activeKey } = props;
+    const data = {
+      title: get(menuItemProps, 'name'),
+      key: get(menuItemProps, 'key'),
+      path: get(menuItemProps, 'path'),
+      closable: true,
+    };
+    if (activeKey !== get(menuItemProps, 'key')) {
+      dispatch({
+        type: 'tab/changeTabs',
+        payload: {
+          type: 'addTab',
+          data,
+        },
+      });
+    }
+  };
+
+  const handleClickHeader = () => {
+    const { dispatch } = props;
+    dispatch({
+      type: 'tab/changeActiveKey',
+      payload: {
+        data: { activeKey: '/' },
+      },
+    });
+  };
+
+  const handleTabChange = activeKey => {
+    const { dispatch, tabs } = props;
+    router.push(get(keyBy(tabs, 'key'), `${activeKey}.path`));
+    dispatch({
+      type: 'tab/changeActiveKey',
+      payload: {
+        data: { activeKey },
+      },
+    });
+  };
+
+  const handleEditTabs = (key, action) => {
+    const { dispatch } = props;
+
+    switch (action) {
+      case 'add':
+        break;
+      case 'remove':
+        dispatch({
+          type: 'tab/deleteTabs',
+          payload: {
+            data: { key },
+          },
+        });
+        break;
+      default:
+        break;
+    }
+  };
+
+  const renderHome = tab => {
+    return (
+      <Tabs.TabPane tab={get(tab, 'title')} key={get(tab, 'key')} closable={get(tab, 'closable')}>
+        <div className={styles.customPanelContent}>这里是首页</div>
+      </Tabs.TabPane>
+    );
+  };
+
   return (
     <>
-      <>
-        <ProLayout
-          logo={logo}
-          formatMessage={formatMessage}
-          menuHeaderRender={(logoDom, titleDom) => (
-            <Link to="/">
-              {logoDom}
-              {titleDom}
-            </Link>
-          )}
-          onCollapse={handleMenuCollapse}
-          menuItemRender={(menuItemProps, defaultDom) => {
-            if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
-              return defaultDom;
-            }
-
-            return <Link to={menuItemProps.path}>{defaultDom}</Link>;
-          }}
-          breadcrumbRender={(routers = []) => [
-            {
-              path: '/',
-              breadcrumbName: '首页',
-            },
-            ...routers,
-          ]}
-          itemRender={(route, params, routes, paths) => {
-            const first = routes.indexOf(route) === 0;
-            return first ? (
-              <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
-            ) : (
-              <span>{route.breadcrumbName}</span>
-            );
-          }}
-          // footerRender={footerRender}
-          menuDataRender={menuDataRender}
-          rightContentRender={() => <RightContent />}
-          {...props}
-          {...settings}
-        >
-          <Authorized authority={authorized!.authority} noMatch={noMatch}>
-            {!!store.get(TOKEN) && children}
-          </Authorized>
-        </ProLayout>
-        {/* <SettingDrawer
-          settings={settings}
-          onSettingChange={config =>
-            dispatch({
-              type: 'settings/changeSetting',
-              payload: config,
-            })
+      <ProLayout
+        className={styles.customProLayout}
+        logo={logo}
+        formatMessage={formatMessage}
+        menuHeaderRender={(logoDom, titleDom) => (
+          <Link to="/" onClick={handleClickHeader}>
+            {logoDom}
+            {titleDom}
+          </Link>
+        )}
+        onCollapse={handleMenuCollapse}
+        menuItemRender={(menuItemProps, defaultDom) => {
+          if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
+            return defaultDom;
           }
-        /> */}
-      </>
+          return (
+            <Link to={menuItemProps.path} onClick={handleClickMenuItem(menuItemProps)}>
+              {defaultDom}
+            </Link>
+          );
+        }}
+        breadcrumbRender={(routers = []) => [
+          {
+            path: '/',
+            breadcrumbName: '首页',
+          },
+          ...routers,
+        ]}
+        itemRender={(route, params, routes, paths) => {
+          const first = routes.indexOf(route) === 0;
+          return first ? (
+            <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
+          ) : (
+            <span>{route.breadcrumbName}</span>
+          );
+        }}
+        menuDataRender={menuDataRender}
+        rightContentRender={() => <RightContent />}
+        {...props}
+        {...settings}
+      >
+        {!!store.get(TOKEN) && (
+          <div className={styles.customPanel}>
+            <Tabs
+              activeKey={props.activeKey}
+              onChange={handleTabChange}
+              type="editable-card"
+              hideAdd
+              onEdit={handleEditTabs}
+            >
+              {map(props.tabs, tab => {
+                if (get(tab, 'key') === '/') {
+                  return renderHome(tab);
+                }
+                return (
+                  <Tabs.TabPane
+                    tab={get(tab, 'title')}
+                    key={get(tab, 'key')}
+                    closable={get(tab, 'closable')}
+                  >
+                    <div className={styles.customPanelContent}>
+                      {props.activeKey === get(tab, 'key') && children}
+                    </div>
+                  </Tabs.TabPane>
+                );
+              })}
+            </Tabs>
+          </div>
+        )}
+      </ProLayout>
     </>
   );
 };
 
-export default connect(({ global, settings }: ConnectState) => ({
+export default connect(({ global, settings, tab }: ConnectState) => ({
   collapsed: global.collapsed,
   settings,
+  tabs: tab.tabs,
+  activeKey: tab.activeKey,
 }))(BasicLayout);

@@ -14,7 +14,7 @@ const isDev = process.env.isDev || true;
 
 const request = extend({
   prefix: '/api',
-  timeout: 3000,
+  timeout: 30000,
   credentials: 'include', // 默认请求是否带上cookie
   headers: {
     Accept: 'application/json',

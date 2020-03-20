@@ -250,7 +250,6 @@ export class OrderList extends React.Component {
     return (
       <div>
         <Query onSearch={this.handleSearch} />
-        <br />
         <Table
           pagination={{
             total,

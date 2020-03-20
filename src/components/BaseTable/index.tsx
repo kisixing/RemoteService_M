@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Table, Button } from 'antd';
+import { Button } from 'antd';
+import CustomTable from '@/layouts/CustomTable';
 import styles from './index.less';
 
 export default class BaseTable extends Component {
@@ -8,7 +9,7 @@ export default class BaseTable extends Component {
     return (
       <div className={styles.title}>
         <span className={styles.titleName}>{baseTitle}列表</span>
-        <Button className={styles.titleAddBtn} onClick={onAdd}>
+        <Button size="small" type="primary" className={styles.titleAddBtn} onClick={onAdd}>
           添加{baseTitle}
         </Button>
       </div>
@@ -16,6 +17,6 @@ export default class BaseTable extends Component {
   };
 
   render() {
-    return <Table title={this.renderTitle} bordered {...this.props} />;
+    return <CustomTable title={this.renderTitle} bordered {...this.props} />;
   }
 }

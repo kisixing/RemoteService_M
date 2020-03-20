@@ -13,10 +13,11 @@ export default class Query extends BaseQuery {
   renderContent = () => {
     return (
       <Fragment>
-        {this.renderEditItem('devicename', <Input placeholder="请输入设备名称" />)}
+        {this.renderEditItem('devicename', <Input size="small" placeholder="请输入设备名称" />)}
         {this.renderEditItem(
           'type',
           <DataSelect
+            size="small"
             url="/products"
             valueKey="id"
             labelKey="name"
@@ -25,7 +26,7 @@ export default class Query extends BaseQuery {
             allowClear
           />,
         )}
-        {this.renderEditItem('status', <DeviceStatusSelect style={{ width: 150 }} />)}
+        {this.renderEditItem('status', <DeviceStatusSelect size="small" style={{ width: 150 }} />)}
       </Fragment>
     );
   };

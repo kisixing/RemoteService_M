@@ -86,12 +86,12 @@ export const routes: IRoute[] = [
             path: '/im',
             component: './WebIM',
           },
-          {
-            name: 'imtest',
-            icon: 'setting',
-            path: '/imtest',
-            component: './WebIM/test',
-          },
+          // {
+          //   name: 'imtest',
+          //   icon: 'setting',
+          //   path: '/imtest',
+          //   component: './WebIM/test',
+          // },
           system,
           {
             path: '/',

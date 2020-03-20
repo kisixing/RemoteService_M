@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Button } from 'antd';
 import { DynamicForm } from '@lianmed/components';
-
+import styles from './index.less'
 export default class BaseQuery extends DynamicForm {
   formDescriptions = {};
 
@@ -26,13 +26,13 @@ export default class BaseQuery extends DynamicForm {
 
   renderResetBtn = () => (
     <Form.Item>
-      <Button onClick={this.handleReset}>重置</Button>
+      <Button size="small" onClick={this.handleReset}>重置</Button>
     </Form.Item>
   );
 
   renderSearchBtn = () => (
     <Form.Item>
-      <Button type="primary" htmlType="submit">
+      <Button size="small" type="primary" htmlType="submit">
         查询
       </Button>
     </Form.Item>
@@ -40,7 +40,7 @@ export default class BaseQuery extends DynamicForm {
 
   render() {
     return (
-      <Form ref={this.formRef} layout="inline" onFinish={this.handleSearch}>
+      <Form className={styles.baseQuery} ref={this.formRef} layout="inline" onFinish={this.handleSearch}>
         {this.renderContent()}
         {this.renderResetBtn()}
         {this.renderSearchBtn()}

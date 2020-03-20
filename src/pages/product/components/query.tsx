@@ -9,6 +9,6 @@ export default class Query extends BaseQuery {
   });
 
   renderContent = () => {
-    return <Fragment>{this.renderEditItem('name', <Input />)}</Fragment>;
+    return <Fragment>{this.renderEditItem('name', <Input size="small" />)}</Fragment>;
   };
 }

@@ -2,11 +2,13 @@ import React, { Fragment } from 'react';
 import Table from './components/table';
 import MenuModal from './components/MenuModal';
 import { tableColumns } from './config/table';
-import { Popconfirm } from 'antd';
+import { Popconfirm, Button } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
 import styles from './index.less';
 import { processFromApi } from './config/adapter';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import commonStyles from '@/common.less';
 
 export default class Menus extends BaseList {
   state = {
@@ -34,16 +36,23 @@ export default class Menus extends BaseList {
       render: (value, rowData, index) => {
         return (
           <Fragment>
-            <span className={styles.label} onClick={this.handleEdit(rowData)}>
-              编辑
-            </span>
+            <Button
+              className={commonStyles.tableActionBtn}
+              type="primary"
+              size="small"
+              onClick={this.handleEdit(rowData)}
+            >
+              <EditOutlined />
+            </Button>
             <Popconfirm
               title={`确定要删除这个${get(this.state, 'baseTitle')}吗?`}
               onConfirm={this.handleDelete(rowData)}
               okText="确定"
               cancelText="取消"
             >
-              <span className={styles.label}>删除</span>
+              <Button className={commonStyles.tableActionBtn} type="danger" size="small">
+                <DeleteOutlined />
+              </Button>
             </Popconfirm>
           </Fragment>
         );

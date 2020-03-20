@@ -8,6 +8,7 @@ import { pick, get, keyBy } from 'lodash';
 import { deviceStatusMapping } from './components/DeviceStatusSelect';
 import ModalForm from './components/ModalForm';
 import Query from './components/query';
+import { DeleteOutlined } from '@ant-design/icons';
 
 interface IProps {}
 
@@ -98,7 +99,7 @@ export default (props: IProps) => {
               request.delete(`/devices/${id}`).then(search);
             }}
           >
-            <a>删除</a>
+            <DeleteOutlined />
           </Popconfirm>
         </span>
       ),

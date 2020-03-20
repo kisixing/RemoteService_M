@@ -2,11 +2,13 @@ import React, { Fragment } from 'react';
 import Table from './components/table';
 import PackageModal from './components/PackageModal';
 import { tableColumns } from './config/table';
-import { Popconfirm, Switch, message } from 'antd';
+import { Popconfirm, Switch, message, Button } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
 import styles from './index.less';
 import request from '@/utils/request';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import commonStyles from '@/common.less';
 
 export default class PackageList extends BaseList {
   state = {
@@ -50,16 +52,23 @@ export default class PackageList extends BaseList {
       render: (value, rowData, index) => {
         return (
           <Fragment>
-            <span className={styles.label} onClick={this.handleEdit(rowData)}>
-              编辑
-            </span>
+            <Button
+              className={commonStyles.tableActionBtn}
+              type="primary"
+              size="small"
+              onClick={this.handleEdit(rowData)}
+            >
+              <EditOutlined />
+            </Button>
             <Popconfirm
               title={`确定要删除这个${get(this.state, 'baseTitle')}吗?`}
               onConfirm={this.handleDelete(rowData)}
               okText="确定"
               cancelText="取消"
             >
-              <span className={styles.label}>删除</span>
+              <Button className={commonStyles.tableActionBtn} type="danger" size="small">
+                <DeleteOutlined />
+              </Button>
             </Popconfirm>
           </Fragment>
         );

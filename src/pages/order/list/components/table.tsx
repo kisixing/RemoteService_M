@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Table } from 'antd';
+import { Button } from 'antd';
+import CustomTable from '@/layouts/CustomTable';
 import { indexOf } from 'lodash';
 import { tableColumns } from '../config/table';
 import tableStyles from './table.less';
@@ -32,38 +33,59 @@ export class OrderTable extends React.Component {
           const depositBackArray = ['已完成'];
           return (
             <div>
-              <span className={tableStyles.label} onClick={onViewOrder(id)}>
+              <Button size="small" className={tableStyles.label} onClick={onViewOrder(id)}>
                 查看订单
-              </span>
+              </Button>
               {indexOf(closeArray, orderStatus) > -1 && (
-                <span className={tableStyles.label} onClick={onCloseOrder(id)}>
+                <Button size="small" className={tableStyles.label} onClick={onCloseOrder(id)}>
                   关闭订单
-                </span>
+                </Button>
               )}
               {indexOf(orderBindArray, orderStatus) > -1 && (
-                <span className={tableStyles.label} onClick={onBindDevice(orderInfo)}>
-                  绑定设备
-                </span>
+                <Button
+                  size="small"
+                  className={tableStyles.label}
+                  onClick={onBindDevice(orderInfo)}
+                >
+                  关闭订单
+                </Button>
               )}
               {indexOf(serviceBindArray, orderStatus) > -1 && (
-                <span className={tableStyles.label} onClick={onBindService(orderInfo)}>
-                  服务次数
-                </span>
+                <Button
+                  size="small"
+                  // type="danger"
+                  className={tableStyles.label}
+                  onClick={onBindService(orderInfo)}
+                >
+                  关闭订单
+                </Button>
               )}
               {indexOf(deviceBackArray, orderStatus) > -1 && (
-                <span className={tableStyles.label} onClick={onDeviceBack(orderInfo)}>
+                <Button
+                  size="small"
+                  className={tableStyles.label}
+                  onClick={onDeviceBack(orderInfo)}
+                >
                   设备回收
-                </span>
+                </Button>
               )}
               {indexOf(remindBackArray, orderStatus) > -1 && (
-                <span className={tableStyles.label} onClick={onRemindBack(orderInfo)}>
+                <Button
+                  size="small"
+                  className={tableStyles.label}
+                  onClick={onRemindBack(orderInfo)}
+                >
                   提醒归还
-                </span>
+                </Button>
               )}
               {indexOf(depositBackArray, orderStatus) > -1 && (
-                <span className={tableStyles.label} onClick={onReturnDeposit(orderInfo)}>
-                  退还押金
-                </span>
+                <Button
+                  size="small"
+                  className={tableStyles.label}
+                  onClick={onReturnDeposit(orderInfo)}
+                >
+                  提醒归还
+                </Button>
               )}
             </div>
           );
@@ -96,7 +118,7 @@ export class OrderTable extends React.Component {
     const { dataSource, pagination } = this.props;
 
     return (
-      <Table
+      <CustomTable
         // rowSelection={{
         //   type: 'checkbox',
         //   onChange: this.handleCheckBoxChange,
@@ -105,7 +127,7 @@ export class OrderTable extends React.Component {
         pagination={pagination}
         columns={this.columns}
         dataSource={dataSource}
-      ></Table>
+      />
     );
   }
 }

@@ -8,8 +8,9 @@ import BaseList from '@/components/BaseList';
 import styles from './index.less';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
+import CustomSpin from '@/components/CustomSpin';
 
-export default class CtgFees extends BaseList {
+export default class Audit extends BaseList {
   state = {
     total: 0,
     defaultQuery: {
@@ -22,6 +23,7 @@ export default class CtgFees extends BaseList {
     editable: false,
     id: undefined,
     showQuery: false,
+    loding: true,
     baseUrl: '/audits',
     baseTitle: '审计',
   };
@@ -68,25 +70,30 @@ export default class CtgFees extends BaseList {
       total,
       defaultQuery,
       needPagination,
+      loding
     } = this.state;
 
     return (
       <Fragment>
-        <Table
-          pagination={
-            needPagination && {
-              total,
-              showTotal: () => `一共${total}条记录`,
-              pageSize: defaultQuery.size,
-              defaultCurrent: 1,
-              onChange: this.handlePageChange,
+        {loding ? (
+          <CustomSpin />
+        ) : (
+          <Table
+            pagination={
+              needPagination && {
+                total,
+                showTotal: () => `一共${total}条记录`,
+                pageSize: defaultQuery.size,
+                defaultCurrent: 1,
+                onChange: this.handlePageChange,
+              }
             }
-          }
-          columns={this.columns}
-          dataSource={dataSource}
-          onAdd={this.handleAdd}
-          baseTitle={baseTitle}
-        />
+            columns={this.columns}
+            dataSource={dataSource}
+            onAdd={this.handleAdd}
+            baseTitle={baseTitle}
+          />
+        )}
         {visible && (
           <CtgFeesModal
             visible={visible}

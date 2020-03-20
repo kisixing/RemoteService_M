@@ -9,6 +9,7 @@ import styles from './index.less';
 import { processFromApi } from './config/adapter';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
+import CustomSpin from '@/components/CustomSpin';
 
 export default class Menus extends BaseList {
   state = {
@@ -23,6 +24,7 @@ export default class Menus extends BaseList {
     editable: false,
     id: undefined,
     showQuery: false,
+    loding: true,
     baseUrl: '/permissions',
     baseTitle: '菜单/权限',
     processFromApi,
@@ -61,11 +63,22 @@ export default class Menus extends BaseList {
   ];
 
   render() {
-    const { dataSource, visible, editable, id, baseTitle, total, defaultQuery } = this.state;
+    const {
+      dataSource,
+      visible,
+      editable,
+      id,
+      baseTitle,
+      total,
+      defaultQuery,
+      loding,
+    } = this.state;
 
     return (
       <Fragment>
-        {dataSource.length > 0 && (
+        {loding ? (
+          <CustomSpin />
+        ) : (
           <Table
             pagination={{
               total,

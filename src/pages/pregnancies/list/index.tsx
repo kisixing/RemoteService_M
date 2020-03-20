@@ -10,6 +10,7 @@ import queryString from 'query-string';
 import { get, isFunction } from 'lodash';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
+import CustomSpin from '@/components/CustomSpin';
 
 export default class Versions extends BaseList {
   state = {
@@ -24,6 +25,7 @@ export default class Versions extends BaseList {
     editable: false,
     id: undefined,
     showQuery: false,
+    loding: true,
     baseUrl: '/pregnanciespage',
     baseTitle: '孕妇',
   };
@@ -69,7 +71,7 @@ export default class Versions extends BaseList {
     if (needPagination) {
       total = await request.get(`/pregnancies/count?criteria`);
     }
-    this.setState({ dataSource, total });
+    this.setState({ dataSource, total, loding: false });
   };
 
   render() {
@@ -82,25 +84,30 @@ export default class Versions extends BaseList {
       total,
       defaultQuery,
       needPagination,
+      loding,
     } = this.state;
 
     return (
       <Fragment>
-        <Table
-          pagination={
-            needPagination && {
-              total,
-              showTotal: () => `一共${total}条记录`,
-              pageSize: defaultQuery.size,
-              defaultCurrent: 1,
-              onChange: this.handlePageChange,
+        {loding ? (
+          <CustomSpin />
+        ) : (
+          <Table
+            pagination={
+              needPagination && {
+                total,
+                showTotal: () => `一共${total}条记录`,
+                pageSize: defaultQuery.size,
+                defaultCurrent: 1,
+                onChange: this.handlePageChange,
+              }
             }
-          }
-          columns={this.columns}
-          dataSource={dataSource}
-          onAdd={this.handleAdd}
-          baseTitle={baseTitle}
-        />
+            columns={this.columns}
+            dataSource={dataSource}
+            onAdd={this.handleAdd}
+            baseTitle={baseTitle}
+          />
+        )}
         {visible && (
           <CtgFeesModal
             visible={visible}

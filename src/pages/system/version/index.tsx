@@ -8,6 +8,7 @@ import BaseList from '@/components/BaseList';
 import styles from './index.less';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
+import CustomSpin from '@/components/CustomSpin';
 
 export default class Versions extends BaseList {
   state = {
@@ -22,6 +23,7 @@ export default class Versions extends BaseList {
     editable: false,
     id: undefined,
     showQuery: false,
+    loding: true,
     baseUrl: '/versions',
     baseTitle: '版本',
   };
@@ -68,25 +70,30 @@ export default class Versions extends BaseList {
       total,
       defaultQuery,
       needPagination,
+      loding,
     } = this.state;
 
     return (
       <Fragment>
-        <Table
-          pagination={
-            needPagination && {
-              total,
-              showTotal: () => `一共${total}条记录`,
-              pageSize: defaultQuery.size,
-              defaultCurrent: 1,
-              onChange: this.handlePageChange,
+        {loding ? (
+          <CustomSpin />
+        ) : (
+          <Table
+            pagination={
+              needPagination && {
+                total,
+                showTotal: () => `一共${total}条记录`,
+                pageSize: defaultQuery.size,
+                defaultCurrent: 1,
+                onChange: this.handlePageChange,
+              }
             }
-          }
-          columns={this.columns}
-          dataSource={dataSource}
-          onAdd={this.handleAdd}
-          baseTitle={baseTitle}
-        />
+            columns={this.columns}
+            dataSource={dataSource}
+            onAdd={this.handleAdd}
+            baseTitle={baseTitle}
+          />
+        )}
         {visible && (
           <CtgFeesModal
             visible={visible}

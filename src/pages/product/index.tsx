@@ -9,6 +9,7 @@ import Query from './components/query';
 import { get } from 'lodash';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
+import CustomSpin from '@/components/CustomSpin';
 
 export default class ProductsList extends BaseList {
   state = {
@@ -24,6 +25,7 @@ export default class ProductsList extends BaseList {
     editable: false,
     id: undefined,
     showQuery: false,
+    loding: true,
     baseUrl: '/products',
     baseTitle: '产品',
   };
@@ -95,18 +97,22 @@ export default class ProductsList extends BaseList {
   ];
 
   render() {
-    const { dataSource, visible, editable, id, baseTitle, needPagination } = this.state;
+    const { dataSource, visible, editable, id, baseTitle, needPagination, loding } = this.state;
     return (
       <Fragment>
         {/* <Query />
         <br /> */}
-        <Table
-          columns={this.columns}
-          dataSource={dataSource}
-          onAdd={this.handleAdd}
-          baseTitle={baseTitle}
-          pagination={needPagination}
-        />
+        {loding ? (
+          <CustomSpin />
+        ) : (
+          <Table
+            columns={this.columns}
+            dataSource={dataSource}
+            onAdd={this.handleAdd}
+            baseTitle={baseTitle}
+            pagination={needPagination}
+          />
+        )}
         {visible && (
           <ProductModal
             visible={visible}

@@ -17,6 +17,7 @@ export default class BaseList extends React.Component {
     editable: false,
     id: undefined,
     showQuery: false,
+    loding: true,
     baseUrl: '',
     baseTitle: '',
     processFromApi: undefined,
@@ -65,7 +66,7 @@ export default class BaseList extends React.Component {
     if (needPagination) {
       total = await request.get(`${baseUrl}/count?criteria`);
     }
-    this.setState({ dataSource, total });
+    this.setState({ dataSource, total, loding: false });
   };
 
   handlePageChange = (page, pageSize) => {

@@ -8,6 +8,7 @@ import BaseList from '@/components/BaseList';
 import styles from './index.less';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
+import CustomSpin from '@/components/CustomSpin';
 
 export default class Roles extends BaseList {
   state = {
@@ -16,6 +17,7 @@ export default class Roles extends BaseList {
     editable: false,
     id: undefined,
     showQuery: false,
+    loding: true,
     baseUrl: '/groups',
     baseTitle: '角色',
   };
@@ -53,16 +55,20 @@ export default class Roles extends BaseList {
   ];
 
   render() {
-    const { dataSource, visible, editable, id, baseTitle } = this.state;
+    const { dataSource, visible, editable, id, baseTitle, loding } = this.state;
 
     return (
       <Fragment>
-        <Table
-          columns={this.columns}
-          dataSource={dataSource}
-          onAdd={this.handleAdd}
-          baseTitle={baseTitle}
-        />
+        {loding ? (
+          <CustomSpin />
+        ) : (
+          <Table
+            columns={this.columns}
+            dataSource={dataSource}
+            onAdd={this.handleAdd}
+            baseTitle={baseTitle}
+          />
+        )}
         {visible && (
           <RolesModal
             visible={visible}

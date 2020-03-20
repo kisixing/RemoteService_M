@@ -10,6 +10,7 @@ import Query from './components/query';
 import request from '@/utils/request';
 import queryString from 'query-string';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import CustomSpin from '@/components/CustomSpin';
 
 export default class DeviceList extends BaseList {
   state = {
@@ -24,6 +25,7 @@ export default class DeviceList extends BaseList {
     editable: false,
     id: undefined,
     showQuery: false,
+    loding: true,
     baseUrl: '/devices',
     baseTitle: '设备',
     products: [],
@@ -86,7 +88,7 @@ export default class DeviceList extends BaseList {
     if (needPagination) {
       total = await request.get(`${baseUrl}/count?criteria`);
     }
-    this.setState({ dataSource, products, total });
+    this.setState({ dataSource, products, total, loding: false });
   };
 
   handlePageChange = (page, pageSize) => {
@@ -104,24 +106,37 @@ export default class DeviceList extends BaseList {
   };
 
   render() {
-    const { dataSource, visible, editable, id, baseTitle, total, defaultQuery } = this.state;
+    const {
+      dataSource,
+      visible,
+      editable,
+      id,
+      baseTitle,
+      total,
+      defaultQuery,
+      loding,
+    } = this.state;
 
     return (
       <Fragment>
         <Query onSearch={this.handleSearch} />
-        <Table
-          pagination={{
-            total,
-            showTotal: () => `一共${total}条记录`,
-            pageSize: defaultQuery.size,
-            defaultCurrent: 1,
-            onChange: this.handlePageChange,
-          }}
-          columns={this.columns}
-          dataSource={dataSource}
-          onAdd={this.handleAdd}
-          baseTitle={baseTitle}
-        />
+        {loding ? (
+          <CustomSpin />
+        ) : (
+          <Table
+            pagination={{
+              total,
+              showTotal: () => `一共${total}条记录`,
+              pageSize: defaultQuery.size,
+              defaultCurrent: 1,
+              onChange: this.handlePageChange,
+            }}
+            columns={this.columns}
+            dataSource={dataSource}
+            onAdd={this.handleAdd}
+            baseTitle={baseTitle}
+          />
+        )}
         {visible && (
           <DeviceModal
             visible={visible}

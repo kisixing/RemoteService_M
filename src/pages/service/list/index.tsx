@@ -1,26 +1,33 @@
 import React from 'react';
 import router from 'umi/router';
-import Query from './components/query';
 import Table from './components/table';
-import request from '@/utils/request';
 import { processFromApi } from './config/adapter';
+import BaseList from '@/components/BaseList';
+import CustomSpin from '@/components/CustomSpin';
 
-interface OrderListProps {}
-
-export class OrderList extends React.Component<OrderListProps> {
+export class ServiceList extends BaseList {
   state = {
     dataSource: [],
+    total: 0,
+    defaultQuery: {
+      page: 0,
+      size: 20,
+    },
+    needPagination: true,
+    loding: true,
+    processFromApi,
+    baseUrl: '/serviceorders',
   };
 
   async componentDidMount() {
     await this.handleSearch();
   }
 
-  // TODO: 服务记录查询
-  handleSearch = async (query: any = {}) => {
-    const dataSource = processFromApi(await request.get('/serviceorders'));
-    this.setState({ dataSource });
-  };
+  // // TODO: 服务记录查询
+  // handleSearch = async (query: any = {}) => {
+  //   const dataSource = processFromApi(await request.get('/serviceorders'));
+  //   this.setState({ dataSource });
+  // };
 
   handleClose = () => {};
 
@@ -44,24 +51,28 @@ export class OrderList extends React.Component<OrderListProps> {
   handleReturnDeposit = () => {};
 
   render() {
-    const { dataSource } = this.state;
+    const { dataSource, loding } = this.state;
 
     return (
       <div>
         {/* <Query onSearch={this.handleSearch} /> */}
         {/* <br /> */}
-        <Table
-          dataSource={dataSource}
-          onViewOrder={this.handleViewOrder}
-          onCloseOrder={this.handleCloseOrder}
-          onSendOrder={this.handleSendOrder}
-          onReturnDevice={this.handleReturnDevice}
-          onRemindBack={this.handleRemindBack}
-          onReturnDeposit={this.handleReturnDeposit}
-        />
+        {loding ? (
+          <CustomSpin />
+        ) : (
+          <Table
+            dataSource={dataSource}
+            onViewOrder={this.handleViewOrder}
+            onCloseOrder={this.handleCloseOrder}
+            onSendOrder={this.handleSendOrder}
+            onReturnDevice={this.handleReturnDevice}
+            onRemindBack={this.handleRemindBack}
+            onReturnDeposit={this.handleReturnDeposit}
+          />
+        )}
       </div>
     );
   }
 }
 
-export default OrderList;
+export default ServiceList;

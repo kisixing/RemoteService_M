@@ -8,6 +8,7 @@ import BaseList from '@/components/BaseList';
 import styles from './index.less';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
+import CustomSpin from '@/components/CustomSpin';
 
 export default class CtgFees extends BaseList {
   state = {
@@ -18,6 +19,7 @@ export default class CtgFees extends BaseList {
     editable: false,
     id: undefined,
     showQuery: false,
+    loding: true,
     baseUrl: '/ctgapplyfees',
     baseTitle: '判图费',
   };
@@ -55,17 +57,21 @@ export default class CtgFees extends BaseList {
   ];
 
   render() {
-    const { dataSource, visible, editable, id, baseTitle, needPagination } = this.state;
+    const { dataSource, visible, editable, id, baseTitle, needPagination, loding } = this.state;
 
     return (
       <Fragment>
-        <Table
-          pagination={needPagination}
-          columns={this.columns}
-          dataSource={dataSource}
-          onAdd={this.handleAdd}
-          baseTitle={baseTitle}
-        />
+        {loding ? (
+          <CustomSpin />
+        ) : (
+          <Table
+            pagination={needPagination}
+            columns={this.columns}
+            dataSource={dataSource}
+            onAdd={this.handleAdd}
+            baseTitle={baseTitle}
+          />
+        )}
         {visible && (
           <CtgFeesModal
             visible={visible}

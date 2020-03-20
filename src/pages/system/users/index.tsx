@@ -10,6 +10,7 @@ import styles from './index.less';
 import request from '@/utils/request';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
+import CustomSpin from '@/components/CustomSpin';
 
 export default class Users extends BaseList {
   state = {
@@ -25,6 +26,7 @@ export default class Users extends BaseList {
     id: undefined,
     paramryKey: undefined,
     showQuery: false,
+    loding: true,
     baseUrl: '/users',
     baseTitle: '用户',
     processFromApi,
@@ -103,24 +105,29 @@ export default class Users extends BaseList {
       baseTitle,
       total,
       defaultQuery,
+      loding,
       paramryKey,
     } = this.state;
 
     return (
       <Fragment>
-        <Table
-          // pagination={{
-          //   total,
-          //   showTotal: () => `一共${total}条记录`,
-          //   pageSize: defaultQuery.size,
-          //   defaultCurrent: 1,
-          //   onChange: this.handlePageChange,
-          // }}
-          columns={this.columns}
-          dataSource={dataSource}
-          onAdd={this.handleAdd}
-          baseTitle={baseTitle}
-        />
+        {loding ? (
+          <CustomSpin />
+        ) : (
+          <Table
+            // pagination={{
+            //   total,
+            //   showTotal: () => `一共${total}条记录`,
+            //   pageSize: defaultQuery.size,
+            //   defaultCurrent: 1,
+            //   onChange: this.handlePageChange,
+            // }}
+            columns={this.columns}
+            dataSource={dataSource}
+            onAdd={this.handleAdd}
+            baseTitle={baseTitle}
+          />
+        )}
         {visible && (
           <UsersModal
             visible={visible}

@@ -5,9 +5,9 @@ import { tableColumns } from './config/table';
 import { Popconfirm, Switch, message, Button } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
-import styles from './index.less';
 import request from '@/utils/request';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import CustomSpin from '@/components/CustomSpin';
 import commonStyles from '@/common.less';
 
 export default class PackageList extends BaseList {
@@ -19,6 +19,7 @@ export default class PackageList extends BaseList {
     editable: false,
     id: undefined,
     showQuery: false,
+    loding: true,
     baseUrl: '/servicepackages',
     baseTitle: '套餐',
   };
@@ -91,17 +92,21 @@ export default class PackageList extends BaseList {
   };
 
   render() {
-    const { dataSource, visible, editable, id, baseTitle, needPagination } = this.state;
+    const { dataSource, visible, editable, id, baseTitle, needPagination, loding } = this.state;
 
     return (
       <Fragment>
-        <Table
-          columns={this.columns}
-          dataSource={dataSource}
-          onAdd={this.handleAdd}
-          baseTitle={baseTitle}
-          pagination={needPagination}
-        />
+        {loding ? (
+          <CustomSpin />
+        ) : (
+          <Table
+            columns={this.columns}
+            dataSource={dataSource}
+            onAdd={this.handleAdd}
+            baseTitle={baseTitle}
+            pagination={needPagination}
+          />
+        )}
         {visible && (
           <PackageModal
             visible={visible}

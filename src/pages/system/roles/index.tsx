@@ -1,18 +1,24 @@
 import React, { Fragment } from 'react';
-import Table from './components/table';
+import RoleTable from './components/RoleTable';
 import RolesModal from './components/RolesModal';
-import { tableColumns } from './config/table';
-import { Popconfirm, Button } from 'antd';
-import { get } from 'lodash';
+import { tableColumns, menuColumns } from './config/table';
+import { Popconfirm, Button, Row, Col } from 'antd';
+import { get, isFunction } from 'lodash';
+import { processFromApi } from './config/adapter';
 import BaseList from '@/components/BaseList';
-import styles from './index.less';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
 import CustomSpin from '@/components/CustomSpin';
+import request from '@/utils/request';
+import queryString from 'query-string';
+import { transferMenus } from '@/utils/format';
+import MenuPermissionCard from './components/MenuPermissionCard';
+import ApiPermissionCard from './components/ApiPermissionCard';
 
 export default class Roles extends BaseList {
   state = {
     dataSource: [],
+    menuDataSource: [],
     visible: false,
     editable: false,
     id: undefined,
@@ -20,9 +26,11 @@ export default class Roles extends BaseList {
     loding: true,
     baseUrl: '/groups',
     baseTitle: '角色',
+    defaultCheckedMenu: [],
+    activeRole: {},
   };
 
-  columns = [
+  roleColumns = [
     ...tableColumns,
     {
       title: '操作',
@@ -54,20 +62,76 @@ export default class Roles extends BaseList {
     },
   ];
 
+  handleSearch = async () => {
+    const { baseUrl, needPagination, defaultQuery } = this.state;
+    const dataSource = processFromApi(
+      await request.get(`${baseUrl}?${queryString.stringify(defaultQuery)}`),
+    );
+    console.log(dataSource);
+    // const menuDataSource = transferMenus(await request.get('/permissions?size=100'));
+    // console.log(menuDataSource);
+    let total = 0;
+    if (needPagination) {
+      total = await request.get(`${baseUrl}/count?criteria`);
+    }
+    this.setState({ dataSource, total, loding: false });
+  };
+
+  handleRowClick = rowData => e => {
+    this.setState({
+      defaultCheckedMenu: get(rowData, 'permissions'),
+      activeRole: rowData,
+    });
+  };
+
+  setRowClassName = rowData => {
+    const { activeRole } = this.state;
+    if (get(rowData, 'id') === get(activeRole, 'id')) {
+      return 'table-row-active';
+    }
+    return '';
+  };
+
   render() {
-    const { dataSource, visible, editable, id, baseTitle, loding } = this.state;
+    const {
+      dataSource,
+      visible,
+      editable,
+      id,
+      baseTitle,
+      loding,
+      defaultCheckedMenu,
+      activeRole,
+    } = this.state;
 
     return (
       <Fragment>
         {loding ? (
           <CustomSpin />
         ) : (
-          <Table
-            columns={this.columns}
-            dataSource={dataSource}
-            onAdd={this.handleAdd}
-            baseTitle={baseTitle}
-          />
+          <Row>
+            <Col span={14}>
+              <RoleTable
+                columns={this.roleColumns}
+                dataSource={dataSource}
+                onAdd={this.handleAdd}
+                pagination={false}
+                rowClassName={this.setRowClassName}
+                onRow={record => {
+                  return {
+                    onClick: this.handleRowClick(record),
+                  };
+                }}
+                baseTitle={baseTitle}
+              />
+            </Col>
+            <Col span={4} offset={1}>
+              <MenuPermissionCard role={activeRole} />
+            </Col>
+            <Col span={4} offset={1}>
+              <ApiPermissionCard role={activeRole} />
+            </Col>
+          </Row>
         )}
         {visible && (
           <RolesModal

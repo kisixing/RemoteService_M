@@ -9,9 +9,11 @@ export default class BaseTable extends Component {
     return (
       <div className={styles.title}>
         <span className={styles.titleName}>{baseTitle}列表</span>
-        <Button size="small" type="primary" className={styles.titleAddBtn} onClick={onAdd}>
-          添加{baseTitle}
-        </Button>
+        {onAdd && (
+          <Button size="small" type="primary" className={styles.titleAddBtn} onClick={onAdd}>
+            添加{baseTitle}
+          </Button>
+        )}
       </div>
     );
   };

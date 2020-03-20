@@ -24,3 +24,11 @@ export const tableColumns = [
     align: 'center',
   },
 ];
+export const menuColumns = [
+  {
+    title: '菜单/权限名称',
+    dataIndex: 'name',
+    key: 'name',
+    align: 'center',
+  },
+];

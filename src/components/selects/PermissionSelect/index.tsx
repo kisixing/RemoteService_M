@@ -34,7 +34,6 @@ export default class PermissionSelect extends React.Component {
   render() {
     const { value } = this.props;
     const { treeData } = this.state;
-
     if (treeData.length > 0) {
       return (
         <Tree
@@ -48,6 +47,6 @@ export default class PermissionSelect extends React.Component {
         />
       );
     }
-    return <span>权限加载中...</span>
+    return <span>权限加载中...</span>;
   }
 }

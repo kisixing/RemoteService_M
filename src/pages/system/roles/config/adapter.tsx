@@ -13,3 +13,7 @@ export const toApi = item => {
     permissions: map(get(item, 'permissions'), id => ({ id })),
   };
 };
+
+export const processFromApi = data => {
+  return map(data, item => fromApi(item));
+};

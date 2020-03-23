@@ -41,15 +41,15 @@ export default class ProductsList extends BaseList {
     //     <div className={styles.editorCell} dangerouslySetInnerHTML={{ __html: specification }} />
     //   ),
     // },
-    {
-      title: '产品介绍',
-      dataIndex: 'introduction',
-      // width: '20%',
-      ellipsis: true,
-      render: (specification: string) => (
-        <div className={styles.editorCell} dangerouslySetInnerHTML={{ __html: specification }} />
-      ),
-    },
+    // {
+    //   title: '产品介绍',
+    //   dataIndex: 'introduction',
+    //   // width: '20%',
+    //   ellipsis: true,
+    //   render: (specification: string) => (
+    //     <div className={styles.editorCell} dangerouslySetInnerHTML={{ __html: specification }} />
+    //   ),
+    // },
     // {
     //   title: '注意事项',
     //   dataIndex: 'note',
@@ -64,12 +64,10 @@ export default class ProductsList extends BaseList {
       key: 'sortorder',
       dataIndex: 'sortorder',
       align: 'center',
-      width: 100,
     },
     {
       title: '操作',
       align: 'center',
-      width: 150,
       render: (value, rowData, index) => {
         return (
           <Fragment>

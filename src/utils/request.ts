@@ -22,12 +22,38 @@ const request = extend({
   useCache: false,
   errorHandler: error => {
     const { response } = error;
-    switch (get(response, 'status')) {
-      default:
-        notification.error({ message: '发生错误，请在控制台查看' });
-        isDev && console.log(response);
-        return Promise.reject(error);
-    }
+    response
+      .json()
+      .catch(e => {})
+      .then(res => {
+        // console.log(res);
+        switch (get(response, 'status')) {
+          case 401:
+            notification.error({
+              message: '无权限',
+              description: '未登录或登录已过期，请重新登录。',
+            });
+            g_app._store.dispatch({
+              type: 'login/logout',
+            });
+            break;
+          case 404:
+            notification.error({
+              message: '页面不存在',
+              description: '你访问的页面不存在',
+            });
+            window.location.href = '/#/exception/404';
+            break;
+          case 400:
+            notification.error({ message: `发生错误`, description: get(res, 'title') });
+            // window.location.href = '/#/user/login';
+            break;
+          default:
+            notification.error({ message: `发生错误`, description: get(res, 'detail') });
+            isDev && console.log(res);
+            return Promise.reject(error);
+        }
+      });
   },
 });
 
@@ -43,6 +69,19 @@ request.interceptors.request.use((url, options) => {
     return { url, options };
   }
 
+  // 已有 token ，但是 token 已失效
+  // const loginTime = store.get('loginTime');
+  // const expiredTime = store.get('expiredTime');
+  // if (
+  //   !(['/api/authenticate'].indexOf(url) > -1) &&
+  //   loginTime + expiredTime < new Date().getTime()
+  // ) {
+  //   notification.error({ message: 'token已过期，请重新登录' });
+  //   Promise.reject('token已过期');
+  //   window.location.href = '/#/user/login';
+  //   return { url, options };
+  // }
+
   options.headers = {
     ...options.headers,
     Authorization: store.get(TOKEN),
@@ -57,6 +96,7 @@ request.interceptors.response.use(response => {
   if (token) {
     store.set(TOKEN, token);
   }
+
   return response;
 });
 

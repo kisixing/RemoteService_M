@@ -47,6 +47,10 @@ const Model: LoginModelType = {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         store.set('username', get(payload, 'username'));
+        // 以毫秒为单位，暂定为1小时过期。
+        store.set('loginTime', new Date().getTime());
+        store.set('expiredTime', 3600000);
+        
         let { redirect } = params as { redirect: string };
         if (redirect) {
           const redirectUrlParams = new URL(redirect);

@@ -11,7 +11,7 @@ import { connect } from 'dva';
 import { notification, Tabs } from 'antd';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.jpg';
 import request from '@/utils/request';
 import { isNil, keyBy, keys, get, map } from 'lodash';
 import store from 'store';
@@ -43,14 +43,22 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   useEffect(() => {
     const { location } = props;
     const username = store.get('username');
+    // const loginTime = store.get('loginTime');
+    // const expiredTime = store.get('expiredTime');
     const token = store.get(TOKEN);
     if (!token) {
-      notification.error({ message: '请先登录' });
       dispatch({
         type: 'login/logout',
       });
       return;
     }
+    // if (loginTime + expiredTime < new Date().getTime()) {
+    //   notification.error({ message: 'token已过期，请重新登录' });
+    //   dispatch({
+    //     type: 'login/logout',
+    //   });
+    //   return;
+    // }
 
     (async () => {
       if (!!username && !!token) {

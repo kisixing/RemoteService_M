@@ -6,7 +6,7 @@ import { formatMessage } from 'umi-plugin-react/locale';
 import { connect } from 'dva';
 import SelectLang from '@/components/SelectLang';
 import { ConnectProps, ConnectState } from '@/models/connect';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.jpg';
 import styles from './UserLayout.less';
 
 export interface UserLayoutProps extends ConnectProps {

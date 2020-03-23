@@ -1,23 +1,30 @@
-import { get } from 'lodash';
+import { get, map, split } from 'lodash';
 
 export const toApi = item => {
+  let pictureString = '';
+  map(get(item, 'picture'), (picture, index) => {
+    pictureString += `${get(picture, 'url')}${
+      get(item, 'picture').length === index + 1 ? '' : ','
+    }`;
+  });
   return {
     ...item,
-    picture: get(item, 'picture.0.url'),
+    picture: pictureString,
   };
 };
 
 export const fromApi = item => {
+  const picture = map(split(get(item, 'picture'), ','), singlePicture => {
+    return {
+      uid: Math.random(),
+      name: singlePicture,
+      status: 'done',
+      url: singlePicture,
+      thumbUrl: singlePicture,
+    };
+  });
   return {
     ...item,
-    picture: [
-      {
-        uid: Math.random(),
-        name: get(item, 'picture'),
-        status: 'done',
-        url: get(item, 'picture'),
-        thumbUrl: get(item, 'picture'),
-      },
-    ],
+    picture,
   };
 };

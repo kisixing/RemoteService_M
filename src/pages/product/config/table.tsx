@@ -1,4 +1,5 @@
 import React from 'react';
+import { split, first } from 'lodash';
 
 export const tableColumns = [
   // {
@@ -12,6 +13,7 @@ export const tableColumns = [
     dataIndex: 'name',
     key: 'name',
     align: 'center',
+    width: 100,
   },
   {
     title: '产品图片',
@@ -19,8 +21,9 @@ export const tableColumns = [
     key: 'picture',
     align: 'center',
     render: value => {
-      return <img src={value} alt="产品图片" style={{ width: 100, height: 100 }} />;
+      return (
+        <img src={first(split(value, ','))} alt="产品图片" style={{ width: 375, height: 234 }} />
+      );
     },
   },
-  
 ];

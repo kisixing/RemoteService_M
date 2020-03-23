@@ -35,13 +35,13 @@ export default class UploadImg extends React.Component<IProps> {
   }
 
   handleUploadFile = async ({ onSuccess, file }) => {
+    const { fileList } = this.state;
     const { accessKeyId, accessKeySecret, securityToken } = await request.post('/getSTS');
     const OSSClient = new OSS(accessKeySecret, accessKeyId, securityToken);
     const { uid, name } = file;
-    const fileName = `${uid}-${name}`;
+    const fileName = `images/${uid}-${name}`;
     const ret = await OSSClient.put(fileName, file);
     const imgUrl = OSSClient.getImgUrl(fileName);
-    const fileList = [];
     fileList.push({
       uid,
       name,
@@ -73,7 +73,7 @@ export default class UploadImg extends React.Component<IProps> {
   render() {
     const { allowUploadImages } = this.props;
     const { fileList } = this.state;
-
+    console.log(fileList);
     return (
       <Upload
         className="avatar-uploader"
@@ -83,6 +83,7 @@ export default class UploadImg extends React.Component<IProps> {
         listType="picture"
         onRemove={this.handleRemoveFile}
         onChange={this.handleChange}
+        multiple={allowUploadImages > 1}
       >
         <Button disabled={fileList.length > allowUploadImages - 1}>
           <UploadOutlined /> 上传产品图片

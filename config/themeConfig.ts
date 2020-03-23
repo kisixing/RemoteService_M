@@ -1,5 +1,5 @@
 export default {
-  '@primary-color': '#52c41a', // 全局主色
+  '@primary-color': '#4D6EFF', // 全局主色
   // '@link-color': '#67C23A', // 链接色
   // '@menu-dark-bg': 'rgb(48, 65, 86)',
   // '@menu-dark-submenu-bg': '#1f2d3d',

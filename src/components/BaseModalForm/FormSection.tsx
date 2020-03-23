@@ -151,7 +151,7 @@ export default class FormSection extends React.Component<IProps, IState> {
       case 'upload_img':
         return renderEditItem(
           get(formDescription, 'key'),
-          <UploadImg {...get(formDescription, 'inputProps')} />,
+          <UploadImg {...get(formDescription, 'inputProps')} allowUploadImages={10} />,
         );
       case 'view_only':
         return renderEditItem(

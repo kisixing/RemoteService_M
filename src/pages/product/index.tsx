@@ -32,33 +32,33 @@ export default class ProductsList extends BaseList {
 
   columns = [
     ...tableColumns,
-    {
-      title: '产品规格',
-      dataIndex: 'specification',
-      width: '20%',
-      ellipsis: true,
-      render: (specification: string) => (
-        <div className={styles.editorCell} dangerouslySetInnerHTML={{ __html: specification }} />
-      ),
-    },
+    // {
+    //   title: '产品规格',
+    //   dataIndex: 'specification',
+    //   width: '20%',
+    //   ellipsis: true,
+    //   render: (specification: string) => (
+    //     <div className={styles.editorCell} dangerouslySetInnerHTML={{ __html: specification }} />
+    //   ),
+    // },
     {
       title: '产品介绍',
       dataIndex: 'introduction',
-      width: '20%',
+      // width: '20%',
       ellipsis: true,
       render: (specification: string) => (
         <div className={styles.editorCell} dangerouslySetInnerHTML={{ __html: specification }} />
       ),
     },
-    {
-      title: '注意事项',
-      dataIndex: 'note',
-      width: '20%',
-      ellipsis: true,
-      render: (specification: string) => (
-        <div className={styles.editorCell} dangerouslySetInnerHTML={{ __html: specification }} />
-      ),
-    },
+    // {
+    //   title: '注意事项',
+    //   dataIndex: 'note',
+    //   // width: '20%',
+    //   ellipsis: true,
+    //   render: (specification: string) => (
+    //     <div className={styles.editorCell} dangerouslySetInnerHTML={{ __html: specification }} />
+    //   ),
+    // },
     {
       title: '排序',
       key: 'sortorder',
@@ -69,6 +69,7 @@ export default class ProductsList extends BaseList {
     {
       title: '操作',
       align: 'center',
+      width: 150,
       render: (value, rowData, index) => {
         return (
           <Fragment>

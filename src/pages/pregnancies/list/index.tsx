@@ -4,13 +4,13 @@ import CtgFeesModal from './components/VersionModal';
 import { tableColumns } from './config/table';
 import { Popconfirm, Button } from 'antd';
 import BaseList from '@/components/BaseList';
-import styles from './index.less';
 import request from '@/utils/request';
 import queryString from 'query-string';
 import { get, isFunction } from 'lodash';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
 import CustomSpin from '@/components/CustomSpin';
+import { router } from 'umi';
 
 export default class Versions extends BaseList {
   state = {
@@ -61,6 +61,10 @@ export default class Versions extends BaseList {
       },
     },
   ];
+
+  handleAdd = () => {
+    router.push('/')
+  }
 
   handleSearch = async () => {
     const { baseUrl, needPagination, processFromApi, defaultQuery } = this.state;

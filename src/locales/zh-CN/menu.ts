@@ -84,8 +84,10 @@ export default {
 
   'menu.ctgfees': '判图费管理',
 
-  'menu.pregnancies': '孕妇管理',
-  'menu.pregnancies.list': '孕妇列表',
+  'menu.pregnancies': '病例管理',
+  'menu.pregnancies.list': '病例列表',
+  'menu.pregnancies.add': '病例添加',
+  'menu.pregnancies.edit': '病例编辑',
 
   'menu.system': '系统管理',
   'menu.system.users': '用户管理',

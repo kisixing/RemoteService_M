@@ -69,6 +69,19 @@ export const routes: IRoute[] = [
                 path: '/pregnancies/list',
                 component: './pregnancies/list',
               },
+              {
+                name: 'add',
+                icon: 'ordered-list',
+                path: '/pregnancies/add',
+                component: './pregnancies/edit',
+              },
+              {
+                name: 'edit',
+                icon: 'ordered-list',
+                hideInMenu: true,
+                path: '/pregnancies/edit',
+                component: './pregnancies/edit',
+              },
             ],
           },
           {

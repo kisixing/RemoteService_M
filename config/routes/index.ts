@@ -6,12 +6,14 @@ import service from './service';
 import _package from './package';
 import order from './order';
 import system from './system';
+import exception from './exception';
 
 export const routes: IRoute[] = [
   {
     path: '/',
     component: '../layouts/BlankLayout',
     routes: [
+      exception,
       {
         path: '/user',
         component: '../layouts/UserLayout',
@@ -43,9 +45,6 @@ export const routes: IRoute[] = [
             icon: 'smile',
             path: '/user/register',
             component: './user/register',
-          },
-          {
-            component: '404',
           },
         ],
       },
@@ -96,9 +95,6 @@ export const routes: IRoute[] = [
           {
             path: '/',
             component: './Welcome',
-          },
-          {
-            component: '404',
           },
         ],
       },

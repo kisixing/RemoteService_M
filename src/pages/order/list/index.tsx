@@ -13,6 +13,7 @@ import { processFromApi, fromApi } from './config/adapter';
 import { message } from 'antd';
 import queryString from 'query-string';
 import { get, pick, keys, keyBy, join, isNil, set } from 'lodash';
+import { formatTimeToApi } from '@/utils/format';
 
 export class OrderList extends React.Component {
   state = {
@@ -39,13 +40,15 @@ export class OrderList extends React.Component {
 
   handleSearch = async (query: any = {}) => {
     const { defaultQuery } = this.state;
-    const { username, telephone, orderStatus } = query;
+    const { username, telephone, orderStatus, submitTime } = query;
     let params = {};
     if (username || telephone) {
       params = {
+        ...defaultQuery,
         'name.contains': username,
         'telephone.contains': telephone,
       };
+
       // 获取查询到的孕妇 ID
       const pregnancies = await request.get(`/pregnancies?${queryString.stringify(params)}`);
       const pregnancyIds = join(keys(keyBy(pregnancies, 'id')), ',');
@@ -58,6 +61,8 @@ export class OrderList extends React.Component {
     params = {
       ...defaultQuery,
       ...params,
+      'createtime.greaterThan': get(submitTime, 0) && formatTimeToApi(get(submitTime, 0)),
+      'createtime.lessThan': get(submitTime, 1) && formatTimeToApi(get(submitTime, 1)),
       'state.equals': orderStatus,
     };
     const dataSource = await processFromApi(

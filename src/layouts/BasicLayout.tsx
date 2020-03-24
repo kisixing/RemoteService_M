@@ -4,18 +4,17 @@ import ProLayout, {
   Settings,
 } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, router } from 'umi';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
-import { notification, Tabs } from 'antd';
+import { Tabs } from 'antd';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import logo from '../assets/logo.jpg';
-import request from '@/utils/request';
-import { isNil, keyBy, keys, get, map } from 'lodash';
+import { keyBy, keys, get, map, reduce, concat } from 'lodash';
 import store from 'store';
-import { TOKEN } from '@/utils/request';
+import request, { TOKEN } from '@/utils/request';
 import styles from './Layout.less';
 import Welcome from '@/pages/Welcome';
 
@@ -38,61 +37,56 @@ export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
 const BasicLayout: React.FC<BasicLayoutProps> = props => {
   const { dispatch, children, settings } = props;
 
-  const [menusPermissions = [], setMenusPermissions] = useState();
-
   useEffect(() => {
     const { location } = props;
     const username = store.get('username');
-    // const loginTime = store.get('loginTime');
-    // const expiredTime = store.get('expiredTime');
     const token = store.get(TOKEN);
-    if (!token) {
+    if (!username || !token) {
       dispatch({
         type: 'login/logout',
       });
       return;
     }
-    // if (loginTime + expiredTime < new Date().getTime()) {
-    //   notification.error({ message: 'token已过期，请重新登录' });
-    //   dispatch({
-    //     type: 'login/logout',
-    //   });
-    //   return;
-    // }
-
     (async () => {
-      if (!!username && !!token) {
-        dispatch({
-          type: 'user/fetchCurrentUser',
-          payload: {
-            username,
-          },
-        });
-      }
-
-      const permissions = await request.get('/permissions?type.equals=menu&size=200');
-      const permissionsMapping = keyBy(permissions, 'key');
-      setMenusPermissions(keys(permissionsMapping));
-
+      await dispatch({
+        type: 'user/fetchCurrentUser',
+        payload: {
+          username,
+        },
+      });
+      const allPermissions = await request.get('/permissions?type.equals=menu&size=200');
+      const currentUser = await request.get(`/users/${username}`);
+      const selfPermissions = reduce(
+        get(currentUser, 'groups'),
+        (sum, group) => concat(sum, get(group, 'permissions') || []),
+        [],
+      );
+      const permissionsMapping = keyBy(selfPermissions, 'key');
       if (location && location.pathname !== '/') {
         const menuItemProps = get(permissionsMapping, get(location, 'pathname'));
-
-        const data = {
-          title: get(menuItemProps, 'name'),
-          key: get(menuItemProps, 'key'),
-          path: get(menuItemProps, 'key'),
-          closable: true,
-        };
-        dispatch({
-          type: 'tab/changeTabs',
-          payload: {
-            type: 'addTab',
-            data,
-          },
-        });
+        if (menuItemProps) {
+          const data = {
+            title: get(menuItemProps, 'name'),
+            key: get(menuItemProps, 'key'),
+            path: get(menuItemProps, 'key'),
+            closable: true,
+          };
+          dispatch({
+            type: 'tab/changeTabs',
+            payload: {
+              type: 'addTab',
+              data,
+            },
+          });
+        } else {
+          const allPermissionsMapping = keyBy(allPermissions, 'key');
+          get(allPermissionsMapping, get(location, 'pathname'))
+            ? router.push('/exception/403')
+            : router.push('/exception/404');
+        }
       }
     })();
-  }, []);
+  }, [props.location.pathname]);
 
   const handleMenuCollapse = (payload: boolean): void => {
     if (dispatch) {
@@ -104,6 +98,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   };
 
   const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] => {
+    const permissions = reduce(
+      get(props, 'currentUser.groups'),
+      (sum, group) => concat(sum, get(group, 'permissions') || []),
+      [],
+    );
+    const menusPermissions = keys(keyBy(permissions, 'key'));
     return menuList.map(item => {
       let localItem = {};
       if (menusPermissions.indexOf(item.path || '/') > -1) {
@@ -256,9 +256,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   );
 };
 
-export default connect(({ global, settings, tab }: ConnectState) => ({
+export default connect(({ global, settings, tab, user }: ConnectState) => ({
   collapsed: global.collapsed,
   settings,
   tabs: tab.tabs,
   activeKey: tab.activeKey,
+  currentUser: get(user, 'currentUser'),
 }))(BasicLayout);

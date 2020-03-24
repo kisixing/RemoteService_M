@@ -19,7 +19,6 @@ export const modalFormDescriptions = {
   password: {
     key: 'password',
     label: '登录密码',
-    rules: [{ required: true, message: '登录密码是必填项' }],
     inputType: 'password',
     inputProps: {
       placeholder: '请输入登录密码',

@@ -1,17 +1,44 @@
 import React from 'react';
 import { Tree } from 'antd';
-import { map } from 'lodash';
+import { map, isEqual, get, isEmpty } from 'lodash';
 import request from '@/utils/request';
 
 export default class PermissionSelect extends React.Component {
   state = {
     treeData: [],
+    checkedData: [],
+    isUpdated: false,
   };
 
   async componentDidMount() {
     const treeData = this.transferMenus(await request.get('/permissions?size=100'));
     this.setState({ treeData });
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { checkedData, isUpdated } = prevState;
+    const { value } = nextProps;
+    if (
+      !isEqual(
+        map(value, item => item.name),
+        checkedData,
+      ) &&
+      value &&
+      !isUpdated
+    ) {
+      return {
+        checkedData: value,
+      };
+    }
+
+    return null;
+  }
+
+  handleChange = ({ checked }) => {
+    const { onChange } = this.props;
+    this.setState({ checkedData: checked, isUpdated: true });
+    onChange && onChange(checked);
+  };
 
   transferMenus = (menus: any, parentid = 0) => {
     const temp: any = [];
@@ -26,22 +53,18 @@ export default class PermissionSelect extends React.Component {
     return temp;
   };
 
-  handleChange = ({ checked }) => {
-    const { onChange } = this.props;
-    onChange(checked);
-  };
-
   render() {
-    const { value } = this.props;
-    const { treeData } = this.state;
+    const { disabled } = this.props;
+    const { treeData, checkedData } = this.state;
     if (treeData.length > 0) {
       return (
         <Tree
           checkStrictly
           treeData={treeData}
-          checkedKeys={value}
+          checkedKeys={checkedData}
           defaultExpandAll
           checkable
+          disabled={disabled}
           onCheck={this.handleChange}
           {...this.props}
         />

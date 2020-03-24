@@ -2,11 +2,10 @@ import React, { Fragment } from 'react';
 import Table from './components/table';
 import UsersModal from './components/UsersModal';
 import { tableColumns } from './config/table';
-import { processFromApi } from './config/adapter';
-import { Popconfirm, Switch, Button } from 'antd';
+import { processFromApi, toApi } from './config/adapter';
+import { Popconfirm, Switch, Button, message } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
-import styles from './index.less';
 import request from '@/utils/request';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
@@ -35,7 +34,7 @@ export default class Users extends BaseList {
   columns = [
     ...tableColumns,
     {
-      title: '禁用',
+      title: '活跃状态',
       dataIndex: 'activated',
       key: 'activated',
       align: 'center',
@@ -85,13 +84,18 @@ export default class Users extends BaseList {
 
   handleDisableUser = rowData => async () => {
     const { baseUrl } = this.state;
-
-    await request.put(baseUrl, {
-      data: {
-        id: get(rowData, 'id'),
-        activated: !get(rowData, 'activated'),
-      },
-    });
+    try {
+      await request.put(baseUrl, {
+        data: toApi({
+          ...rowData,
+          roles: get(rowData, 'roles'),
+          activated: !get(rowData, 'activated'),
+        }),
+      });
+      message.success('切换用户状态成功');
+    } catch (error) {
+      console.log(error);
+    }
 
     this.handleSearch();
   };

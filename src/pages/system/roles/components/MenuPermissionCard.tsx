@@ -5,8 +5,18 @@ import PermissionSelect from '@/components/selects/PermissionSelect';
 import styles from './index.less';
 
 export default class MenuPermissionCard extends React.PureComponent {
+  state = {
+    checkedData: [],
+  };
+
   handleSaveMenu = () => {
-    console.log('save menu');
+    const { onSaveMenuPermission } = this.props;
+    const { checkedData } = this.state;
+    onSaveMenuPermission && onSaveMenuPermission(checkedData);
+  };
+
+  handleChange = checkedData => {
+    this.setState({ checkedData });
   };
 
   render() {
@@ -26,7 +36,12 @@ export default class MenuPermissionCard extends React.PureComponent {
           </Button>
         </div>
         <div>
-          <PermissionSelect value={get(role, 'permissions')} defaultExpandAll={false} />
+          <PermissionSelect
+            value={get(role, 'permissions')}
+            defaultExpandAll={false}
+            disabled={isEmpty(role)}
+            onChange={this.handleChange}
+          />
         </div>
       </div>
     );

@@ -45,7 +45,10 @@ const request = extend({
             window.location.href = '/#/exception/404';
             break;
           case 400:
-            notification.error({ message: `发生错误`, description: get(res, 'title') });
+            notification.error({
+              message: `发生错误`,
+              description: get(res, 'detail') || get(res, 'title'),
+            });
             // window.location.href = '/#/user/login';
             break;
           default:

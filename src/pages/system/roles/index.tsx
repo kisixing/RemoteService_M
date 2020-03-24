@@ -2,9 +2,9 @@ import React, { Fragment } from 'react';
 import RoleTable from './components/RoleTable';
 import RolesModal from './components/RolesModal';
 import { tableColumns, menuColumns } from './config/table';
-import { Popconfirm, Button, Row, Col } from 'antd';
-import { get, isFunction } from 'lodash';
-import { processFromApi } from './config/adapter';
+import { Popconfirm, Button, Row, Col, message } from 'antd';
+import { get, map } from 'lodash';
+import { processFromApi, toApi } from './config/adapter';
 import BaseList from '@/components/BaseList';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
@@ -67,7 +67,7 @@ export default class Roles extends BaseList {
     const dataSource = processFromApi(
       await request.get(`${baseUrl}?${queryString.stringify(defaultQuery)}`),
     );
-    console.log(dataSource);
+    // console.log(dataSource);
     // const menuDataSource = transferMenus(await request.get('/permissions?size=100'));
     // console.log(menuDataSource);
     let total = 0;
@@ -92,6 +92,32 @@ export default class Roles extends BaseList {
     return '';
   };
 
+  handleSaveApiPermission = async checkedData => {
+    const { baseUrl, activeRole } = this.state;
+    try {
+      await request.put(`${baseUrl}`, {
+        data: toApi({ ...activeRole, authorities: checkedData }),
+      });
+      message.success('保存 API 权限成功');
+      await this.handleSearch();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  handleSaveMenuPermission = async checkedData => {
+    const { baseUrl, activeRole } = this.state;
+    try {
+      await request.put(`${baseUrl}`, {
+        data: toApi({ ...activeRole, permissions: checkedData }),
+      });
+      message.success('保存菜单/权限成功');
+      await this.handleSearch();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render() {
     const {
       dataSource,
@@ -110,7 +136,7 @@ export default class Roles extends BaseList {
           <CustomSpin />
         ) : (
           <Row>
-            <Col span={14}>
+            <Col span={13}>
               <RoleTable
                 columns={this.roleColumns}
                 dataSource={dataSource}
@@ -126,10 +152,18 @@ export default class Roles extends BaseList {
               />
             </Col>
             <Col span={4} offset={1}>
-              <MenuPermissionCard role={activeRole} />
+              <MenuPermissionCard
+                key={get(activeRole, 'id')}
+                role={activeRole}
+                onSaveMenuPermission={this.handleSaveMenuPermission}
+              />
             </Col>
-            <Col span={4} offset={1}>
-              <ApiPermissionCard role={activeRole} />
+            <Col span={5} offset={1}>
+              <ApiPermissionCard
+                key={get(activeRole, 'id')}
+                role={activeRole}
+                onSaveApiPermission={this.handleSaveApiPermission}
+              />
             </Col>
           </Row>
         )}

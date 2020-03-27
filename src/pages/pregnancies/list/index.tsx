@@ -63,8 +63,12 @@ export default class Versions extends BaseList {
   ];
 
   handleAdd = () => {
-    router.push('/')
-  }
+    router.push('/pregnancies/add');
+  };
+
+  handleEdit = rowData => () => {
+    router.push(`/pregnancies/edit?id=${get(rowData, 'id')}`);
+  };
 
   handleSearch = async () => {
     const { baseUrl, needPagination, processFromApi, defaultQuery } = this.state;
@@ -79,17 +83,7 @@ export default class Versions extends BaseList {
   };
 
   render() {
-    const {
-      dataSource,
-      visible,
-      editable,
-      id,
-      baseTitle,
-      total,
-      defaultQuery,
-      needPagination,
-      loding,
-    } = this.state;
+    const { dataSource, visible, editable, id, baseTitle, total, defaultQuery, needPagination, loding } = this.state;
 
     return (
       <Fragment>

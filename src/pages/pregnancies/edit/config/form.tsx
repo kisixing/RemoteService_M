@@ -142,15 +142,20 @@ export const defaultFormDescriptions = {
       placeholder: '请输入准生证号',
     },
   },
-  liveAddress: {
-    key: 'liveAddress',
+  residenceAddress: {
+    key: 'residenceAddress',
     label: '居住地址',
-    rules: [{ required: true, message: '居住地址是必填项' }],
+    // rules: [{ required: true, message: '居住地址是必填项' }],
   },
   householdAddress: {
     key: 'householdAddress',
     label: '户口地址',
-    rules: [{ required: true, message: '户口地址是必填项' }],
+    // rules: [{ required: true, message: '户口地址是必填项' }],
+  },
+  postpartumAddress: {
+    key: 'postpartumAddress',
+    label: '产休地址',
+    // rules: [{ required: true, message: '产休地址是必填项' }],
   },
   nearRelation: {
     key: 'nearRelation',
@@ -224,24 +229,6 @@ export const defaultFormDescriptions = {
       placeholder: '请输入家庭收入',
     },
   },
-  residenceAddress: {
-    key: 'residenceAddress',
-    label: '居住地',
-    rules: [{ required: true, message: '居住地是必填项' }],
-    inputType: 'input',
-    inputProps: {
-      placeholder: '请输入居住地',
-    },
-  },
-  postpartumAddress: {
-    key: 'postpartumAddress',
-    label: '产修地',
-    rules: [{ required: true, message: '产修地是必填项' }],
-    inputType: 'input',
-    inputProps: {
-      placeholder: '请输入产修地',
-    },
-  },
   partnerName: {
     key: 'partnerName',
     label: '姓名',
@@ -254,10 +241,10 @@ export const defaultFormDescriptions = {
   partnerAge: {
     key: 'partnerAge',
     label: '年龄',
-    rules: [{ required: true, message: '年龄是必填项' }],
+    // rules: [{ required: true, message: '年龄是必填项' }],
     inputType: 'input',
     inputProps: {
-      placeholder: '请输入姓名',
+      placeholder: '请输入年龄',
     },
   },
   partnerGender: {
@@ -280,20 +267,20 @@ export const defaultFormDescriptions = {
   },
   partnerIdType: {
     key: 'partnerIdType',
-    label: '配偶证件类型',
-    rules: [{ required: true, message: '配偶证件类型是必填项' }],
+    label: '证件类型',
+    rules: [{ required: true, message: '证件类型是必填项' }],
     inputType: 'input',
     inputProps: {
-      placeholder: '请输入配偶证件类型',
+      placeholder: '请输入证件类型',
     },
   },
   partnerIdNO: {
     key: 'partnerIdNO',
-    label: '配偶证件号码',
-    rules: [{ required: true, message: '配偶证件号码是必填项' }],
+    label: '证件号码',
+    rules: [{ required: true, message: '证件号码是必填项' }],
     inputType: 'input',
     inputProps: {
-      placeholder: '请输入配偶证件号码',
+      placeholder: '请输入证件号码',
     },
   },
   partnerNationality: {
@@ -316,11 +303,11 @@ export const defaultFormDescriptions = {
   },
   partnerEthnic: {
     key: 'partnerEthnic',
-    label: '配偶民族',
-    rules: [{ required: true, message: '配偶民族是必填项' }],
+    label: '民族',
+    rules: [{ required: true, message: '民族是必填项' }],
     inputType: 'input',
     inputProps: {
-      placeholder: '请输入配偶民族',
+      placeholder: '请输入民族',
     },
   },
   partnerTelephone: {
@@ -335,7 +322,7 @@ export const defaultFormDescriptions = {
   partnerOutpatientNO: {
     key: 'partnerOutpatientNO',
     label: '配偶门诊号',
-    rules: [{ required: true, message: '配偶门诊号是必填项' }],
+    // rules: [{ required: true, message: '配偶门诊号是必填项' }],
     inputType: 'input',
     inputProps: {
       placeholder: '请输入配偶门诊号',
@@ -343,11 +330,38 @@ export const defaultFormDescriptions = {
   },
   partnerOccupation: {
     key: 'partnerOccupation',
-    label: '配偶职业',
-    rules: [{ required: true, message: '配偶职业是必填项' }],
+    label: '职业',
+    rules: [{ required: true, message: '职业是必填项' }],
     inputType: 'input',
     inputProps: {
-      placeholder: '请输入配偶职业',
+      placeholder: '请输入职业',
+    },
+  },
+  partnerCigarette: {
+    key: 'partnerCigarette',
+    label: '烟',
+    rules: [{ required: true, message: '输入每天吸烟的量' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '输入每天吸烟的量',
+    },
+  },
+  partnerDrink: {
+    key: 'partnerDrink',
+    label: '酒',
+    rules: [{ required: true, message: '请选择种类' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请选择种类',
+    },
+  },
+  partnerDisease: {
+    key: 'partnerDisease',
+    label: '是否患有疾病',
+    inputType: 'input',
+    rules: [{ required: true, message: '配偶工作地点是必填项' }],
+    inputProps: {
+      placeholder: '请选择疾病名称（可多选）',
     },
   },
   partnerWorkplace: {
@@ -379,11 +393,20 @@ export const defaultFormDescriptions = {
   },
   edd: {
     key: 'edd',
-    label: '预产期',
+    label: '预产期-日期',
     rules: [{ required: true, message: '预产期是必填项' }],
     inputType: 'input',
     inputProps: {
       placeholder: '请输入预产期',
+    },
+  },
+  eddB: {
+    key: 'eddB',
+    label: '预产期-B超',
+    // rules: [{ required: true, message: 'B超预产期是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入B超预产期',
     },
   },
   sureEdd: {
@@ -404,17 +427,179 @@ export const defaultFormDescriptions = {
       placeholder: '请输入孕次',
     },
   },
+  weightBefore: {
+    key: 'weightBefore',
+    label: '孕前体重',
+    // rules: [{ required: true, message: '孕前体重是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入孕前体重',
+    },
+  },
+  weightNow: {
+    key: 'weightNow',
+    label: '现体重',
+    // rules: [{ required: true, message: '现体重是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入现体重',
+    },
+  },
+  height: {
+    key: 'height',
+    label: '身高',
+    // rules: [{ required: true, message: '身高是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入身高',
+    },
+  },
+  systolicPressure: {
+    key: 'systolicPressure',
+    label: '收缩压',
+    // rules: [{ required: true, message: '收缩压是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入收缩压',
+    },
+  },
+  diastolicPressure: {
+    key: 'diastolicPressure',
+    label: '舒张压',
+    // rules: [{ required: true, message: '舒张压是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入舒张压',
+    },
+  },
+  pulse: {
+    key: 'pulse',
+    label: '脉搏',
+    // rules: [{ required: true, message: '脉搏是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入脉搏',
+    },
+  },
+  menarche: {
+    key: 'menarche',
+    label: '月经初潮',
+    rules: [{ required: true, message: '月经初潮是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入月经初潮',
+    },
+  },
+  menstrualCycle: {
+    key: 'menstrualCycle',
+    label: '月经周期',
+    rules: [{ required: true, message: '月经周期是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入月经周期',
+    },
+  },
+  menstrualPeriod: {
+    key: 'menstrualPeriod',
+    label: '持续天数',
+    rules: [{ required: true, message: '持续天数是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入持续天数',
+    },
+  },
+  dysmenorrhea: {
+    key: 'dysmenorrhea',
+    label: '痛经',
+    rules: [{ required: true, message: '痛经是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入痛经',
+    },
+  },
+  selfCigarette: {
+    key: 'selfCigarette',
+    label: '烟',
+    rules: [{ required: true, message: '烟是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入烟',
+    },
+  },
+  selfDrink: {
+    key: 'selfDrink',
+    label: '酒',
+    rules: [{ required: true, message: '酒是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入酒',
+    },
+  },
+  hazardousSubstance: {
+    key: 'hazardousSubstance',
+    label: '接触有害物质',
+    // rules: [{ required: true, message: '接触有害物质是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入接触有害物质',
+    },
+  },
+  radioactivity: {
+    key: 'radioactivity',
+    label: '接触放射性',
+    rules: [{ required: true, message: '接触放射性是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入接触放射性',
+    },
+  },
+  hypertension: {
+    key: 'hypertension',
+    label: '高血压',
+    // rules: [{ required: true, message: '高血压是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入高血压',
+    },
+  },
+  diabetes: {
+    key: 'diabetes',
+    label: '糖尿病',
+    // rules: [{ required: true, message: '糖尿病是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入糖尿病',
+    },
+  },
+  cardiacDisease: {
+    key: 'cardiacDisease',
+    label: '心脏病',
+    // rules: [{ required: true, message: '心脏病是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入心脏病',
+    },
+  },
+  familyHistory: {
+    key: 'familyHistory',
+    label: '家族史',
+    rules: [{ required: true, message: '家族史是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入家族史',
+    },
+  },
   parity: {
     key: 'parity',
     label: '产次',
-    rules: [{ required: true, message: '产次是必填项' }],
+    // rules: [{ required: true, message: '产次是必填项' }],
     inputType: 'input',
     inputProps: {
       placeholder: '请输入产次',
     },
   },
-  note: {
-    key: 'note',
+  gestationalWeek: {
+    key: 'gestationalWeek',
     label: '孕周',
     rules: [{ required: true, message: '孕周是必填项' }],
     inputType: 'input',
@@ -422,8 +607,8 @@ export const defaultFormDescriptions = {
       placeholder: '请输入孕周',
     },
   },
-  gestationalWeek: {
-    key: 'gestationalWeek',
+  note: {
+    key: 'note',
     label: '特殊说明',
     rules: [{ required: true, message: '特殊说明是必填项' }],
     inputType: 'input',
@@ -434,7 +619,7 @@ export const defaultFormDescriptions = {
   recordDate: {
     key: 'recordDate',
     label: '建档日期',
-    rules: [{ required: true, message: '建档日期是必填项' }],
+    // rules: [{ required: true, message: '建档日期是必填项' }],
     inputType: 'input',
     inputProps: {
       placeholder: '请输入建档日期',
@@ -443,10 +628,10 @@ export const defaultFormDescriptions = {
   recordNo: {
     key: 'recordNo',
     label: '建档号',
-    rules: [{ required: true, message: '建档号是必填项' }],
+    // rules: [{ required: true, message: '建档号是必填项' }],
     inputType: 'input',
     inputProps: {
-      placeholder: '请输入建档号',
+      disabled: true,
     },
   },
   recordsrc: {
@@ -485,4 +670,106 @@ export const defaultFormDescriptions = {
   //       placeholder: '请输入孕周',
   //     },
   //   },
+};
+
+export const pregnancyHistoryForm = {
+  pregnancyEnd: {
+    key: 'pregnancyEnd',
+    label: '妊娠终止',
+    // rules: [{ required: true, message: '妊娠终止是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入妊娠终止',
+    },
+  },
+  complication: {
+    key: 'complication',
+    label: '并发症',
+    rules: [{ required: true, message: '并发症是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入并发症',
+    },
+  },
+  isChildbirth: {
+    key: 'isChildbirth',
+    label: '是否分娩',
+    // rules: [{ required: true, message: '分娩是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入分娩',
+    },
+  },
+  abortionMode: {
+    key: 'abortionMode',
+    label: '流产方式',
+    // rules: [{ required: true, message: '流产方式是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入流产方式',
+    },
+  },
+  badBirth: {
+    key: 'badBirth',
+    label: '不良生育史',
+    // rules: [{ required: true, message: '不良生育史是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入不良生育史',
+    },
+  },
+  maternityHospital: {
+    key: 'maternityHospital',
+    label: '分娩医院',
+    // rules: [{ required: true, message: '分娩医院是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入分娩医院',
+    },
+  },
+  gestationalWeek: {
+    key: 'gestationalWeek',
+    label: '分娩孕周',
+    rules: [{ required: true, message: '分娩孕周是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入分娩孕周',
+    },
+  },
+  foetusNumber: {
+    key: 'foetusNumber',
+    label: '胎数',
+    // rules: [{ required: true, message: '胎数是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入胎数',
+    },
+  },
+  deliveryMode: {
+    key: 'deliveryMode',
+    label: '分娩方式',
+    // rules: [{ required: true, message: '分娩方式是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入分娩方式',
+    },
+  },
+  postpartumFever: {
+    key: 'postpartumFever',
+    label: '产后持续发热',
+    // rules: [{ required: true, message: '产后持续发热是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入产后持续发热',
+    },
+  },
+  hemorrhage: {
+    key: 'hemorrhage',
+    label: '产后出血',
+    // rules: [{ required: true, message: '产后出血是必填项' }],
+    inputType: 'input',
+    inputProps: {
+      placeholder: '请输入产后出血',
+    },
+  },
 };

@@ -28,8 +28,6 @@ export default class PregnanciesForm extends DynamicForm {
   // });
 
   componentDidMount() {
-    console.log('componentDidMount');
-
     setTimeout(() => {
       this.form = this.formRef.current;
       // const { formDescriptionsWithoutSection, formDescriptions, data } = this.props;
@@ -52,7 +50,6 @@ export default class PregnanciesForm extends DynamicForm {
   }
 
   componentWillReceiveProps(nextprops) {
-    console.log(nextprops, this.props);
     if (this.form) {
       const { formDescriptionsWithoutSection, formDescriptions, data } = nextprops;
       const renderEditItem = this.generateRenderEditItem(formDescriptionsWithoutSection, {
@@ -561,6 +558,8 @@ export default class PregnanciesForm extends DynamicForm {
 
   renderEditContent = () => {
     const { formDescriptions } = this.state;
+    // console.log('renderEditContent');
+    // console.log(formDescriptions);
     return (
       <>
         {map(formDescriptions, section => {
@@ -572,7 +571,6 @@ export default class PregnanciesForm extends DynamicForm {
 
   render() {
     const { formDescriptions } = this.state;
-    console.log('render');
     return (
       <Form style={{ minWidth: '80%' }} ref={this.formRef} {...formItemLayout} onFinish={this.handleFinish}>
         {!isEmpty(formDescriptions) && this.renderEditContent()}

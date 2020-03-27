@@ -1,8 +1,4 @@
-import ProLayout, {
-  MenuDataItem,
-  BasicLayoutProps as ProLayoutProps,
-  Settings,
-} from '@ant-design/pro-layout';
+import ProLayout, { MenuDataItem, BasicLayoutProps as ProLayoutProps, Settings } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
 import React, { useEffect } from 'react';
 import { Link, router } from 'umi';
@@ -12,7 +8,7 @@ import { Tabs } from 'antd';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import logo from '../assets/logo.jpg';
-import { keyBy, keys, get, map, reduce, concat } from 'lodash';
+import { keyBy, keys, get, map, isEmpty, reduce, concat } from 'lodash';
 import store from 'store';
 import request, { TOKEN } from '@/utils/request';
 import styles from './Layout.less';
@@ -38,7 +34,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   const { dispatch, children, settings } = props;
 
   useEffect(() => {
-    const { location } = props;
+    const { location, products, currentUser, allPermissions } = props;
     const username = store.get('username');
     const token = store.get(TOKEN);
     if (!username || !token) {
@@ -48,14 +44,32 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
       return;
     }
     (async () => {
-      await dispatch({
-        type: 'user/fetchCurrentUser',
-        payload: {
-          username,
-        },
-      });
-      const allPermissions = await request.get('/permissions?type.equals=menu&size=200');
-      const currentUser = await request.get(`/users/${username}`);
+      if (isEmpty(products)) {
+        await dispatch({
+          type: 'select/getProducts',
+          payload: {},
+        });
+      }
+
+      if (isEmpty(currentUser)) {
+        await dispatch({
+          type: 'user/fetchCurrentUser',
+          payload: {
+            username,
+          },
+        });
+        // currentUser = await request.get(`/users/${username}`);
+      }
+
+      if (isEmpty(allPermissions)) {
+        await dispatch({
+          type: 'user/fetchAllPermissions',
+          payload: {},
+        });
+        // currentUser = await request.get(`/users/${username}`);
+      }
+      // const allPermissions = await request.get('/permissions?type.equals=menu&size=200');
+
       const selfPermissions = reduce(
         get(currentUser, 'groups'),
         (sum, group) => concat(sum, get(group, 'permissions') || []),
@@ -212,11 +226,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
         ]}
         itemRender={(route, params, routes, paths) => {
           const first = routes.indexOf(route) === 0;
-          return first ? (
-            <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
-          ) : (
-            <span>{route.breadcrumbName}</span>
-          );
+          return first ? <Link to={paths.join('/')}>{route.breadcrumbName}</Link> : <span>{route.breadcrumbName}</span>;
         }}
         menuDataRender={menuDataRender}
         rightContentRender={() => <RightContent />}
@@ -225,30 +235,25 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
       >
         {!!store.get(TOKEN) && (
           <div className={styles.customPanel}>
-            <Tabs
-              activeKey={props.activeKey}
-              onChange={handleTabChange}
-              type="editable-card"
-              hideAdd
-              onEdit={handleEditTabs}
-            >
-              {map(props.tabs, tab => {
-                if (get(tab, 'key') === '/') {
-                  return renderHome(tab);
-                }
-                return (
-                  <Tabs.TabPane
-                    tab={get(tab, 'title')}
-                    key={get(tab, 'key')}
-                    closable={get(tab, 'closable')}
-                  >
-                    <div className={styles.customPanelContent}>
-                      {props.activeKey === get(tab, 'key') && children}
-                    </div>
-                  </Tabs.TabPane>
-                );
-              })}
-            </Tabs>
+            {children}
+            {/* //   <Tabs
+        //     activeKey={props.activeKey}
+        //     onChange={handleTabChange}
+        //     type="editable-card"
+        //     hideAdd
+        //     onEdit={handleEditTabs}
+        //   >
+        //     {map(props.tabs, tab => {
+        //       if (get(tab, 'key') === '/') {
+        //         return renderHome(tab);
+        //       }
+        //       return (
+        //         <Tabs.TabPane tab={get(tab, 'title')} key={get(tab, 'key')} closable={get(tab, 'closable')}>
+        //           <div className={styles.customPanelContent}>{props.activeKey === get(tab, 'key') && children}</div>
+        //         </Tabs.TabPane>
+        //       );
+        //     })}
+        //   </Tabs> */}
           </div>
         )}
       </ProLayout>
@@ -256,10 +261,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   );
 };
 
-export default connect(({ global, settings, tab, user }: ConnectState) => ({
+export default connect(({ global, settings, tab, user, select }: ConnectState) => ({
   collapsed: global.collapsed,
   settings,
   tabs: tab.tabs,
+  products: select.products,
   activeKey: tab.activeKey,
   currentUser: get(user, 'currentUser'),
+  allPermissions: get(user, 'allPermissions'),
 }))(BasicLayout);

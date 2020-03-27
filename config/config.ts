@@ -82,8 +82,7 @@ export default {
     ...theme,
   },
   define: {
-    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
-      ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '', // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
+    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '', // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
   },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
@@ -125,6 +124,11 @@ export default {
     basePath: '/',
   }, // chainWebpack: webpackPlugin,
   proxy: {
+    '/api/form-descriptions': {
+      target: 'http://localhost:3335/',
+      changeOrigin: true,
+      // pathRewrite: { '^/server': '' },
+    },
     '/api/': {
       target: 'http://transfer.lian-med.com:9987/',
       changeOrigin: true,

@@ -2,7 +2,7 @@ import { Effect } from 'dva';
 import { Reducer } from 'redux';
 import { get } from 'lodash';
 
-import { queryCurrent, query as queryUsers } from '@/services/user';
+import { queryCurrent, query as queryUsers, queryAllPermissions } from '@/services/user';
 
 export interface CurrentUser {
   avatar?: string;
@@ -27,11 +27,13 @@ export interface UserModelType {
   state: UserModelState;
   effects: {
     fetch: Effect;
-    fetchCurrent: Effect;
+    fetchCurrentUser: Effect;
+    fetchAllPermissions: Effect;
   };
   reducers: {
     saveCurrentUser: Reducer<UserModelState>;
     changeNotifyCount: Reducer<UserModelState>;
+    saveAllPermissions: Reducer<UserModelState>;
   };
 }
 
@@ -50,11 +52,17 @@ const UserModel: UserModelType = {
         payload: response,
       });
     },
-    *fetchCurrent(_, { call, put }) {},
     *fetchCurrentUser(_, { call, put }) {
       const response = yield call(queryCurrent(get(_, 'payload.username')));
       yield put({
         type: 'saveCurrentUser',
+        payload: response,
+      });
+    },
+    *fetchAllPermissions(_, { call, put }) {
+      const response = yield call(queryAllPermissions);
+      yield put({
+        type: 'saveAllPermissions',
         payload: response,
       });
     },
@@ -65,6 +73,12 @@ const UserModel: UserModelType = {
       return {
         ...state,
         currentUser: action.payload || {},
+      };
+    },
+    saveAllPermissions(state, action) {
+      return {
+        ...state,
+        allPermissions: action.payload || {},
       };
     },
     changeNotifyCount(

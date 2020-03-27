@@ -37,7 +37,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
     const { location, products, currentUser, allPermissions } = props;
     const username = store.get('username');
     const token = store.get(TOKEN);
-    if (!username || !token) {
+    const loginTime = store.get('loginTime');
+    const expiredTime = store.get('expiredTime');
+    if (!username || !token || loginTime + expiredTime < new Date().getTime()) {
       dispatch({
         type: 'login/logout',
       });

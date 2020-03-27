@@ -17,10 +17,7 @@ interface InterfaceOrderDetailState {
   shopsTableDataSource: object;
   actionsTableDataSource: object;
 }
-export class OrderDetail extends React.Component<
-  InterfaceOrderDetailProps,
-  InterfaceOrderDetailState
-> {
+export class OrderDetail extends React.Component<InterfaceOrderDetailProps, InterfaceOrderDetailState> {
   state = {
     orderInfo: {},
     ordersTableDataSource: [],
@@ -29,7 +26,7 @@ export class OrderDetail extends React.Component<
   };
 
   async componentDidMount() {
-    const orderNumber = get(this.props, 'history.location.query.orderNumber');
+    const orderNumber = get(this.props, 'location.query.orderNumber');
     if (!orderNumber) router.push('/order/list');
     const orderInfo = await this.getOrderById(orderNumber);
     const ordersTableDataSource = [
@@ -73,8 +70,7 @@ export class OrderDetail extends React.Component<
     });
   }
 
-  getOrderById = async (id: any) =>
-    get(processFromApi(await request.get(`/packageorders?id.equals=${id}`)), '0');
+  getOrderById = async (id: any) => get(processFromApi(await request.get(`/packageorders?id.equals=${id}`)), '0');
 
   renderPanelHeader = () => {
     const orderStatus = get(this.state, 'orderInfo.orderStatus');
@@ -102,12 +98,7 @@ export class OrderDetail extends React.Component<
   };
 
   render() {
-    const {
-      orderInfo,
-      ordersTableDataSource,
-      shopsTableDataSource,
-      actionsTableDataSource,
-    } = this.state;
+    const { orderInfo, ordersTableDataSource, shopsTableDataSource, actionsTableDataSource } = this.state;
 
     return (
       <div>

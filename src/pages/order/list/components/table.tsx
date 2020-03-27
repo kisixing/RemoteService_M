@@ -42,11 +42,7 @@ export class OrderTable extends React.Component {
                 </Button>
               )}
               {indexOf(orderBindArray, orderStatus) > -1 && (
-                <Button
-                  size="small"
-                  className={tableStyles.label}
-                  onClick={onBindDevice(orderInfo)}
-                >
+                <Button size="small" className={tableStyles.label} onClick={onBindDevice(orderInfo)}>
                   绑定设备
                 </Button>
               )}
@@ -61,29 +57,17 @@ export class OrderTable extends React.Component {
                 </Button>
               )}
               {indexOf(deviceBackArray, orderStatus) > -1 && (
-                <Button
-                  size="small"
-                  className={tableStyles.label}
-                  onClick={onDeviceBack(orderInfo)}
-                >
+                <Button size="small" className={tableStyles.label} onClick={onDeviceBack(orderInfo)}>
                   设备回收
                 </Button>
               )}
               {indexOf(remindBackArray, orderStatus) > -1 && (
-                <Button
-                  size="small"
-                  className={tableStyles.label}
-                  onClick={onRemindBack(orderInfo)}
-                >
+                <Button size="small" className={tableStyles.label} onClick={onRemindBack(orderInfo)}>
                   提醒归还
                 </Button>
               )}
               {indexOf(depositBackArray, orderStatus) > -1 && (
-                <Button
-                  size="small"
-                  className={tableStyles.label}
-                  onClick={onReturnDeposit(orderInfo)}
-                >
+                <Button size="small" className={tableStyles.label} onClick={onReturnDeposit(orderInfo)}>
                   退还押金
                 </Button>
               )}

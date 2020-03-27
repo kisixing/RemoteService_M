@@ -79,6 +79,7 @@ export class OrderList extends React.Component {
   handleReturn = () => {};
 
   handleViewOrder = (orderNumber: any) => () => {
+    console.log(orderNumber)
     router.push(`/order/detail?orderNumber=${orderNumber}`);
   };
 

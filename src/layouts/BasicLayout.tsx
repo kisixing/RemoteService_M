@@ -66,12 +66,15 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
           type: 'user/fetchAllPermissions',
           payload: {},
         });
-        // currentUser = await request.get(`/users/${username}`);
       }
-      // const allPermissions = await request.get('/permissions?type.equals=menu&size=200');
+
+      const newCurrentUser = isEmpty(currentUser) ? await request.get(`/users/${username}`) : currentUser;
+      const newAllPermissions = isEmpty(allPermissions)
+        ? await request.get('/permissions?type.equals=menu&size=200')
+        : allPermissions;
 
       const selfPermissions = reduce(
-        get(currentUser, 'groups'),
+        get(newCurrentUser, 'groups'),
         (sum, group) => concat(sum, get(group, 'permissions') || []),
         [],
       );
@@ -93,7 +96,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
             },
           });
         } else {
-          const allPermissionsMapping = keyBy(allPermissions, 'key');
+          const allPermissionsMapping = keyBy(newAllPermissions, 'key');
           get(allPermissionsMapping, get(location, 'pathname'))
             ? router.push('/exception/403')
             : router.push('/exception/404');

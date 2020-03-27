@@ -4,7 +4,7 @@ const r: IRoute = {
   name: 'exception',
   icon: 'warning',
   path: '/exception',
-  component: '../layouts/BlankLayout',
+  // component: '../layouts/BasicLayout',
   routes: [
     {
       name: '403',

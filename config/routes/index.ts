@@ -13,7 +13,6 @@ export const routes: IRoute[] = [
     path: '/',
     component: '../layouts/BlankLayout',
     routes: [
-      exception,
       {
         path: '/user',
         component: '../layouts/UserLayout',
@@ -54,6 +53,7 @@ export const routes: IRoute[] = [
         Routes: ['src/pages/Authorized'],
         authority: ['admin', 'user'],
         routes: [
+          exception,
           product,
           _package,
           order,

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Input, InputNumber, Tabs, Form, Radio, Row, Col } from 'antd';
+import { Input, InputNumber, Tabs, Form, Radio, Row, Col, DatePicker } from 'antd';
 import { map, get, keyBy, isNil } from 'lodash';
 import DeviceStatusSelect from '@/components/selects/DeviceStatusSelect';
 import request from '@/utils/request';
@@ -11,6 +11,7 @@ import CustomEditor from '@/components/CustomEditor';
 import DataSelect from '@/components/DataSelect';
 import CascaderAddress from '@/components/selects/CascaderAddress';
 import { connect } from 'dva';
+import PregnancyHistory from '@/components/PregnancyHistory';
 
 interface IProps {
   renderEditItem: (key: any, reactNode: any, options?: any) => any;
@@ -57,8 +58,30 @@ export class FormSection extends React.Component<IProps, IState> {
             <Radio value={0}>否</Radio>
           </Radio.Group>,
         );
+      case 'dysmenorrhea_radio':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <Radio.Group>
+            <Radio value="0">无</Radio>
+            <Radio value="1">偶尔</Radio>
+            <Radio value="2">经常</Radio>
+          </Radio.Group>,
+          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+        );
+      case 'pregnant_radio':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <Radio.Group>
+            <Radio value="true">是</Radio>
+            <Radio value="false">否</Radio>
+          </Radio.Group>,
+          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+        );
+      case 'pregnancy_histories':
+        return renderEditItem(get(formDescription, 'key'), <PregnancyHistory />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+        });
       case 'input':
-        // console.log(get(formDescription, 'formItemLayout'));
         return renderEditItem(
           get(formDescription, 'key'),
           <Input size="small" {...get(formDescription, 'inputProps')} />,
@@ -143,6 +166,12 @@ export class FormSection extends React.Component<IProps, IState> {
         return renderEditItem(
           get(formDescription, 'key'),
           <UploadImg {...get(formDescription, 'inputProps')} allowUploadImages={10} />,
+        );
+      case 'single_date_picker':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <DatePicker size="small" {...get(formDescription, 'inputProps')} />,
+          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
         );
       case 'view_only':
         return renderEditItem(get(formDescription, 'key'), <span>{get(data, get(formDescription, 'path'))}</span>);

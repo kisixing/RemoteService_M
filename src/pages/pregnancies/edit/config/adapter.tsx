@@ -1,4 +1,5 @@
-import { map, get, keys, replace, set, indexOf } from 'lodash';
+import { map, get, keys, replace, set, indexOf, split } from 'lodash';
+import moment from 'moment';
 
 export const formDescriptionsFromApi = data => {
   return map(data, item => {
@@ -43,7 +44,12 @@ export const mapDataToForm = (data, preKey = undefined) => {
     if (item instanceof Object) {
       newData = { ...newData, ...mapDataToForm(item, key), [key]: item };
     } else {
-      preKey ? set(newData, `${preKey}_${key}`, item) : set(newData, key, item);
+      // 假设是满足时间格式：2019-01-01
+      if (split(item, '-').length === 3) {
+        preKey ? set(newData, `${preKey}_${key}`, moment(item)) : set(newData, key, moment(item));
+      } else {
+        preKey ? set(newData, `${preKey}_${key}`, item) : set(newData, key, item);
+      }
     }
   });
   return newData;

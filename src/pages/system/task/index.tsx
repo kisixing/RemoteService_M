@@ -1,14 +1,13 @@
 import React, { Fragment } from 'react';
 import Table from './components/table';
-import CtgFeesModal from './components/CtgFeesModal';
 import { tableColumns } from './config/table';
 import { Popconfirm, Button } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
-import styles from './index.less';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
 import CustomSpin from '@/components/CustomSpin';
+import TaskModal from './components/TaskModal';
 
 export default class Task extends BaseList {
   state = {
@@ -18,8 +17,8 @@ export default class Task extends BaseList {
     id: undefined,
     showQuery: false,
     loding: true,
-    baseUrl: '/ctgapplyfees',
-    baseTitle: '判图费',
+    baseUrl: '/plans',
+    baseTitle: '任务',
   };
 
   columns = [
@@ -62,15 +61,10 @@ export default class Task extends BaseList {
         {loding ? (
           <CustomSpin />
         ) : (
-          <Table
-            columns={this.columns}
-            dataSource={dataSource}
-            onAdd={this.handleAdd}
-            baseTitle={baseTitle}
-          />
+          <Table columns={this.columns} dataSource={dataSource} onAdd={this.handleAdd} baseTitle={baseTitle} />
         )}
         {visible && (
-          <CtgFeesModal
+          <TaskModal
             visible={visible}
             editable={editable}
             id={id}

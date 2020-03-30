@@ -12,6 +12,8 @@ import DataSelect from '@/components/DataSelect';
 import CascaderAddress from '@/components/selects/CascaderAddress';
 import { connect } from 'dva';
 import PregnancyHistory from '@/components/PregnancyHistory';
+import TriggerTypeSelect from '@/components/selects/TriggerTypeSelect';
+import CronSelect from '@/components/selects/CronSelect';
 
 interface IProps {
   renderEditItem: (key: any, reactNode: any, options?: any) => any;
@@ -85,6 +87,16 @@ export class FormSection extends React.Component<IProps, IState> {
         return renderEditItem(
           get(formDescription, 'key'),
           <Input size="small" {...get(formDescription, 'inputProps')} />,
+          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+        );
+      case 'cron':
+        return renderEditItem(get(formDescription, 'key'), <CronSelect {...get(formDescription, 'inputProps')} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+        });
+      case 'trigger_type_select':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <TriggerTypeSelect size="small" {...get(formDescription, 'inputProps')} />,
           { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
         );
       case 'text_area':

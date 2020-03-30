@@ -1,0 +1,43 @@
+@import '~antd/es/dropdown/style/index.less';
+@import '~antd/es/input/style/index.less';
+@import '~antd/es/tabs/style/index.less';
+@import '~antd/es/radio/style/index.less';
+@import '~antd/es/checkbox/style/index.less';
+@import '~antd/es/grid/style/index.less';
+@import '~antd/es/input-number/style/index.less';
+@import '~antd/es/select/style/index.less';
+
+.cron {
+  border-radius: 3px;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 5px #ccc;
+
+  :global {
+    .ant-tabs-bar {
+      margin-bottom: 0px;
+    }
+
+    .ant-tabs-tabpane-active {
+      padding-left: 10px;
+      padding-bottom: 3px;
+
+      .ant-radio-group {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .ant-checkbox-group {
+      display: block;
+    }
+
+    .ant-input-number {
+      width: 100px !important;
+    }
+
+    .ant-tabs-tab {
+      padding: 12px 16px;
+    }
+  }
+}

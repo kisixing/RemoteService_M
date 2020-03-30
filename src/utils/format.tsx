@@ -1,7 +1,7 @@
 import moment, { Moment } from 'moment';
 import { map } from 'lodash';
 
-export const formatTimeToStandard = (date: any, format = 'YYYY-MM-DD H:mm:ss') =>
+export const formatTimeToStandard = (date: any, format = 'YYYY-MM-DD HH:mm:ss') =>
   moment(date).format(format);
 
 export const formatTimeToApi = (date: Moment) => date.format();

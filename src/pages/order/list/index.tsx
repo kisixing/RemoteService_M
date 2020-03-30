@@ -22,6 +22,7 @@ export class OrderList extends React.Component {
       size: 20,
       sort: 'createtime,desc',
     },
+    params: {},
     total: 0,
     dataSource: [],
     bindDeviceModalVisible: false,
@@ -38,8 +39,9 @@ export class OrderList extends React.Component {
     await this.handleSearch();
   }
 
-  handleSearch = async (query: any = {}) => {
-    const { defaultQuery } = this.state;
+  handleSearch = async (query: any = {}, isChangePage: boolean = false) => {
+    const { defaultQuery, params: preStateParams } = this.state;
+    const preParams = isChangePage ? preStateParams : {};
     const { username, telephone, orderStatus, submitTime } = query;
     let params = {};
     if (username || telephone) {
@@ -61,15 +63,37 @@ export class OrderList extends React.Component {
     params = {
       ...defaultQuery,
       ...params,
-      'createtime.greaterThan': get(submitTime, 0) && formatTimeToApi(get(submitTime, 0)),
-      'createtime.lessThan': get(submitTime, 1) && formatTimeToApi(get(submitTime, 1)),
-      'state.equals': orderStatus,
+      'createtime.greaterThan': get(submitTime, 0)
+        ? formatTimeToApi(get(submitTime, 0))
+        : get(preParams, 'createtime.greaterThan'),
+      'createtime.lessThan': get(submitTime, 1)
+        ? formatTimeToApi(get(submitTime, 1))
+        : get(preParams, 'createtime.lessThan'),
+      'state.equals': orderStatus || get(preParams, 'state.equals'),
     };
     const dataSource = await processFromApi(
       await request.get(`/packageorders?${isNil(params) ? '' : queryString.stringify(params)}`),
     );
-    const total = await request.get('/packageorders/count?criteria');
-    this.setState({ dataSource, total });
+    const total = await request.get(`/packageorders/count?${queryString.stringify(params)}`);
+    this.setState({ dataSource, total, params });
+  };
+
+  handlePageChange = (page, pageSize) => {
+    const { defaultQuery, params } = this.state;
+    console.log(params);
+    this.setState(
+      {
+        defaultQuery: {
+          ...defaultQuery,
+          ...params,
+          page: page - 1,
+          size: pageSize,
+        },
+      },
+      () => {
+        this.handleSearch({}, true);
+      },
+    );
   };
 
   handleClose = () => {};
@@ -79,7 +103,7 @@ export class OrderList extends React.Component {
   handleReturn = () => {};
 
   handleViewOrder = (orderNumber: any) => () => {
-    console.log(orderNumber)
+    console.log(orderNumber);
     router.push(`/order/detail?orderNumber=${orderNumber}`);
   };
 
@@ -138,9 +162,7 @@ export class OrderList extends React.Component {
   handleSubmitBindDevice = async (data: any) => {
     const { orderInfo } = this.state;
     const { erpno } = data;
-    const devices = await request.get(
-      `/devices?${queryString.stringify({ 'erpno.equals': erpno })}`,
-    );
+    const devices = await request.get(`/devices?${queryString.stringify({ 'erpno.equals': erpno })}`);
     await request.put('/packageorders', {
       data: {
         id: String(get(orderInfo, 'id')),
@@ -223,20 +245,6 @@ export class OrderList extends React.Component {
     this.setState({
       [value]: false,
     });
-  };
-
-  handlePageChange = (page, pageSize) => {
-    this.setState(
-      {
-        defaultQuery: {
-          page: page - 1,
-          size: pageSize,
-        },
-      },
-      () => {
-        this.handleSearch();
-      },
-    );
   };
 
   render() {

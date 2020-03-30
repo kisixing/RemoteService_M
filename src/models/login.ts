@@ -73,6 +73,9 @@ const Model: LoginModelType = {
       // Note: There may be security issues, please note
       if (window.location.pathname !== '/user/login' && !redirect) {
         store.remove(TOKEN);
+        store.remove('loginTime');
+        store.remove('expiredTime');
+        store.remove('username');
         router.replace({
           pathname: '/user/login',
           search: stringify({

@@ -1,10 +1,10 @@
 import ProLayout, { MenuDataItem, BasicLayoutProps as ProLayoutProps, Settings } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, router } from 'umi';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
-import { Tabs } from 'antd';
+import { Tabs, Modal } from 'antd';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import logo from '../assets/logo.jpg';
@@ -32,6 +32,20 @@ export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
 
 const BasicLayout: React.FC<BasicLayoutProps> = props => {
   const { dispatch, children, settings } = props;
+  const [isOvertime, setIsOvertime] = useState(false);
+
+  const showOvertime = () => {
+    Modal.error({
+      title: '登录失效',
+      content: '登录状态已失效，请重新登录',
+      okText: '重新登录',
+      onOk: () => {
+        dispatch({
+          type: 'login/logout',
+        });
+      },
+    });
+  };
 
   useEffect(() => {
     const { location, products, currentUser, allPermissions } = props;
@@ -39,7 +53,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
     const token = store.get(TOKEN);
     const loginTime = store.get('loginTime');
     const expiredTime = store.get('expiredTime');
-    if (!username || !token || loginTime + expiredTime < new Date().getTime()) {
+    if (loginTime + expiredTime < new Date().getTime()) {
+      showOvertime();
+    }
+    if (!username || !token) {
       dispatch({
         type: 'login/logout',
       });

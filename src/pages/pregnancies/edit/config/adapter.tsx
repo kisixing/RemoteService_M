@@ -56,5 +56,6 @@ export const mapDataToForm = (data, preKey = undefined) => {
 };
 
 export const fromApi = data => {
+  console.log(mapDataToForm(data));
   return mapDataToForm(data);
 };

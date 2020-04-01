@@ -32,7 +32,6 @@ export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
 
 const BasicLayout: React.FC<BasicLayoutProps> = props => {
   const { dispatch, children, settings } = props;
-  const [isOvertime, setIsOvertime] = useState(false);
 
   const showOvertime = () => {
     Modal.error({
@@ -56,6 +55,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
     if (loginTime + expiredTime < new Date().getTime()) {
       showOvertime();
     }
+    // setTimeout(() => {
+    //   showOvertime();
+    // }, expiredTime);
     if (!username || !token) {
       dispatch({
         type: 'login/logout',

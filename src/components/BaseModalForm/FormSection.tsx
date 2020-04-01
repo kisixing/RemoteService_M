@@ -64,9 +64,8 @@ export class FormSection extends React.Component<IProps, IState> {
         return renderEditItem(
           get(formDescription, 'key'),
           <Radio.Group>
-            <Radio value="0">无</Radio>
-            <Radio value="1">偶尔</Radio>
-            <Radio value="2">经常</Radio>
+            <Radio value={true}>是</Radio>
+            <Radio value={false}>否</Radio>
           </Radio.Group>,
           { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
         );
@@ -74,15 +73,19 @@ export class FormSection extends React.Component<IProps, IState> {
         return renderEditItem(
           get(formDescription, 'key'),
           <Radio.Group>
-            <Radio value="true">是</Radio>
-            <Radio value="false">否</Radio>
+            <Radio value={true}>是</Radio>
+            <Radio value={false}>否</Radio>
           </Radio.Group>,
           { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
         );
-      case 'pregnancy_histories':
-        return renderEditItem(get(formDescription, 'key'), <PregnancyHistory />, {
-          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
-        });
+      case 'pregnancy_history':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <PregnancyHistory {...get(formDescription, 'inputProps')} />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          },
+        );
       case 'input':
         return renderEditItem(
           get(formDescription, 'key'),

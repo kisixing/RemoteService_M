@@ -22,6 +22,10 @@ export const routes: IRoute[] = [
             redirect: '/user/login',
           },
           {
+            path: '/user/reset',
+            component: './user/reset',
+          },
+          {
             name: 'login',
             icon: 'smile',
             path: '/user/login',
@@ -90,14 +94,18 @@ export const routes: IRoute[] = [
             path: '/ctg-fees',
             component: './ctg-fees',
           },
+          {
+            path: '/account/settings',
+            component: './user/settings',
+          },
           service,
           dashboard,
-          {
-            name: 'im',
-            icon: 'team',
-            path: '/im',
-            component: './WebIM',
-          },
+          // {
+          //   name: 'im',
+          //   icon: 'team',
+          //   path: '/im',
+          //   component: './WebIM',
+          // },
           // {
           //   name: 'imtest',
           //   icon: 'setting',

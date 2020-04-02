@@ -37,10 +37,13 @@ export const toApi = data => {
   return result;
 };
 
+const omitItemsArray = ['pregnancyHistories'];
+
 export const mapDataToForm = (data, preKey = undefined) => {
   let newData = {};
 
   map(data, (item, key) => {
+    if (omitItemsArray.indexOf(key) > -1) return {};
     if (item instanceof Object) {
       newData = { ...newData, ...mapDataToForm(item, key), [key]: item };
     } else {

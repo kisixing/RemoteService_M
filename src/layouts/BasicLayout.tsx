@@ -14,6 +14,17 @@ import request, { TOKEN } from '@/utils/request';
 import styles from './Layout.less';
 import Welcome from '@/pages/Welcome';
 
+const omitMenus = [
+  {
+    id: 999,
+    type: 'others',
+    key: '/account/settings',
+    name: '个人设置',
+    parentid: 0,
+    active: null,
+  },
+];
+
 export interface BasicLayoutProps extends ProLayoutProps {
   breadcrumbNameMap: {
     [path: string]: MenuDataItem;
@@ -99,7 +110,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
         (sum, group) => concat(sum, get(group, 'permissions') || []),
         [],
       );
-      const permissionsMapping = keyBy(selfPermissions, 'key');
+      const permissionsMapping = keyBy(concat(selfPermissions, omitMenus), 'key');
       if (location && location.pathname !== '/') {
         const menuItemProps = get(permissionsMapping, get(location, 'pathname'));
         if (menuItemProps) {
@@ -118,6 +129,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
           });
         } else {
           const allPermissionsMapping = keyBy(newAllPermissions, 'key');
+
           get(allPermissionsMapping, get(location, 'pathname'))
             ? router.push('/exception/403')
             : router.push('/exception/404');

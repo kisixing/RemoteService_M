@@ -1,0 +1,68 @@
+.panel {
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column nowrap;
+  padding: 8px;
+}
+
+.panelTitle {
+  width: 100%;
+}
+
+.panelContent {
+  width: 50%;
+  margin-top: 80px;
+}
+
+.panelContentItem {
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #fafafa;
+}
+
+.panelContentItemTitle {
+  font-weight: bold;
+}
+
+.avatarUpload {
+  display: none;
+  &:hover {
+    cursor: pointer;
+    display: block;
+    font-size: 30px;
+    position: absolute;
+    top: 118px;
+    text-align: center;
+    color: #ffffff;
+  }
+}
+
+.avatar {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
+  &:hover + .avatarUpload {
+    cursor: pointer;
+    display: block;
+    font-size: 30px;
+    position: absolute;
+    top: 118px;
+    text-align: center;
+    color: #ffffff;
+  }
+}
+
+.phoneModalRow {
+  margin-bottom: 12px;
+}
+
+.phoneModalRowCol {
+  text-align: right;
+}

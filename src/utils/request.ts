@@ -5,9 +5,9 @@
 // import router from 'umi/router';
 import store from 'store';
 import { extend } from 'umi-request';
+import r from "@lianmed/request";
 import { notification } from 'antd';
 import { get } from 'lodash';
-
 export const TOKEN = 'lianmed-authority';
 
 const isDev = process.env.isDev || true;
@@ -95,8 +95,9 @@ request.interceptors.request.use((url, options) => {
 
 // response拦截器, 处理response
 request.interceptors.response.use(response => {
-  const token = response.headers.get('authorization');
+  const token = response.headers.get('Authorization');
   if (token) {
+    r.config({ Authorization: token })
     store.set(TOKEN, token);
   }
 

@@ -13,6 +13,7 @@ import store from 'store';
 import request, { TOKEN } from '@/utils/request';
 import styles from './Layout.less';
 import Welcome from '@/pages/Welcome';
+import VisitedPanel from "@lianmed/pages/lib/Remote/VisitedPanel";
 
 export interface BasicLayoutProps extends ProLayoutProps {
   breadcrumbNameMap: {
@@ -281,6 +282,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
           </div>
         )}
       </ProLayout>
+            <VisitedPanel remote_url="http://transfer.lian-med.com"  />
+
     </>
   );
 };

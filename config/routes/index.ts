@@ -14,6 +14,10 @@ export const routes: IRoute[] = [
     component: '../layouts/BlankLayout',
     routes: [
       {
+        path: '/mobile-demo',
+        component: './mobile-demo/index',
+      },
+      {
         path: '/user',
         component: '../layouts/UserLayout',
         routes: [

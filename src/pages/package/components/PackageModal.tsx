@@ -17,6 +17,6 @@ export default generateModalForm({
     },
   },
   modalProps: {
-    width: 800,
+    width: 1200,
   },
 });

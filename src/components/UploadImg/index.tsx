@@ -73,7 +73,6 @@ export default class UploadImg extends React.Component<IProps> {
   render() {
     const { allowUploadImages } = this.props;
     const { fileList } = this.state;
-    console.log(fileList);
     return (
       <Upload
         className="avatar-uploader"

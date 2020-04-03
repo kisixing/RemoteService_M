@@ -9,7 +9,7 @@ export default generateModalForm({
   toApi,
   fromApi,
   modalProps: {
-    width: 1200,
+    width: 1400,
   },
   formItemLayout: {
     labelCol: {

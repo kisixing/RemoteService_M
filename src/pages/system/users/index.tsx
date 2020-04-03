@@ -7,9 +7,10 @@ import { Popconfirm, Switch, Button, message } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
 import request from '@/utils/request';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, RedoOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
 import CustomSpin from '@/components/CustomSpin';
+import ResetPasswordModal from './components/ResetPasswordModal';
 
 export default class Users extends BaseList {
   state = {
@@ -22,6 +23,8 @@ export default class Users extends BaseList {
     dataSource: [],
     visible: false,
     editable: false,
+    resetEditable: false,
+    resetVisible: false,
     id: undefined,
     paramryKey: undefined,
     showQuery: false,
@@ -57,6 +60,14 @@ export default class Users extends BaseList {
             >
               <EditOutlined />
             </Button>
+            <Button
+              className={commonStyles.tableActionBtn}
+              type="primary"
+              size="small"
+              onClick={this.handleResetEdit(rowData)}
+            >
+              <RedoOutlined />
+            </Button>
             <Popconfirm
               title={`确定要删除这个${get(this.state, 'baseTitle')}吗?`}
               onConfirm={this.handleDelete(rowData)}
@@ -77,6 +88,22 @@ export default class Users extends BaseList {
     this.setState({
       visible: true,
       editable: true,
+      id: get(rowData, 'id'),
+      paramryKey: get(rowData, 'login'),
+    });
+  };
+
+  handleResetCancel = () => {
+    this.setState({
+      resetVisible: false,
+      resetEditable: false,
+    });
+  };
+
+  handleResetEdit = rowData => () => {
+    this.setState({
+      resetVisible: true,
+      resetEditable: true,
       id: get(rowData, 'id'),
       paramryKey: get(rowData, 'login'),
     });
@@ -111,6 +138,8 @@ export default class Users extends BaseList {
       defaultQuery,
       loding,
       paramryKey,
+      resetVisible,
+      resetEditable,
     } = this.state;
 
     return (
@@ -139,6 +168,16 @@ export default class Users extends BaseList {
             id={id}
             paramryKey={paramryKey}
             onCancel={this.handleCancel}
+            onSearch={this.handleSearch}
+          />
+        )}
+        {resetVisible && (
+          <ResetPasswordModal
+            visible={resetVisible}
+            editable={resetEditable}
+            id={id}
+            paramryKey={paramryKey}
+            onCancel={this.handleResetCancel}
             onSearch={this.handleSearch}
           />
         )}

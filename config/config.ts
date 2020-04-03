@@ -75,6 +75,7 @@ export default {
   targets: {
     ie: 11,
   },
+  publicPath: 'https://lmobrepo.oss-cn-shenzhen.aliyuncs.com/cdn/',
   // umi routes: https://umijs.org/zh/guide/router.html
   routes,
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn

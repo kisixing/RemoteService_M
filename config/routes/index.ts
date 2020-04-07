@@ -103,7 +103,6 @@ export const routes: IRoute[] = [
             component: './user/settings',
           },
           service,
-          dashboard,
           // {
           //   name: 'im',
           //   icon: 'team',

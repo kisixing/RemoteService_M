@@ -51,7 +51,10 @@ export class FormSection extends React.Component<IProps, IState> {
       //   )
       // );
       case 'subdevice_id':
-        return id && renderEditItem(get(formDescription, 'key'), <Input {...get(formDescription, 'inputProps')} />);
+        return (
+          id &&
+          renderEditItem(get(formDescription, 'key'), <Input size="small" {...get(formDescription, 'inputProps')} />)
+        );
       case 'radio':
         return renderEditItem(
           get(formDescription, 'key'),
@@ -103,28 +106,35 @@ export class FormSection extends React.Component<IProps, IState> {
           { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
         );
       case 'text_area':
-        return renderEditItem(get(formDescription, 'key'), <Input.TextArea {...get(formDescription, 'inputProps')} />);
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <Input.TextArea size="small" {...get(formDescription, 'inputProps')} />,
+        );
       case 'tree_select':
         return renderEditItem(
           get(formDescription, 'key'),
-          <PermissionSelect {...get(formDescription, 'inputProps')} />,
+          <PermissionSelect size="small" {...get(formDescription, 'inputProps')} />,
         );
       case 'parent_select':
         return renderEditItem(
           get(formDescription, 'key'),
-          <ParentPermissionSelect {...get(formDescription, 'inputProps')} />,
+          <ParentPermissionSelect size="small" {...get(formDescription, 'inputProps')} />,
         );
       case 'input_number':
         return renderEditItem(
           get(formDescription, 'key'),
-          <InputNumber min={0} {...get(formDescription, 'inputProps')} />,
+          <InputNumber size="small" min={0} {...get(formDescription, 'inputProps')} />,
         );
       case 'password':
-        return renderEditItem(get(formDescription, 'key'), <Input.Password {...get(formDescription, 'inputProps')} />);
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <Input.Password size="small" {...get(formDescription, 'inputProps')} />,
+        );
       case 'validdate':
         return renderEditItem(
           get(formDescription, 'key'),
           <DataSelect
+            size="small"
             dataSource={[
               { id: 30, name: '30天' },
               { id: 60, name: '60天' },
@@ -136,7 +146,10 @@ export class FormSection extends React.Component<IProps, IState> {
           />,
         );
       case 'editor':
-        return renderEditItem(get(formDescription, 'key'), <CustomEditor {...get(formDescription, 'inputProps')} />);
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <CustomEditor size="small" {...get(formDescription, 'inputProps')} />,
+        );
       case 'product':
         return get(formDescription, 'viewOnly')
           ? renderEditItem(
@@ -145,12 +158,19 @@ export class FormSection extends React.Component<IProps, IState> {
             )
           : renderEditItem(
               get(formDescription, 'key'),
-              <DataSelect url="/products" valueKey="id" labelKey="name" {...get(formDescription, 'inputProps')} />,
+              <DataSelect
+                size="small"
+                url="/products"
+                valueKey="id"
+                labelKey="name"
+                {...get(formDescription, 'inputProps')}
+              />,
             );
       case 'roles':
         return renderEditItem(
           get(formDescription, 'key'),
           <DataSelect
+            size="small"
             url="/groups"
             valueKey="id"
             labelKey="nickname"
@@ -161,12 +181,12 @@ export class FormSection extends React.Component<IProps, IState> {
       case 'device_status':
         return renderEditItem(
           get(formDescription, 'key'),
-          <DeviceStatusSelect {...get(formDescription, 'inputProps')} />,
+          <DeviceStatusSelect size="small" {...get(formDescription, 'inputProps')} />,
         );
       case 'address':
         return renderEditItem(
           get(formDescription, 'key'),
-          <CascaderAddress {...get(formDescription, 'inputProps')} />,
+          <CascaderAddress size="small" {...get(formDescription, 'inputProps')} />,
           {
             customFormItemLayout: get(formDescription, 'formItemLayout') || {},
             styles: get(formDescription, 'styles'),
@@ -175,12 +195,12 @@ export class FormSection extends React.Component<IProps, IState> {
       case 'permission_type':
         return renderEditItem(
           get(formDescription, 'key'),
-          <PermissionTypeSelect {...get(formDescription, 'inputProps')} />,
+          <PermissionTypeSelect size="small" {...get(formDescription, 'inputProps')} />,
         );
       case 'upload_img':
         return renderEditItem(
           get(formDescription, 'key'),
-          <UploadImg {...get(formDescription, 'inputProps')} allowUploadImages={10} />,
+          <UploadImg size="small" {...get(formDescription, 'inputProps')} allowUploadImages={10} />,
         );
       case 'single_date_picker':
         return renderEditItem(
@@ -191,7 +211,10 @@ export class FormSection extends React.Component<IProps, IState> {
       case 'view_only':
         return renderEditItem(get(formDescription, 'key'), <span>{get(data, get(formDescription, 'path'))}</span>);
       default:
-        return renderEditItem(get(formDescription, 'key'), <Input {...get(formDescription, 'inputProps')} />);
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <Input size="small" {...get(formDescription, 'inputProps')} />,
+        );
     }
   };
 

@@ -96,4 +96,9 @@ export default {
   'menu.system.task': '任务管理',
   'menu.system.audit': '审计管理',
   'menu.system.version': '版本管理',
+
+  'menu.follow-up': '随访管理',
+  'menu.follow-up.question': '问卷管理',
+  'menu.follow-up.question.list': '问卷列表',
+  'menu.follow-up.question.add': '问卷添加',
 };

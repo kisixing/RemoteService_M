@@ -60,8 +60,8 @@ export default class BaseList extends React.Component {
   handleSearch = async () => {
     const { baseUrl, needPagination, processFromApi, defaultQuery } = this.state;
     const dataSource = isFunction(processFromApi)
-      ? processFromApi(await request.get(`${baseUrl}?${queryString.stringify(defaultQuery)}`))
-      : await request.get(`${baseUrl}?${queryString.stringify(defaultQuery)}`);
+      ? processFromApi(await request.get(`${baseUrl}${defaultQuery ? `?${queryString.stringify(defaultQuery)}` : ''}`))
+      : await request.get(`${baseUrl}${defaultQuery ? `?${queryString.stringify(defaultQuery)}` : ''}`);
     let total = 0;
     if (needPagination) {
       total = await request.get(`${baseUrl}/count?criteria`);

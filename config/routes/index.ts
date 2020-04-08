@@ -6,6 +6,7 @@ import service from './service';
 import _package from './package';
 import order from './order';
 import system from './system';
+import followUp from './follow-up';
 import exception from './exception';
 
 export const routes: IRoute[] = [
@@ -103,6 +104,7 @@ export const routes: IRoute[] = [
             component: './user/settings',
           },
           service,
+          followUp,
           // {
           //   name: 'im',
           //   icon: 'team',

@@ -28,6 +28,12 @@ const r: IRoute = {
         },
       ],
     },
+    {
+      name: 'work-flow',
+      icon: 'setting',
+      path: '/follow-up/work-flow',
+      component: './follow-up/work-flow',
+    },
   ],
 };
 

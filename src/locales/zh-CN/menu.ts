@@ -101,4 +101,6 @@ export default {
   'menu.follow-up.question': '问卷管理',
   'menu.follow-up.question.list': '问卷列表',
   'menu.follow-up.question.add': '问卷添加',
+
+  'menu.follow-up.work-flow': '工作流管理',
 };

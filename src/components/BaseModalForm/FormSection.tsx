@@ -227,7 +227,6 @@ export class FormSection extends React.Component<IProps, IState> {
 
     map(formDescriptions, (formDescription, index) => {
       if (!isNil(get(formDescription, 'span')) && !isNil(get(formDescription, 'offset'))) {
-        // console.log(tempSpan);
         if (get(formDescription, 'isNewRow')) {
           const renderArr = tempArr;
           tempSpan = 0;
@@ -237,21 +236,20 @@ export class FormSection extends React.Component<IProps, IState> {
         if (tempSpan < 25 && tempSpan + get(formDescription, 'span') + get(formDescription, 'offset') < 25) {
           tempSpan = tempSpan + get(formDescription, 'span') + get(formDescription, 'offset');
           tempArr.push(formDescription);
-          // console.log(tempArr);
           if (Number(index) === formDescriptions.length - 1) {
             formArray.push(this.renderRowAndCol(tempArr));
           }
         } else {
           const renderArr = tempArr;
           tempArr = [];
-          tempSpan = 0;
           formArray.push(this.renderRowAndCol(renderArr));
+          tempSpan = get(formDescription, 'span') + get(formDescription, 'offset');
+          tempArr.push(formDescription);
         }
       } else {
         formArray.push(this.renderItem(formDescription));
       }
     });
-    // console.log(formArray);
     return formArray;
   };
 

@@ -13,7 +13,7 @@ import store from 'store';
 import request, { TOKEN } from '@/utils/request';
 import styles from './Layout.less';
 import Welcome from '@/pages/Welcome';
-import VisitedPanel from "@lianmed/pages/lib/Remote/VisitedPanel";
+import VisitedPanel from '@lianmed/pages/lib/Remote/VisitedPanel';
 
 const omitMenus = [
   {
@@ -235,6 +235,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
     <>
       <ProLayout
         className={styles.customProLayout}
+        style={{ height: 600, overflow: 'scroll' }}
         logo={logo}
         formatMessage={formatMessage}
         menuHeaderRender={(logoDom, titleDom) => (
@@ -294,8 +295,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
           </div>
         )}
       </ProLayout>
-            <VisitedPanel remote_url="http://transfer.lian-med.com"  />
-
+      <VisitedPanel remote_url="http://transfer.lian-med.com" />
     </>
   );
 };

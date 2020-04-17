@@ -171,8 +171,16 @@ export default class BaseModalForm extends DynamicForm {
             btaddr += ':';
           }
         });
+        // 前四位数字判断子组件类型
+        const judgeTypeCode = (value as string).substr(0, 4);
+        let subDeviceName = 'base';
+        if (judgeTypeCode === '1900') {
+          subDeviceName = 'fhr';
+        } else if (judgeTypeCode === '1901') {
+          subDeviceName = 'toco';
+        }
         this.form.setFieldsValue({
-          [`subDeviceName${key}`]: key === '1' ? 'base' : '',
+          [`subDeviceName${key}`]: subDeviceName,
           [`subDeviceScreen${key}`]: '',
           [`subDeviceErpno${key}`]: value.slice(0, 21),
           [`subDeviceBtaddr${key}`]: btaddr,
@@ -259,16 +267,10 @@ export default class BaseModalForm extends DynamicForm {
           if (formDescription.key === 'subDeviceScreen') {
             return renderEditItem(
               `${formDescription.key}${pane.key}`,
-              <Input
-                {...get(formDescription, 'inputProps')}
-                onChange={this.handleSubDeviceScreen(pane.key)}
-              />,
+              <Input {...get(formDescription, 'inputProps')} onChange={this.handleSubDeviceScreen(pane.key)} />,
             );
           }
-          return renderEditItem(
-            `${formDescription.key}${pane.key}`,
-            <Input {...get(formDescription, 'inputProps')} />,
-          );
+          return renderEditItem(`${formDescription.key}${pane.key}`, <Input {...get(formDescription, 'inputProps')} />);
         })}
       </span>
     );
@@ -298,10 +300,7 @@ export default class BaseModalForm extends DynamicForm {
   renderEditContent = () => {
     return (
       <span>
-        {this.renderEditItem(
-          'screen',
-          <Input placeholder="请使用扫码枪扫描输入" onChange={this.handleDeviceScreen} />,
-        )}
+        {this.renderEditItem('screen', <Input placeholder="请使用扫码枪扫描输入" onChange={this.handleDeviceScreen} />)}
         {this.renderEditItem('devicename', <Input placeholder="请输入设备名称" />)}
         {this.renderEditItem('type', <Input placeholder="请选择设备类型" />)}
         {this.renderEditItem('status', <DeviceStatusSelect placeholder="请选择设备状态" />)}

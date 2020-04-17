@@ -3,7 +3,8 @@ import Form from './components/form';
 import styles from './index.less';
 import request from '@/utils/request';
 import { keyBy, get, reduce, concat } from 'lodash';
-import { formDescriptionsFromApi, toApi, fromApi } from './config/adapter';
+import { toApi, fromApi } from './config/adapter';
+import { formDescriptionsFromApi, formDescriptionsWithoutSectionApi } from '@/utils/adapter';
 import { message } from 'antd';
 
 export default class Pregnancies extends React.Component {
@@ -18,25 +19,24 @@ export default class Pregnancies extends React.Component {
     const id = get(location, 'query.id');
     const formDescriptions = formDescriptionsFromApi(await request.get('/form-descriptions?moduleName=pregnant'));
     const data = id ? fromApi(await request.get(`/pregnancies/${id}`)) : {};
-    let formDescriptionsWithoutSection = reduce(
-      formDescriptions,
-      (sum, formDescription) => {
-        return concat(sum, get(formDescription, 'fields'));
-      },
-      [],
-    );
-    formDescriptionsWithoutSection = keyBy(formDescriptionsWithoutSection, 'key');
+    const formDescriptionsWithoutSection = formDescriptionsWithoutSectionApi(formDescriptions);
     this.setState({ formDescriptions, formDescriptionsWithoutSection, data });
   }
 
   handleSubmit = async values => {
     const { data } = this.state;
+    const params = await toApi({
+      ...data,
+      ...values,
+      familyHistory: { id: get(data, 'familyHistory.id'), ...get(values, 'familyHistory') },
+    });
     if (get(values, 'id')) {
-      await request.put('/pregnancies', { data: toApi({ ...data, ...values }) });
+      await request.put('/pregnancies', { data: params });
+      message.success('修改病例成功');
     } else {
-      await request.post('/pregnancies', { data: toApi({ ...data, ...values }) });
+      await request.post('/pregnancies', { data: params });
+      message.success('新增病例成功');
     }
-    message.success('提交成功');
   };
 
   render() {

@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react';
 import { Input, InputNumber, Tabs, Form, Radio, Row, Col, DatePicker } from 'antd';
-import { map, get, keyBy, isNil } from 'lodash';
+import { map, get, keyBy, isNil, isEmpty } from 'lodash';
 import DeviceStatusSelect from '@/components/selects/DeviceStatusSelect';
-import request from '@/utils/request';
 import PermissionSelect from '@/components/selects/PermissionSelect';
 import ParentPermissionSelect from '../selects/ParentPermissionSelect';
 import PermissionTypeSelect from '../selects/PermissionTypeSelect';
@@ -14,15 +13,22 @@ import { connect } from 'dva';
 import PregnancyHistory from '@/components/PregnancyHistory';
 import TriggerTypeSelect from '@/components/selects/TriggerTypeSelect';
 import CronSelect from '@/components/selects/CronSelect';
+import RadioWithInput from '@/components/selects/RadioWithInput';
+import RadioWithInputNumber from '@/components/selects/RadioWithInputNumber';
+import DiseaseSelect from '@/components/selects/DiseaseSelect';
+import NormalSelect from '@/components/selects/NormalSelect';
+import CountrySelect from '@/components/selects/CountrySelect';
+import CheckboxWithInput from '@/components/selects/CheckboxWithInput';
 
 interface IProps {
   renderEditItem: (key: any, reactNode: any, options?: any) => any;
   formDescriptions: {};
   id?: Number | String;
   data?: any;
+  form?: any;
 }
 
-export class FormSection extends React.Component<IProps, IState> {
+export class FormSection extends React.Component<IProps> {
   renderRowAndCol = (formDescriptionArr = []) => {
     return (
       <Row>
@@ -38,7 +44,7 @@ export class FormSection extends React.Component<IProps, IState> {
   };
 
   renderItem = (formDescription: any) => {
-    const { renderEditItem, id, data, products } = this.props;
+    const { renderEditItem, id, data, products, events, form } = this.props;
 
     switch (get(formDescription, 'inputType')) {
       case 'id':
@@ -63,6 +69,22 @@ export class FormSection extends React.Component<IProps, IState> {
             <Radio value={0}>否</Radio>
           </Radio.Group>,
         );
+      case 'normal_select':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <NormalSelect
+            type={get(JSON.parse(get(formDescription, 'special_config')), 'type')}
+            showSearch={get(JSON.parse(get(formDescription, 'special_config')), 'showSearch')}
+            placeholder="请选择证件类型"
+          />,
+          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+        );
+      case 'country_select':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <CountrySelect language="zh-CN" placeholder="请选择国籍" />,
+          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+        );
       case 'dysmenorrhea_radio':
         return renderEditItem(
           get(formDescription, 'key'),
@@ -76,15 +98,31 @@ export class FormSection extends React.Component<IProps, IState> {
         return renderEditItem(
           get(formDescription, 'key'),
           <Radio.Group>
-            <Radio value={true}>是</Radio>
             <Radio value={false}>否</Radio>
+            <Radio value={true}>是</Radio>
           </Radio.Group>,
           { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
         );
+      case 'radio_with_input':
+        return renderEditItem(get(formDescription, 'key'), <RadioWithInput config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+        });
+      case 'checkbox_with_input':
+        return renderEditItem(get(formDescription, 'key'), <CheckboxWithInput config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+        });
+      case 'disease_select':
+        return renderEditItem(get(formDescription, 'key'), <DiseaseSelect config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+        });
+      case 'radio_with_input_number':
+        return renderEditItem(get(formDescription, 'key'), <RadioWithInputNumber config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+        });
       case 'pregnancy_history':
         return renderEditItem(
           get(formDescription, 'key'),
-          <PregnancyHistory {...get(formDescription, 'inputProps')} />,
+          <PregnancyHistory {...get(formDescription, 'inputProps')} form={form} required />,
           {
             customFormItemLayout: get(formDescription, 'formItemLayout') || {},
           },
@@ -93,6 +131,12 @@ export class FormSection extends React.Component<IProps, IState> {
         return renderEditItem(
           get(formDescription, 'key'),
           <Input size="small" {...get(formDescription, 'inputProps')} />,
+          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+        );
+      case 'id_number_input':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <Input size="small" {...get(formDescription, 'inputProps')} onChange={get(events, 'handleIDNumberChange')} />,
           { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
         );
       case 'cron':
@@ -124,6 +168,7 @@ export class FormSection extends React.Component<IProps, IState> {
         return renderEditItem(
           get(formDescription, 'key'),
           <InputNumber size="small" min={0} {...get(formDescription, 'inputProps')} />,
+          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
         );
       case 'password':
         return renderEditItem(
@@ -238,6 +283,7 @@ export class FormSection extends React.Component<IProps, IState> {
           tempArr.push(formDescription);
           if (Number(index) === formDescriptions.length - 1) {
             formArray.push(this.renderRowAndCol(tempArr));
+            tempArr = [];
           }
         } else {
           const renderArr = tempArr;
@@ -250,6 +296,9 @@ export class FormSection extends React.Component<IProps, IState> {
         formArray.push(this.renderItem(formDescription));
       }
     });
+    if (!isEmpty(tempArr)) {
+      formArray.push(this.renderRowAndCol(tempArr));
+    }
     return formArray;
   };
 

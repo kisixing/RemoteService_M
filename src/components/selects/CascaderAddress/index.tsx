@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Select, Cascader, Row, Col, Input } from 'antd';
-import { map, get, isEmpty } from 'lodash';
+import { map, get, isEmpty, split } from 'lodash';
 import options, { getStreets } from './cascader-address-options';
 
 export default (props: any) => {
@@ -9,9 +9,21 @@ export default (props: any) => {
 
   useEffect(() => {
     if (!isEmpty(get(props, 'value'))) {
-      const value = JSON.parse(get(props, 'value'));
-      setAddress(value);
-      setStreets(getStreets(get(value, 'province'), get(value, 'city'), get(value, 'area')) || []);
+      const addressArray = split(get(props, 'value'), ',');
+      const value = {
+        province: get(addressArray, 0),
+        city: get(addressArray, 1),
+        area: get(addressArray, 2),
+        street: get(addressArray, 3),
+        detail: get(addressArray, 4),
+      };
+      try {
+        setAddress(value);
+        setStreets(getStreets(get(value, 'province'), get(value, 'city'), get(value, 'area')) || []);
+      } catch (error) {
+        setAddress({});
+        setStreets([]);
+      }
     }
   }, []);
 
@@ -31,7 +43,7 @@ export default (props: any) => {
       area,
     };
     setAddress(params);
-    onChange && onChange(JSON.stringify(params));
+    onChange && onChange(`${params.province},${params.city},${params.area},${params.street},${params.detail}`);
   };
 
   const handleStreetChange = data => {
@@ -41,7 +53,7 @@ export default (props: any) => {
       street: data,
     };
     setAddress(params);
-    onChange && onChange(JSON.stringify(params));
+    onChange && onChange(`${params.province},${params.city},${params.area},${params.street},${params.detail}`);
   };
 
   const handleInputChange = e => {
@@ -51,7 +63,7 @@ export default (props: any) => {
       detail: e.target.value,
     };
     setAddress(params);
-    onChange && onChange(JSON.stringify(params));
+    onChange && onChange(`${params.province},${params.city},${params.area},${params.street},${params.detail}`);
   };
 
   return (

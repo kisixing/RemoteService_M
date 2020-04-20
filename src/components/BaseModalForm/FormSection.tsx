@@ -68,6 +68,10 @@ export class FormSection extends React.Component<IProps> {
             <Radio value={1}>是</Radio>
             <Radio value={0}>否</Radio>
           </Radio.Group>,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'normal_select':
         return renderEditItem(
@@ -77,13 +81,19 @@ export class FormSection extends React.Component<IProps> {
             showSearch={get(JSON.parse(get(formDescription, 'special_config')), 'showSearch')}
             placeholder="请选择证件类型"
           />,
-          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'country_select':
         return renderEditItem(
           get(formDescription, 'key'),
           <CountrySelect language="zh-CN" placeholder="请选择国籍" />,
-          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'dysmenorrhea_radio':
         return renderEditItem(
@@ -92,7 +102,10 @@ export class FormSection extends React.Component<IProps> {
             <Radio value={true}>是</Radio>
             <Radio value={false}>否</Radio>
           </Radio.Group>,
-          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'pregnant_radio':
         return renderEditItem(
@@ -101,23 +114,30 @@ export class FormSection extends React.Component<IProps> {
             <Radio value={false}>否</Radio>
             <Radio value={true}>是</Radio>
           </Radio.Group>,
-          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'radio_with_input':
         return renderEditItem(get(formDescription, 'key'), <RadioWithInput config={formDescription} />, {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
         });
       case 'checkbox_with_input':
         return renderEditItem(get(formDescription, 'key'), <CheckboxWithInput config={formDescription} />, {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
         });
       case 'disease_select':
         return renderEditItem(get(formDescription, 'key'), <DiseaseSelect config={formDescription} />, {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
         });
       case 'radio_with_input_number':
         return renderEditItem(get(formDescription, 'key'), <RadioWithInputNumber config={formDescription} />, {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
         });
       case 'pregnancy_history':
         return renderEditItem(
@@ -125,55 +145,85 @@ export class FormSection extends React.Component<IProps> {
           <PregnancyHistory {...get(formDescription, 'inputProps')} form={form} required />,
           {
             customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
           },
         );
       case 'input':
         return renderEditItem(
           get(formDescription, 'key'),
           <Input size="small" {...get(formDescription, 'inputProps')} />,
-          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'id_number_input':
         return renderEditItem(
           get(formDescription, 'key'),
           <Input size="small" {...get(formDescription, 'inputProps')} onChange={get(events, 'handleIDNumberChange')} />,
-          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'cron':
         return renderEditItem(get(formDescription, 'key'), <CronSelect {...get(formDescription, 'inputProps')} />, {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
         });
       case 'trigger_type_select':
         return renderEditItem(
           get(formDescription, 'key'),
           <TriggerTypeSelect size="small" {...get(formDescription, 'inputProps')} />,
-          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'text_area':
         return renderEditItem(
           get(formDescription, 'key'),
           <Input.TextArea size="small" {...get(formDescription, 'inputProps')} />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'tree_select':
         return renderEditItem(
           get(formDescription, 'key'),
           <PermissionSelect size="small" {...get(formDescription, 'inputProps')} />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'parent_select':
         return renderEditItem(
           get(formDescription, 'key'),
           <ParentPermissionSelect size="small" {...get(formDescription, 'inputProps')} />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'input_number':
         return renderEditItem(
           get(formDescription, 'key'),
           <InputNumber size="small" min={0} {...get(formDescription, 'inputProps')} />,
-          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'password':
         return renderEditItem(
           get(formDescription, 'key'),
           <Input.Password size="small" {...get(formDescription, 'inputProps')} />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'validdate':
         return renderEditItem(
@@ -189,11 +239,19 @@ export class FormSection extends React.Component<IProps> {
             valueKey="id"
             labelKey="name"
           />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'editor':
         return renderEditItem(
           get(formDescription, 'key'),
           <CustomEditor size="small" {...get(formDescription, 'inputProps')} />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'product':
         return get(formDescription, 'viewOnly')
@@ -210,6 +268,10 @@ export class FormSection extends React.Component<IProps> {
                 labelKey="name"
                 {...get(formDescription, 'inputProps')}
               />,
+              {
+                customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+                styles: get(formDescription, 'styles'),
+              },
             );
       case 'roles':
         return renderEditItem(
@@ -222,11 +284,19 @@ export class FormSection extends React.Component<IProps> {
             mode="multiple"
             {...get(formDescription, 'inputProps')}
           />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'device_status':
         return renderEditItem(
           get(formDescription, 'key'),
           <DeviceStatusSelect size="small" {...get(formDescription, 'inputProps')} />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'address':
         return renderEditItem(
@@ -241,17 +311,28 @@ export class FormSection extends React.Component<IProps> {
         return renderEditItem(
           get(formDescription, 'key'),
           <PermissionTypeSelect size="small" {...get(formDescription, 'inputProps')} />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'upload_img':
         return renderEditItem(
           get(formDescription, 'key'),
           <UploadImg size="small" {...get(formDescription, 'inputProps')} allowUploadImages={10} />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'single_date_picker':
         return renderEditItem(
           get(formDescription, 'key'),
           <DatePicker size="small" {...get(formDescription, 'inputProps')} />,
-          { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
       case 'view_only':
         return renderEditItem(get(formDescription, 'key'), <span>{get(data, get(formDescription, 'path'))}</span>);
@@ -259,6 +340,10 @@ export class FormSection extends React.Component<IProps> {
         return renderEditItem(
           get(formDescription, 'key'),
           <Input size="small" {...get(formDescription, 'inputProps')} />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
         );
     }
   };

@@ -88,6 +88,7 @@ export default {
   'menu.pregnancies.list': '病例列表',
   'menu.pregnancies.add': '病例添加',
   'menu.pregnancies.edit': '病例编辑',
+  'menu.pregnancies.physical-exam': '体格检查',
 
   'menu.system': '系统管理',
   'menu.system.users': '用户管理',

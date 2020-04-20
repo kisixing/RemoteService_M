@@ -2,6 +2,16 @@ import React, { useState } from 'react';
 import { Checkbox, Input, Row, Col } from 'antd';
 import { get, map, set, indexOf, clone, filter, unset } from 'lodash';
 
+type Option = {
+  value: string;
+  label: string;
+  checked: boolean;
+  withInput: boolean;
+  span?: number;
+  offset?: number;
+  inputSpan?: number;
+};
+
 // special_config 配置如下
 //
 const specialConfigDemo = {
@@ -36,9 +46,7 @@ const specialConfigDemo = {
 export default (props: any) => {
   const config = get(props, 'config');
   const specialConfig = JSON.parse(get(config, 'special_config'));
-  const options = get(specialConfig, 'options') as [
-    { value: string; label: string; checked: boolean; withInput: boolean },
-  ];
+  const options = get(specialConfig, 'options') as [Option];
   const type = get(specialConfig, 'type') as 'single' | 'multiple';
 
   const [checkedValues, setCheckedValues] = useState([]);
@@ -135,10 +143,11 @@ export default (props: any) => {
     <Checkbox.Group value={checkedValues} style={{ width: '100%' }}>
       <Row>
         {map(options, (option, index) => {
+          const { span = 6, inputSpan = 11, offset = 0 } = option;
           if (option.withInput) {
             return (
               <>
-                <Col offset={index === 0 ? 0 : 1}>
+                <Col offset={offset} span={span}>
                   <Checkbox
                     style={indexOf(checkedValues, option.value) > -1 ? get(option, 'exceptionStyle.checkboxStyle') : {}}
                     value={option.value}
@@ -147,22 +156,22 @@ export default (props: any) => {
                     {option.label}
                   </Checkbox>
                 </Col>
-                <Col>
-                  {indexOf(checkedValues, option.value) > -1 && (
+                {indexOf(checkedValues, option.value) > -1 && (
+                  <Col span={inputSpan}>
                     <Input
                       style={get(option, 'exceptionStyle.inputStyle')}
                       size="small"
                       onChange={handleInputChange(option)}
                       value={get(inputValues, `${get(option, 'value')}Note`)}
                     />
-                  )}
-                </Col>
+                  </Col>
+                )}
               </>
             );
           }
 
           return (
-            <Col offset={index === 0 ? 0 : 1}>
+            <Col offset={offset} span={span}>
               <Checkbox value={option.value} onChange={handleCheckboxChange(option)}>
                 {option.label}
               </Checkbox>

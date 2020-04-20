@@ -7,6 +7,7 @@ import _package from './package';
 import order from './order';
 import system from './system';
 import followUp from './follow-up';
+import pregnancies from './pregnancies';
 import exception from './exception';
 
 export const routes: IRoute[] = [
@@ -67,32 +68,7 @@ export const routes: IRoute[] = [
           _package,
           order,
           device,
-          {
-            name: 'pregnancies',
-            icon: 'user',
-            path: '/pregnancies',
-            routes: [
-              {
-                name: 'list',
-                icon: 'ordered-list',
-                path: '/pregnancies/list',
-                component: './pregnancies/list',
-              },
-              {
-                name: 'add',
-                icon: 'ordered-list',
-                path: '/pregnancies/add',
-                component: './pregnancies/edit',
-              },
-              {
-                name: 'edit',
-                icon: 'ordered-list',
-                hideInMenu: true,
-                path: '/pregnancies/edit',
-                component: './pregnancies/edit',
-              },
-            ],
-          },
+          pregnancies,
           {
             name: 'ctgfees',
             icon: 'setting',

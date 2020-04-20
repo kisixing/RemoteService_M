@@ -24,6 +24,14 @@ const omitMenus = [
     parentid: 0,
     active: null,
   },
+  {
+    id: 998,
+    type: 'others',
+    key: '/pregnancies/physical-exam/edit',
+    name: '体格检查',
+    parentid: 24,
+    active: null,
+  },
 ];
 
 export interface BasicLayoutProps extends ProLayoutProps {
@@ -112,6 +120,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
         [],
       );
       const permissionsMapping = keyBy(concat(selfPermissions, omitMenus), 'key');
+      console.log(permissionsMapping)
       if (location && location.pathname !== '/') {
         const menuItemProps = get(permissionsMapping, get(location, 'pathname'));
         if (menuItemProps) {

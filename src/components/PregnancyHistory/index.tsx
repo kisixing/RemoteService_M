@@ -1,7 +1,7 @@
 import React from 'react';
-import { Tabs, Form, Input, Row, Col, Radio, InputNumber, Button, DatePicker, Divider, Select } from 'antd';
-import { map, get, set, keyBy, isEmpty, isNil, filter, isFunction, toArray, cloneDeep, isEqual } from 'lodash';
-import moment, { Moment } from 'moment';
+import { Tabs, Input, Row, Col, Radio, InputNumber, Button, Divider, Select } from 'antd';
+import { map, get, set, isEmpty, isFunction, toArray, cloneDeep, isEqual } from 'lodash';
+import moment from 'moment';
 import { DynamicForm } from '@lianmed/components';
 import request from '@/utils/request';
 import { formDescriptionsFromApi, formDescriptionsWithoutSectionApi } from '@/utils/adapter';
@@ -130,7 +130,6 @@ export default class PregnancyHistory extends DynamicForm {
   // 删除 tab
   remove = targetKey => {
     let { activeKey, tabPanes } = this.state;
-    const { onChange } = this.props;
     let lastIndex;
     tabPanes.forEach((pane, i) => {
       if (pane.key === targetKey) {

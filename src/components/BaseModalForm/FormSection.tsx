@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import { Input, InputNumber, Tabs, Form, Radio, Row, Col, DatePicker } from 'antd';
+import React from 'react';
+import { Input, InputNumber, Radio, Row, Col, DatePicker } from 'antd';
 import { map, get, keyBy, isNil, isEmpty } from 'lodash';
 import DeviceStatusSelect from '@/components/selects/DeviceStatusSelect';
 import PermissionSelect from '@/components/selects/PermissionSelect';
@@ -267,7 +267,6 @@ export class FormSection extends React.Component<IProps> {
     const { formDescriptions = [] } = this.props;
     let tempArr = [];
     let tempSpan = 0;
-    let newRow = false;
     let formArray = [];
 
     map(formDescriptions, (formDescription, index) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { DynamicForm } from '@lianmed/components';
 import { Form, Divider, Button } from 'antd';
-import { get, map, isFunction, isEmpty, isEqual } from 'lodash';
+import { get, map, isFunction, isEqual } from 'lodash';
 import FormSection from '@/components/BaseModalForm/FormSection';
 import moment from 'moment';
 
@@ -36,7 +36,7 @@ export default class PregnanciesForm extends DynamicForm {
   componentWillReceiveProps(nextprops) {
     const { form } = this.state;
     if (form) {
-      const { formDescriptionsWithoutSection, formDescriptions, data } = nextprops;
+      const { formDescriptionsWithoutSection, formDescriptions } = nextprops;
       const renderEditItem = this.generateRenderEditItem(formDescriptionsWithoutSection, {
         formItemLayout,
       });
@@ -52,6 +52,7 @@ export default class PregnanciesForm extends DynamicForm {
   handleFinish = async () => {
     const { form } = this.state;
     const { onFinish, data } = this.props;
+    form && (await form.validateFields());
     const params = {
       ...form.getFieldsValue(),
       id: get(data, 'id'),
@@ -104,7 +105,6 @@ export default class PregnanciesForm extends DynamicForm {
   };
 
   render() {
-    const { form } = this.state;
     return (
       <Form style={{ minWidth: '90%' }} ref={this.formRef} {...formItemLayout}>
         {this.renderEditContent()}

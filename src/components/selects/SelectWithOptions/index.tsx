@@ -42,7 +42,6 @@ export default (props: IProps) => {
     let dataResponse: any = null;
     if (get(config, 'type') === 'string') {
       dataResponse = join(selectedArray, ',');
-      setData(selectedArray);
     } else if (get(config, 'type') === 'object') {
       dataResponse = {};
       if (get(config, 'mode') === 'single') {
@@ -52,10 +51,10 @@ export default (props: IProps) => {
           set(dataResponse, selectedDisease, true);
         });
       }
-      setData(selectedArray);
     } else if (get(config, 'type') === 'array') {
       dataResponse = selectedArray;
     }
+    setData(selectedArray);
     onChange && onChange(dataResponse);
   };
 

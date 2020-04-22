@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, router } from 'umi';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
-import { Tabs, Modal } from 'antd';
+import { Tabs, Modal, ConfigProvider } from 'antd';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import logo from '../assets/logo.jpg';
@@ -14,6 +14,7 @@ import request, { TOKEN } from '@/utils/request';
 import styles from './Layout.less';
 import Welcome from '@/pages/Welcome';
 import VisitedPanel from '@lianmed/pages/lib/Remote/VisitedPanel';
+import zhCN from 'antd/es/locale/zh_CN';
 
 const omitMenus = [
   {
@@ -240,7 +241,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   };
 
   return (
-    <>
+    <ConfigProvider locale={zhCN}>
       <ProLayout
         className={styles.customProLayout}
         style={{ height: 600, overflow: 'scroll' }}
@@ -304,7 +305,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
         )}
       </ProLayout>
       <VisitedPanel remote_url="http://transfer.lian-med.com" />
-    </>
+    </ConfigProvider>
   );
 };
 

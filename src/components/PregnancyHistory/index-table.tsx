@@ -240,7 +240,6 @@ export default class PregnancyHistoryTable extends React.Component {
   }) => (e: any) => {
     const { onChange } = this.props;
     const { data } = this.state;
-    const tempData: any = this.getNativeData(data);
     const { index, childId, childIndex, fetalcount } = configData.rowData;
     if (configData.isChildCol) {
       const childs = get(configData.rowData, 'childs') || [];
@@ -274,7 +273,7 @@ export default class PregnancyHistoryTable extends React.Component {
           });
           break;
       }
-      map(tempData, item => {
+      map(data, item => {
         if (get(item, 'index') === index) {
           set(item, 'childs', childs);
         }
@@ -285,14 +284,14 @@ export default class PregnancyHistoryTable extends React.Component {
         case 'deliverWay':
         case 'normal_select':
         case 'input_number':
-          map(tempData, item => {
+          map(data, item => {
             if (get(item, 'index') === index) {
               set(item, configData.key, e);
             }
           });
           break;
         case 'checkbox':
-          map(tempData, item => {
+          map(data, item => {
             if (get(item, 'index') === index) {
               set(item, configData.key, get(e, 'target.checked'));
             }
@@ -300,7 +299,7 @@ export default class PregnancyHistoryTable extends React.Component {
           break;
         case 'input':
         default:
-          map(tempData, item => {
+          map(data, item => {
             if (get(item, 'index') === index) {
               set(item, configData.key, get(e, 'target.value'));
             }
@@ -308,9 +307,9 @@ export default class PregnancyHistoryTable extends React.Component {
           break;
       }
     }
-    onChange && onChange(this.toApi(tempData));
+    onChange && onChange(this.toApi(data));
     this.setState({
-      data: this.transDataByFetalcount(tempData),
+      data,
     });
   };
 
@@ -409,15 +408,8 @@ export default class PregnancyHistoryTable extends React.Component {
     });
   };
 
-  testChange = e => {
-    this.setState({
-      test: e.target.value,
-    });
-  };
-
   render() {
     const { columns, data, selectedRowKeys, test } = this.state;
-    console.log('render');
     return (
       <>
         <div style={{ marginBottom: 8 }}>
@@ -434,7 +426,6 @@ export default class PregnancyHistoryTable extends React.Component {
             删除选中孕次
           </Button>
         </div>
-        <Input onChange={this.testChange} value={test} />
         <Table
           rowSelection={{
             onChange: this.handleRowSelectionChange,

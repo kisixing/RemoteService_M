@@ -120,7 +120,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
         [],
       );
       const permissionsMapping = keyBy(concat(selfPermissions, omitMenus), 'key');
-      console.log(permissionsMapping)
       if (location && location.pathname !== '/') {
         const menuItemProps = get(permissionsMapping, get(location, 'pathname'));
         if (menuItemProps) {

@@ -33,6 +33,20 @@ const statusMapping = {
       title: '已取消',
     },
   ],
+  genderMapping: [
+    {
+      value: 0,
+      title: '男',
+    },
+    {
+      value: 1,
+      title: '女',
+    },
+    {
+      value: 2,
+      title: '未知',
+    },
+  ],
   IDCardMapping: [
     {
       value: 0,
@@ -536,7 +550,14 @@ const statusMapping = {
 };
 
 interface IProps {
-  type: 'orderStatusMapping' | 'IDCardMapping' | 'jobMapping' | 'ethnicMapping' | 'maritalMapping' | 'provinceMapping';
+  type:
+    | 'orderStatusMapping'
+    | 'IDCardMapping'
+    | 'jobMapping'
+    | 'ethnicMapping'
+    | 'maritalMapping'
+    | 'provinceMapping'
+    | 'genderMapping';
   showSearch: true | false;
   placeholder?: string;
 }

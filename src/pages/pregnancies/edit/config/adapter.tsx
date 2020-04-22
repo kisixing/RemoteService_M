@@ -211,18 +211,23 @@ export const transPregnancyHistories = (nativePregnancyHistories, oldPregnancyHi
   return pregnancyHistories;
 };
 
-export const toApi = async data => {
-  // 获取原生孕产史字段信息
-  const pregnancyHistoryKeys = keys(await getPregnancyHistoryFormDescriptions());
-  // 来自表单的原始孕产史信息
-  const nativePregnancyHistories = {};
-  map(data, (item, key) => {
-    const fieldPaths = split(key, '_');
-    if (fieldPaths.length > 1 && indexOf(pregnancyHistoryKeys, get(fieldPaths, '0')) > -1) {
-      set(nativePregnancyHistories, key, item);
-    }
-  });
-  const pregnancyHistories = transPregnancyHistories(nativePregnancyHistories, get(data, 'pregnancyHistories'));
+export const toApi = async (data: any) => {
+  let pregnancyHistories = [];
+  if (get(data, 'pregnancyHistories.0.pregnancyHistoryType') === 'table') {
+    pregnancyHistories = get(data, 'pregnancyHistories');
+  } else {
+    // 获取原生孕产史字段信息
+    const pregnancyHistoryKeys = keys(await getPregnancyHistoryFormDescriptions());
+    // 来自表单的原始孕产史信息
+    const nativePregnancyHistories = {};
+    map(data, (item, key) => {
+      const fieldPaths = split(key, '_');
+      if (fieldPaths.length > 1 && indexOf(pregnancyHistoryKeys, get(fieldPaths, '0')) > -1) {
+        set(nativePregnancyHistories, key, item);
+      }
+    });
+    pregnancyHistories = transPregnancyHistories(nativePregnancyHistories, get(data, 'pregnancyHistories'));
+  }
   console.log(pregnancyHistories);
   return {
     ...data,

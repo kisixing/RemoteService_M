@@ -44,7 +44,7 @@ export default class Pregnancies extends React.Component {
     return (
       <div className={styles.pregnanciesPanel}>
         <Form
-          key={get(data, 'id')}
+          key={get(data, 'id') || Math.random()}
           data={data}
           onFinish={this.handleSubmit}
           formDescriptions={formDescriptions}

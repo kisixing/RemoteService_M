@@ -17,6 +17,9 @@ module.exports = {
     'react/prefer-stateless-function': 0,
     'consistent-return': 0,
     '@typescript-eslint/no-unused-vars': 0,
+    '@typescript-eslint/no-use-before-define': 0,
+    'no-use-before-define': 0,
     'no-plusplus': 0,
+    'no-case-declarations': 0,
   },
 };

@@ -142,7 +142,7 @@ export class FormSection extends React.Component<IProps> {
       case 'pregnancy_history':
         return renderEditItem(
           get(formDescription, 'key'),
-          <PregnancyHistory {...get(formDescription, 'inputProps')} form={form} required />,
+          <PregnancyHistory config={formDescription} form={form} required />,
           {
             customFormItemLayout: get(formDescription, 'formItemLayout') || {},
             styles: get(formDescription, 'styles'),
@@ -353,7 +353,6 @@ export class FormSection extends React.Component<IProps> {
     let tempArr = [];
     let tempSpan = 0;
     let formArray = [];
-
     map(formDescriptions, (formDescription, index) => {
       if (!isNil(get(formDescription, 'span')) && !isNil(get(formDescription, 'offset'))) {
         if (get(formDescription, 'isNewRow')) {

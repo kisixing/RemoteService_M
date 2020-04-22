@@ -1,7 +1,7 @@
 import React from 'react';
 import { DynamicForm } from '@lianmed/components';
 import { Form, Divider, Button } from 'antd';
-import { get, map, isFunction, isEqual } from 'lodash';
+import { get, map, isFunction, isEqual, isEmpty } from 'lodash';
 import FormSection from '@/components/BaseModalForm/FormSection';
 import moment from 'moment';
 
@@ -23,31 +23,38 @@ export default class PregnanciesForm extends DynamicForm {
   };
 
   componentDidMount() {
-    const { data } = this.props;
+    const { data, formDescriptionsWithoutSection, formDescriptions } = this.props;
     setTimeout(() => {
       const form = this.formRef.current;
       form && form.setFieldsValue(data);
+      const renderEditItem = this.generateRenderEditItem(formDescriptionsWithoutSection, {
+        formItemLayout,
+      });
       this.setState({
         form,
+        renderEditItem,
+        formDescriptions,
+        formDescriptionsWithoutSection,
       });
     }, 100);
   }
 
-  componentWillReceiveProps(nextprops) {
-    const { form } = this.state;
-    if (form) {
-      const { formDescriptionsWithoutSection, formDescriptions } = nextprops;
-      const renderEditItem = this.generateRenderEditItem(formDescriptionsWithoutSection, {
-        formItemLayout,
-      });
-      if (isEqual(formDescriptionsWithoutSection, get(this.props, 'formDescriptionsWithoutSection')))
-        this.setState({
-          formDescriptionsWithoutSection,
-          formDescriptions,
-          renderEditItem,
-        });
-    }
-  }
+  // componentWillReceiveProps(nextprops) {
+  //   const { form } = this.state;
+  //   console.log(form);
+  //   if (form) {
+  //     const { formDescriptionsWithoutSection, formDescriptions } = nextprops;
+  //     const renderEditItem = this.generateRenderEditItem(formDescriptionsWithoutSection, {
+  //       formItemLayout,
+  //     });
+  //     if (isEqual(formDescriptionsWithoutSection, get(this.props, 'formDescriptionsWithoutSection')))
+  //       this.setState({
+  //         formDescriptionsWithoutSection,
+  //         formDescriptions,
+  //         renderEditItem,
+  //       });
+  //   }
+  // }
 
   handleFinish = async () => {
     const { form } = this.state;
@@ -57,6 +64,7 @@ export default class PregnanciesForm extends DynamicForm {
       ...form.getFieldsValue(),
       id: get(data, 'id'),
     };
+    console.log(params);
     onFinish && onFinish(params);
   };
 
@@ -75,7 +83,7 @@ export default class PregnanciesForm extends DynamicForm {
     const { data } = this.props;
     const { renderEditItem, form } = this.state;
     return (
-      <>
+      <div key={get(section, 'flag')}>
         <Divider key={`${get(section, 'flag')}-divider`} orientation="left">
           {get(section, 'name')}
         </Divider>
@@ -89,7 +97,7 @@ export default class PregnanciesForm extends DynamicForm {
             form={form}
           />
         )}
-      </>
+      </div>
     );
   };
 
@@ -97,9 +105,10 @@ export default class PregnanciesForm extends DynamicForm {
     const { formDescriptions } = this.props;
     return (
       <>
-        {map(formDescriptions, section => {
-          return this.renderSection(section);
-        })}
+        {!isEmpty(formDescriptions) &&
+          map(formDescriptions, section => {
+            return this.renderSection(section);
+          })}
       </>
     );
   };

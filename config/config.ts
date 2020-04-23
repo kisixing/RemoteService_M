@@ -132,8 +132,8 @@ export default {
       // pathRewrite: { '^/server': '' },
     },
     '/api/': {
-      target: 'http://192.168.123.56:9987/',
-      // target: 'http://transfer.lian-med.com:9987/',
+      // target: 'http://192.168.123.56:9987/',
+      target: 'http://transfer.lian-med.com:9988/',
       changeOrigin: true,
       // pathRewrite: { '^/server': '' },
     },

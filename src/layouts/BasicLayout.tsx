@@ -33,6 +33,14 @@ const omitMenus = [
     parentid: 24,
     active: null,
   },
+  {
+    id: 998,
+    type: 'others',
+    key: '/pregnancies/deliver-form',
+    name: '体格检查',
+    parentid: 24,
+    active: null,
+  },
 ];
 
 export interface BasicLayoutProps extends ProLayoutProps {
@@ -304,7 +312,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
           </div>
         )}
       </ProLayout>
-      <VisitedPanel remote_url="http://transfer.lian-med.com" />
+      {/* <VisitedPanel remote_url="http://transfer.lian-med.com" /> */}
     </ConfigProvider>
   );
 };

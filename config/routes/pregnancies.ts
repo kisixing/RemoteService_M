@@ -31,6 +31,12 @@ const r: IRoute = {
       path: '/pregnancies/physical-exam/edit',
       component: './physical-exam/edit',
     },
+    {
+      name: 'physical-exam',
+      icon: 'ordered-list',
+      path: '/pregnancies/deliver-form',
+      component: './deliver-form/edit',
+    },
   ],
 };
 

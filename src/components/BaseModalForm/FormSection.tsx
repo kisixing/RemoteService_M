@@ -19,6 +19,8 @@ import DiseaseSelect from '@/components/selects/DiseaseSelect';
 import NormalSelect from '@/components/selects/NormalSelect';
 import CountrySelect from '@/components/selects/CountrySelect';
 import CheckboxWithInput from '@/components/selects/CheckboxWithInput';
+import ApgarScoreInput from '@/components/selects/ApgarScoreInput';
+import MutipleInputWithLabel from '@/components/selects/MutipleInputWithLabel';
 
 interface IProps {
   renderEditItem: (key: any, reactNode: any, options?: any) => any;
@@ -152,6 +154,15 @@ export class FormSection extends React.Component<IProps> {
         return renderEditItem(
           get(formDescription, 'key'),
           <Input size="small" {...get(formDescription, 'inputProps')} />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
+        );
+      case 'mutiple_input_with_label':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <MutipleInputWithLabel config={formDescription} />,
           {
             customFormItemLayout: get(formDescription, 'formItemLayout') || {},
             styles: get(formDescription, 'styles'),
@@ -329,6 +340,15 @@ export class FormSection extends React.Component<IProps> {
         return renderEditItem(
           get(formDescription, 'key'),
           <DatePicker size="small" {...get(formDescription, 'inputProps')} />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
+        );
+      case 'apgar_score_input':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <ApgarScoreInput size="small" {...get(formDescription, 'inputProps')} />,
           {
             customFormItemLayout: get(formDescription, 'formItemLayout') || {},
             styles: get(formDescription, 'styles'),

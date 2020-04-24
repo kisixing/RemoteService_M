@@ -1,24 +1,10 @@
 import React, { Fragment } from 'react';
 import { Input, InputNumber, Tabs, Form, Radio, Row, Col, DatePicker } from 'antd';
 import { map, get, keyBy, isNil, indexOf, isUndefined, concat, isEmpty } from 'lodash';
-import DeviceStatusSelect from '@/components/selects/DeviceStatusSelect';
-import PermissionSelect from '@/components/selects/PermissionSelect';
-import ParentPermissionSelect from '../../selects/ParentPermissionSelect';
-import PermissionTypeSelect from '../../selects/PermissionTypeSelect';
-import UploadImg from '@/components/GeneralComponents/UploadImg';
-import CustomEditor from '@/components/GeneralComponents/CustomEditor';
-import DataSelect from '@/components/DataSelect';
-import CascaderAddress from '@/components/selects/CascaderAddress';
 import { connect } from 'dva';
-import PregnancyHistory from '@/components/BusinessComponents/PregnancyHistory';
-import TriggerTypeSelect from '@/components/selects/TriggerTypeSelect';
-import CronSelect from '@/components/selects/CronSelect';
 import RadioWithInput from '@/components/selects/RadioWithInput';
-import RadioWithInputNumber from '@/components/selects/RadioWithInputNumber';
-import DiseaseSelect from '@/components/selects/DiseaseSelect';
-import NormalSelect from '@/components/selects/NormalSelect';
 import SelectWithOptions from '@/components/selects/SelectWithOptions';
-import CheckboxWithInput from '@/components/selects/CheckboxWithInput';
+import CheckboxWithInput from '@/components/ConfigComponents/CheckboxWithInput';
 
 // 逻辑影响因子，1为true，2为false
 export const effects = {

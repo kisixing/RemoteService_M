@@ -18,10 +18,18 @@ import RadioWithInputNumber from '@/components/selects/RadioWithInputNumber';
 import DiseaseSelect from '@/components/selects/DiseaseSelect';
 import NormalSelect from '@/components/selects/NormalSelect';
 import CountrySelect from '@/components/selects/CountrySelect';
-import CheckboxWithInput from '@/components/selects/CheckboxWithInput';
+import CheckboxWithInput from '@/components/ConfigComponents/CheckboxWithInput';
 import ApgarScoreInput from '@/components/selects/ApgarScoreInput';
-import MutipleInputWithLabel from '@/components/selects/MutipleInputWithLabel';
+import MultipleInputWithLabel from '@/components/ConfigComponents/MultipleInputWithLabel';
 import FoetalAppendage from '@/components/BusinessComponents/FoetalAppendage';
+import { formDescriptionsFromApi, formDescriptionsWithoutSectionApi } from '@/utils/adapter';
+import request from '@/utils/request';
+
+export const getFormDescriptionByModuleName = async (moduleName: string) => {
+  return formDescriptionsWithoutSectionApi(
+    formDescriptionsFromApi(await request.get(`/form-descriptions?moduleName=${moduleName}`)),
+  );
+};
 
 interface IProps {
   renderEditItem: (key: any, reactNode: any, options?: any) => any;
@@ -143,14 +151,10 @@ export class FormSection extends React.Component<IProps> {
           styles: get(formDescription, 'styles'),
         });
       case 'pregnancy_history':
-        return renderEditItem(
-          get(formDescription, 'key'),
-          <PregnancyHistory config={formDescription} form={form} required />,
-          {
-            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
-            styles: get(formDescription, 'styles'),
-          },
-        );
+        return renderEditItem(get(formDescription, 'key'), <PregnancyHistory config={formDescription} form={form} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
+        });
       case 'input':
         return renderEditItem(
           get(formDescription, 'key'),
@@ -169,8 +173,8 @@ export class FormSection extends React.Component<IProps> {
             styles: get(formDescription, 'styles'),
           },
         );
-      case 'mutiple_input_with_label':
-        return renderEditItem(get(formDescription, 'key'), <MutipleInputWithLabel config={formDescription} />, {
+      case 'multiple_input_with_label':
+        return renderEditItem(get(formDescription, 'key'), <MultipleInputWithLabel config={formDescription} />, {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
           styles: get(formDescription, 'styles'),
         });

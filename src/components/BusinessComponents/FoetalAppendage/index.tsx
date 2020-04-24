@@ -1,6 +1,9 @@
 import React from 'react';
-import { Tabs } from 'antd';
+import { Tabs, Form } from 'antd';
 import { map, get } from 'lodash';
+import MultipleInputWithLabel from '@/components/GeneralComponents/MultipleInputWithLabel';
+import CheckboxWithInput from '@/components/GeneralComponents/CheckboxWithInput';
+import { getFormDescriptionByModuleName } from '@/components/BaseModalForm/FormSection';
 
 const TAB_TITLE = '胎儿';
 // 胎儿附属物
@@ -16,12 +19,23 @@ export default class FoetalAppendage extends React.Component {
     activeKey: '1',
   };
 
+  async componentDidMount() {
+    const formDesc = await getFormDescriptionByModuleName('foetalAppendage');
+    console.log(formDesc);
+  }
+
   onTabChange = () => {};
 
   onEdit = () => {};
 
   renderContent = () => {
-    return <></>;
+    return (
+      <div>
+        <Form.Item name="胎盘完整性">
+          {/* <CheckboxWithInput /> */}
+        </Form.Item>
+      </div>
+    );
   };
 
   render() {

@@ -1,3 +1,45 @@
+[
+  {
+    "label": "完整",
+    "value": 0,
+  },
+  {
+    "label": "基本完整",
+    "value": 1,
+  },
+  {
+    "label": "不完整",
+    "value": 2,
+    "withInput": true,
+    "inputType": "multiple_input",
+    "options": [
+      {
+        "enterType": "number",
+        "labelBefore": "缺损: ",
+      },
+      {
+        "enterType": "number",
+        "labelBefore": "X",
+      },
+    ],
+  },
+  {
+    "label": "粗糙面",
+    "value": 3,
+    "withInput": true,
+    "inputType": "multiple_input",
+    "options": [
+      {
+        "enterType": "number",
+        "labelBefore": "面积: ",
+      },
+      {
+        "enterType": "number",
+        "labelBefore": "X",
+      },
+    ],
+  },
+];
 // 格式化国家
 // const countryArr = [
 //   'Angola-安哥拉-0244',
@@ -230,7 +272,7 @@ const test1 = {
 
 // 多个值情况
 const test2 = {
-  type: 'mutiple_value',
+  type: 'multiple_value',
   fieldName: 'perineumsuture',
   rules: [
     {
@@ -253,7 +295,7 @@ const formDescriptionsWithoutSection = {
   },
   cardiacDisease: {
     tranferRules: {
-      type: 'mutiple_value',
+      type: 'multiple_value',
       fieldName: 'cardiacDisease',
       rules: [
         {
@@ -306,7 +348,7 @@ const fromApi = (data, formDescriptionsWithoutSection) => {
   map(formDescriptionsWithoutSection, formDesc => {
     const { type, fieldName, rules } = get(formDesc, 'tranferRules');
     switch (type) {
-      case 'mutiple_value':
+      case 'multiple_value':
         map(rules, rule => {
           set(
             result,
@@ -333,7 +375,7 @@ const toApi = (data, formDescriptionsWithoutSection) => {
   map(formDescriptionsWithoutSection, formDesc => {
     const { type, fieldName, rules } = get(formDesc, 'tranferRules');
     switch (type) {
-      case 'mutiple_value':
+      case 'multiple_value':
         map(rules, rule => {
           set(
             result,

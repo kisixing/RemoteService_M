@@ -9,7 +9,7 @@ import styles from './index.less';
 import { processFromApi } from './config/adapter';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
-import CustomSpin from '@/components/CustomSpin';
+import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 
 export default class Menus extends BaseList {
   state = {

@@ -3,7 +3,7 @@ import router from 'umi/router';
 import Table from './components/table';
 import { processFromApi } from './config/adapter';
 import BaseList from '@/components/BaseList';
-import CustomSpin from '@/components/CustomSpin';
+import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 
 export class ServiceList extends BaseList {
   state = {

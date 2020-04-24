@@ -6,7 +6,7 @@ import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
-import CustomSpin from '@/components/CustomSpin';
+import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 import { router } from 'umi';
 
 export default class FollowUpQuestion extends BaseList {

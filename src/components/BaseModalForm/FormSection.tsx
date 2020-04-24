@@ -5,12 +5,12 @@ import DeviceStatusSelect from '@/components/selects/DeviceStatusSelect';
 import PermissionSelect from '@/components/selects/PermissionSelect';
 import ParentPermissionSelect from '../selects/ParentPermissionSelect';
 import PermissionTypeSelect from '../selects/PermissionTypeSelect';
-import UploadImg from '@/components/UploadImg';
-import CustomEditor from '@/components/CustomEditor';
+import UploadImg from '@/components/GeneralComponents/UploadImg';
+import CustomEditor from '@/components/GeneralComponents/CustomEditor';
 import DataSelect from '@/components/DataSelect';
 import CascaderAddress from '@/components/selects/CascaderAddress';
 import { connect } from 'dva';
-import PregnancyHistory from '@/components/PregnancyHistory';
+import PregnancyHistory from '@/components/BusinessComponents/PregnancyHistory';
 import TriggerTypeSelect from '@/components/selects/TriggerTypeSelect';
 import CronSelect from '@/components/selects/CronSelect';
 import RadioWithInput from '@/components/selects/RadioWithInput';
@@ -21,6 +21,7 @@ import CountrySelect from '@/components/selects/CountrySelect';
 import CheckboxWithInput from '@/components/selects/CheckboxWithInput';
 import ApgarScoreInput from '@/components/selects/ApgarScoreInput';
 import MutipleInputWithLabel from '@/components/selects/MutipleInputWithLabel';
+import FoetalAppendage from '@/components/BusinessComponents/FoetalAppendage';
 
 interface IProps {
   renderEditItem: (key: any, reactNode: any, options?: any) => any;
@@ -159,15 +160,20 @@ export class FormSection extends React.Component<IProps> {
             styles: get(formDescription, 'styles'),
           },
         );
-      case 'mutiple_input_with_label':
+      case 'foetal_appendage':
         return renderEditItem(
           get(formDescription, 'key'),
-          <MutipleInputWithLabel config={formDescription} />,
+          <FoetalAppendage size="small" {...get(formDescription, 'inputProps')} />,
           {
             customFormItemLayout: get(formDescription, 'formItemLayout') || {},
             styles: get(formDescription, 'styles'),
           },
         );
+      case 'mutiple_input_with_label':
+        return renderEditItem(get(formDescription, 'key'), <MutipleInputWithLabel config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
+        });
       case 'id_number_input':
         return renderEditItem(
           get(formDescription, 'key'),

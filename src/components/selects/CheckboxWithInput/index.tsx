@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Checkbox, Input, Row, Col } from 'antd';
 import { get, map, set, indexOf, clone, filter, unset } from 'lodash';
+import InputWithLabel from '../InputWithLabel';
 
 type Option = {
   value: string;
@@ -139,6 +140,68 @@ export default (props: any) => {
     }
   };
 
+  const renderInput = (option: any) => {
+    const { span = 6, inputSpan = 11, offset = 0, inputType = 'input', enterType = 'string', ...others } = option;
+
+    if (indexOf(checkedValues, option.value) > -1) {
+      if (inputType === 'input') {
+        return (
+          <Col span={inputSpan}>
+            <div style={{ display: 'flex' }}>
+              <span style={{ display: 'inline-block', marginRight: 4 }}>( </span>
+              <InputWithLabel
+                {...others}
+                type={enterType}
+                style={get(option, 'exceptionStyle.inputStyle')}
+                size="small"
+                onChange={handleInputChange(option)}
+                value={get(inputValues, `${get(option, 'value')}Note`)}
+              />
+              <span style={{ display: 'inline-block', marginLeft: 4 }}> )</span>
+            </div>
+          </Col>
+        );
+      }
+      if (inputType === 'checkbox') {
+        const checkboxOptions = get(option, 'options');
+        return (
+          <Col span={inputSpan}>
+            <span>( </span>
+            <Checkbox.Group>
+              {map(checkboxOptions, checkboxOption => {
+                return <Checkbox value={get(checkboxOption, 'value')}>{get(checkboxOption, 'label')}</Checkbox>;
+              })}
+            </Checkbox.Group>
+            <span> )</span>
+          </Col>
+        );
+      }
+      if (inputType === 'mutiple_input') {
+        const inputOptions = get(option, 'options');
+        return (
+          <Col span={inputSpan}>
+            <div style={{ display: 'flex' }}>
+              <span>( </span>
+              {map(inputOptions, inputOption => {
+                return (
+                  <InputWithLabel
+                    size="small"
+                    {...inputOption}
+                    type={get(inputOption, 'enterType')}
+                    style={get(inputOption, 'exceptionStyle.inputStyle')}
+                    // onChange={handleInputChange(option)}
+                    // value={get(inputValues, `${get(option, 'value')}Note`)}
+                  />
+                );
+              })}
+              <span> )</span>
+            </div>
+          </Col>
+        );
+      }
+    }
+  };
+
   return (
     <Checkbox.Group value={checkedValues} style={{ width: '100%' }}>
       <Row>
@@ -156,16 +219,7 @@ export default (props: any) => {
                     {option.label}
                   </Checkbox>
                 </Col>
-                {indexOf(checkedValues, option.value) > -1 && (
-                  <Col span={inputSpan}>
-                    <Input
-                      style={get(option, 'exceptionStyle.inputStyle')}
-                      size="small"
-                      onChange={handleInputChange(option)}
-                      value={get(inputValues, `${get(option, 'value')}Note`)}
-                    />
-                  </Col>
-                )}
+                {renderInput(option)}
               </>
             );
           }

@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
 import request from '@/utils/request';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import CustomSpin from '@/components/CustomSpin';
+import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 import commonStyles from '@/common.less';
 
 export default class PackageList extends BaseList {

@@ -10,7 +10,7 @@ import Query from './components/query';
 import request from '@/utils/request';
 import queryString from 'query-string';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import CustomSpin from '@/components/CustomSpin';
+import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 
 export default class DeviceList extends BaseList {
   state = {

@@ -1,24 +1,24 @@
 import React, { Fragment } from 'react';
 import { Input, InputNumber, Tabs, Form, Radio, Row, Col, DatePicker } from 'antd';
 import { map, get, keyBy, isNil, indexOf, isUndefined, concat, isEmpty } from 'lodash';
-import DeviceStatusSelect from './node_modules/@/components/selects/DeviceStatusSelect';
-import PermissionSelect from './node_modules/@/components/selects/PermissionSelect';
+import DeviceStatusSelect from '@/components/selects/DeviceStatusSelect';
+import PermissionSelect from '@/components/selects/PermissionSelect';
 import ParentPermissionSelect from '../../selects/ParentPermissionSelect';
 import PermissionTypeSelect from '../../selects/PermissionTypeSelect';
-import UploadImg from './node_modules/@/components/UploadImg';
-import CustomEditor from './node_modules/@/components/GeneralComponents/CustomEditor';
-import DataSelect from './node_modules/@/components/DataSelect';
-import CascaderAddress from './node_modules/@/components/selects/CascaderAddress';
+import UploadImg from '@/components/GeneralComponents/UploadImg';
+import CustomEditor from '@/components/GeneralComponents/CustomEditor';
+import DataSelect from '@/components/DataSelect';
+import CascaderAddress from '@/components/selects/CascaderAddress';
 import { connect } from 'dva';
-import PregnancyHistory from './node_modules/@/components/PregnancyHistory';
-import TriggerTypeSelect from './node_modules/@/components/selects/TriggerTypeSelect';
-import CronSelect from './node_modules/@/components/selects/CronSelect';
-import RadioWithInput from './node_modules/@/components/selects/RadioWithInput';
-import RadioWithInputNumber from './node_modules/@/components/selects/RadioWithInputNumber';
-import DiseaseSelect from './node_modules/@/components/selects/DiseaseSelect';
-import NormalSelect from './node_modules/@/components/selects/NormalSelect';
-import SelectWithOptions from './node_modules/@/components/selects/SelectWithOptions';
-import CheckboxWithInput from './node_modules/@/components/selects/CheckboxWithInput';
+import PregnancyHistory from '@/components/BusinessComponents/PregnancyHistory';
+import TriggerTypeSelect from '@/components/selects/TriggerTypeSelect';
+import CronSelect from '@/components/selects/CronSelect';
+import RadioWithInput from '@/components/selects/RadioWithInput';
+import RadioWithInputNumber from '@/components/selects/RadioWithInputNumber';
+import DiseaseSelect from '@/components/selects/DiseaseSelect';
+import NormalSelect from '@/components/selects/NormalSelect';
+import SelectWithOptions from '@/components/selects/SelectWithOptions';
+import CheckboxWithInput from '@/components/selects/CheckboxWithInput';
 
 // 逻辑影响因子，1为true，2为false
 export const effects = {

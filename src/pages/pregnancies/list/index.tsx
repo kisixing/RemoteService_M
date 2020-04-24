@@ -9,7 +9,7 @@ import queryString from 'query-string';
 import { get, isFunction } from 'lodash';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
-import CustomSpin from '@/components/CustomSpin';
+import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 import { router } from 'umi';
 
 export default class Versions extends BaseList {

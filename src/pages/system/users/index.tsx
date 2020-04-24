@@ -9,7 +9,7 @@ import BaseList from '@/components/BaseList';
 import request from '@/utils/request';
 import { EditOutlined, DeleteOutlined, RedoOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
-import CustomSpin from '@/components/CustomSpin';
+import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 import ResetPasswordModal from './components/ResetPasswordModal';
 
 export default class Users extends BaseList {

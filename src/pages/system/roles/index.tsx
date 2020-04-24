@@ -8,7 +8,7 @@ import { processFromApi, toApi } from './config/adapter';
 import BaseList from '@/components/BaseList';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
-import CustomSpin from '@/components/CustomSpin';
+import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 import request from '@/utils/request';
 import queryString from 'query-string';
 import { transferMenus } from '@/utils/format';

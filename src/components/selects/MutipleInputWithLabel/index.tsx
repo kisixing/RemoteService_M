@@ -10,16 +10,17 @@ interface IProps {
 export default (props: IProps) => {
   const config = get(props, 'config');
   const specialConfig = get(config, 'special_config') && JSON.parse(get(config, 'special_config'));
-
+  const { options, type } = specialConfig;
   return (
     <Row>
-      {map(get(specialConfig, 'options'), option => {
+      {map(options as any, option => {
         return (
-          <Col>
+          <Col span={Math.floor(24 / options.length)}>
             <InputWithLabel
               {...get(config, 'inputProps')}
-              lableBefore={get(option, 'lableBefore')}
-              lableAfter={get(option, 'lableAfter')}
+              type={get(option, 'type') ? get(option, 'type') : type}
+              labelBefore={get(option, 'labelBefore')}
+              labelAfter={get(option, 'labelAfter')}
             />
           </Col>
         );

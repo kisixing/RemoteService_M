@@ -1,0 +1,21 @@
+.foetalPanel {
+  display: flex;
+  align-items: center;
+  &:hover {
+    .foetalPanelDelete {
+      visibility: visible;
+    }
+  }
+}
+
+.foetalPanelContent {
+  width: 100%;
+}
+
+.foetalPanelDelete {
+  cursor: pointer;
+  visibility: hidden;
+  &:hover {
+    color: #ff0000;
+  }
+}

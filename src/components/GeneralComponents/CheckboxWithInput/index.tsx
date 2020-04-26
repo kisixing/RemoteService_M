@@ -30,7 +30,7 @@ export default (props: IProps) => {
   useEffect(() => {
     const { value } = props;
     !isEmpty(value) && setData(value);
-  }, []);
+  }, [props.value]);
 
   const handleBoxGroupChange = (checkedValues: any[]) => {
     const tempData = cloneDeep(data);
@@ -76,7 +76,7 @@ export default (props: IProps) => {
   };
 
   const renderInput = (option: any) => {
-    const { span = 6, inputSpan = 11, offset = 0, inputType = 'input', enterType = 'string', ...others } = option;
+    const { inputSpan = 6, offset = 0, inputType = 'input', enterType = 'string', ...others } = option;
     const { checkedValues, withInputValues } = data;
 
     if (indexOf(checkedValues, option.value) > -1) {
@@ -108,13 +108,13 @@ export default (props: IProps) => {
 
         return (
           <Col span={inputSpan}>
-            <span>( </span>
+            <span style={{ display: 'inline-block', marginRight: 4 }}>( </span>
             <Checkbox.Group value={boxValues} onChange={handleInputChange(inputType, option)}>
               {map(checkboxOptions, checkboxOption => {
                 return <Checkbox value={get(checkboxOption, 'value')}>{get(checkboxOption, 'label')}</Checkbox>;
               })}
             </Checkbox.Group>
-            <span> )</span>
+            <span style={{ display: 'inline-block', marginLeft: 4 }}> )</span>
           </Col>
         );
       }
@@ -143,7 +143,7 @@ export default (props: IProps) => {
     <Checkbox.Group value={get(data, 'checkedValues')} onChange={handleBoxGroupChange} style={{ width: '100%' }}>
       <Row>
         {map(options, (option, index) => {
-          const { span = 6, inputSpan = 11, offset = 0 } = option;
+          const { span = 3, offset = 0 } = option;
           if (option.withInput) {
             return (
               <>

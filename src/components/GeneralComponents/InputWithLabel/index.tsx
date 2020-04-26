@@ -41,9 +41,9 @@ export default (props: IProps) => {
         <span
           style={{
             display: 'inline-block',
-            marginLeft: 8,
-            marginRight: 8,
-            width: 'auto',
+            marginLeft: 4,
+            marginRight: 4,
+            wordBreak: 'keep-all',
             ...get(props, 'labelAfterStyle'),
           }}
         >
@@ -66,9 +66,9 @@ export default (props: IProps) => {
         <span
           style={{
             display: 'inline-block',
-            marginLeft: 8,
-            marginRight: 8,
-            width: 'auto',
+            marginLeft: 4,
+            marginRight: 4,
+            wordBreak: 'keep-all',
             ...get(props, 'labelAfterStyle'),
           }}
         >

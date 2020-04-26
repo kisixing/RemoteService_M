@@ -50,9 +50,9 @@ export default (props: IProps) => {
 
   return props.needWrapper ? (
     <div style={{ display: 'flex' }}>
-      <span>( </span>
+      <span style={{ display: 'inline-block', marginRight: 4 }}>( </span>
       {renderContent()}
-      <span> )</span>
+      <span style={{ display: 'inline-block', marginLeft: 4 }}> )</span>
     </div>
   ) : (
     <div style={{ display: 'flex' }}>{renderContent()}</div>

@@ -167,7 +167,12 @@ export class FormSection extends React.Component<IProps> {
       case 'foetal_appendage':
         return renderEditItem(
           get(formDescription, 'key'),
-          <FoetalAppendage size="small" {...get(formDescription, 'inputProps')} />,
+          <FoetalAppendage
+            size="small"
+            {...get(formDescription, 'inputProps')}
+            renderEditItem={renderEditItem}
+            form={form}
+          />,
           {
             customFormItemLayout: get(formDescription, 'formItemLayout') || {},
             styles: get(formDescription, 'styles'),

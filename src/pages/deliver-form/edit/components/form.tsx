@@ -24,7 +24,6 @@ export default class PregnanciesForm extends DynamicForm {
 
   componentDidMount() {
     const { data, formDescriptionsWithoutSection, formDescriptions } = this.props;
-    console.log(formDescriptionsWithoutSection, formDescriptions)
     setTimeout(() => {
       const form = this.formRef.current;
       form && form.setFieldsValue(data);
@@ -48,6 +47,7 @@ export default class PregnanciesForm extends DynamicForm {
       ...form.getFieldsValue(),
       id: get(data, 'id'),
     };
+    console.log(params);
     onFinish && onFinish(params);
   };
 

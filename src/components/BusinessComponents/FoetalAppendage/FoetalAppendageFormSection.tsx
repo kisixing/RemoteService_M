@@ -7,6 +7,7 @@ import CheckboxWithInput from '@/components/ConfigComponents/CheckboxWithInput';
 import MultipleInputWithLabel from '@/components/ConfigComponents/MultipleInputWithLabel';
 import NormalSelectWithInput from '@/components/ConfigComponents/NormalSelectWithInput';
 import NormalCheckboxWithInput from '@/components/ConfigComponents/NormalCheckboxWithInput';
+import InputWithLabel from '@/components/ConfigComponents/InputWithLabel';
 
 export default class FoetalAppendageFormSection extends React.Component<IProps> {
   renderRowAndCol = (formDescriptionArr = []) => {
@@ -78,6 +79,11 @@ export default class FoetalAppendageFormSection extends React.Component<IProps> 
         });
       case 'multiple_input_with_label':
         return renderEditItem(get(formDescription, 'key'), <MultipleInputWithLabel config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
+        });
+      case 'input_with_label':
+        return renderEditItem(get(formDescription, 'key'), <InputWithLabel config={formDescription} />, {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
           styles: get(formDescription, 'styles'),
         });

@@ -60,7 +60,6 @@ export const routes: IRoute[] = [
       {
         path: '/',
         component: '../layouts/BasicLayout',
-        Routes: ['src/pages/Authorized'],
         authority: ['admin', 'user'],
         routes: [
           exception,

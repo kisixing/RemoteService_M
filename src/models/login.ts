@@ -7,7 +7,6 @@ import { get } from 'lodash';
 import { TOKEN } from '../utils/request';
 
 import { fakeAccountLogin } from '@/services/login';
-import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 
 export interface StateType {
@@ -88,7 +87,6 @@ const Model: LoginModelType = {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
       return {
         ...state,
         status: payload.status,

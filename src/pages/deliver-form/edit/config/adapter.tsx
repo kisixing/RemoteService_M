@@ -103,10 +103,10 @@ export const toApi = (data: any, nativeFormDescriptions: any) => {
         set(result, `${key}m`, Number(get(item, '1')));
         break;
       case 'apgar':
-        map(get(isObjectData, 'noenateRecord'), (record, index) => {
-          set(result, `${key}.${index}.apgar1`, get(record, 'apgar1'));
-          set(result, `${key}.${index}.apgar5`, get(record, 'apgar5'));
-          set(result, `${key}.${index}.apgar10`, get(record, 'apgar10'));
+        map(item, (record, index) => {
+          set(result, `noenateRecords.${index}.apgar1`, get(record, 'apgar1'));
+          set(result, `noenateRecords.${index}.apgar5`, get(record, 'apgar5'));
+          set(result, `noenateRecords.${index}.apgar10`, get(record, 'apgar10'));
         });
         break;
       case 'moment':

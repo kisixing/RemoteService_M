@@ -68,6 +68,7 @@ export default class FoetalAppendage extends DynamicForm {
     this.setState({
       data,
     });
+    this.throwDataByOnChange(data);
   };
 
   handleRemoveFetus = ({ key }: any) => () => {

@@ -135,6 +135,7 @@ export default (props: any) => {
 
   const renderSimpleContent = () => {
     const { form } = props;
+    console.log(form.getFieldsValue())
     const fetusAppendages = (form && form.getFieldValue('fetusAppendages')) || [{}];
     return map(fetusAppendages, (fetusAppendage, index) => {
       return (

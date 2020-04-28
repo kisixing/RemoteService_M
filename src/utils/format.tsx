@@ -1,8 +1,12 @@
 import moment, { Moment } from 'moment';
 import { map } from 'lodash';
 
-export const formatTimeToStandard = (date: any, format = 'YYYY-MM-DD HH:mm:ss') =>
-  moment(date).format(format);
+export const formatTimeToStandard = (date: any, format = 'YYYY-MM-DD HH:mm:ss') => moment(date).format(format);
+
+export const formatTimeToUTC = (date: any) =>
+  moment(date)
+    .utc()
+    .format();
 
 export const formatTimeToApi = (date: Moment) => date.format();
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { get, isEmpty } from 'lodash';
+import { get, isEmpty, isNil } from 'lodash';
 import CheckboxWithInput from '@/components/GeneralComponents/CheckboxWithInput';
 
 type Option = {
@@ -30,9 +30,10 @@ export default (props: any) => {
   const [data, setData] = useState({});
   useEffect(() => {
     const { value } = props;
+
     !isEmpty(value) &&
       setData({
-        checkedValues: get(value, 'key') && [get(value, 'key')],
+        checkedValues: !isNil(get(value, 'key')) && [get(value, 'key')],
         withInputValues: get(value, 'keyNote') && JSON.parse(get(value, 'keyNote')),
       });
   }, [props.value]);
@@ -123,12 +124,12 @@ export default (props: any) => {
   //   },
   // };
 
-  const handleChange = (data: any) => {
+  const handleChange = (callbackData: any) => {
     const { onChange } = props;
     onChange &&
       onChange({
-        key: get(data, 'checkedValues.0'),
-        keyNote: JSON.stringify(get(data, 'withInputValues')),
+        key: get(callbackData, 'checkedValues.0'),
+        keyNote: JSON.stringify(get(callbackData, 'withInputValues')),
       });
   };
 

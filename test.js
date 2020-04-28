@@ -1,41 +1,41 @@
 [
   {
-    "label": "完整",
-    "value": 0,
+    label: '完整',
+    value: 0,
   },
   {
-    "label": "基本完整",
-    "value": 1,
+    label: '基本完整',
+    value: 1,
   },
   {
-    "label": "不完整",
-    "value": 2,
-    "withInput": true,
-    "inputType": "multiple_input",
-    "options": [
+    label: '不完整',
+    value: 2,
+    withInput: true,
+    inputType: 'multiple_input',
+    options: [
       {
-        "enterType": "number",
-        "labelBefore": "缺损: ",
+        enterType: 'number',
+        labelBefore: '缺损: ',
       },
       {
-        "enterType": "number",
-        "labelBefore": "X",
+        enterType: 'number',
+        labelBefore: 'X',
       },
     ],
   },
   {
-    "label": "粗糙面",
-    "value": 3,
-    "withInput": true,
-    "inputType": "multiple_input",
-    "options": [
+    label: '粗糙面',
+    value: 3,
+    withInput: true,
+    inputType: 'multiple_input',
+    options: [
       {
-        "enterType": "number",
-        "labelBefore": "面积: ",
+        enterType: 'number',
+        labelBefore: '面积: ',
       },
       {
-        "enterType": "number",
-        "labelBefore": "X",
+        enterType: 'number',
+        labelBefore: 'X',
       },
     ],
   },
@@ -253,154 +253,158 @@
 
 // transferRules
 
-const { map, get, set } = require('lodash');
-const moment = require('moment');
+// const { map, get, set } = require('lodash');
+// const moment = require('moment');
 
-// 正常情况
-const test1 = {
-  type: 'normal',
-  fieldName: 'laborTime',
-  rules: [
-    {
-      fieldValueKey: 'laborTime',
-      path: 'laborTime',
-      valueType: 'moment',
-      format: 'YYYY-MM-DD',
-    },
-  ],
-};
+// // 正常情况
+// const test1 = {
+//   type: 'normal',
+//   fieldName: 'laborTime',
+//   rules: [
+//     {
+//       fieldValueKey: 'laborTime',
+//       path: 'laborTime',
+//       valueType: 'moment',
+//       format: 'YYYY-MM-DD',
+//     },
+//   ],
+// };
 
-// 多个值情况
-const test2 = {
-  type: 'multiple_value',
-  fieldName: 'perineumsuture',
-  rules: [
-    {
-      fieldValueKey: 'perineumsuture',
-      path: 'perineumsuture',
-    },
-    {
-      fieldValueKey: 'perineumsutureNote',
-      path: 'perineumsutureNote',
-    },
-  ],
-};
+// // 多个值情况
+// const test2 = {
+//   type: 'multiple_value',
+//   fieldName: 'perineumsuture',
+//   rules: [
+//     {
+//       fieldValueKey: 'perineumsuture',
+//       path: 'perineumsuture',
+//     },
+//     {
+//       fieldValueKey: 'perineumsutureNote',
+//       path: 'perineumsutureNote',
+//     },
+//   ],
+// };
 
-const formDescriptionsWithoutSection = {
-  laborTime: {
-    tranferRules: test1,
-  },
-  perineumsuture: {
-    tranferRules: test2,
-  },
-  cardiacDisease: {
-    tranferRules: {
-      type: 'multiple_value',
-      fieldName: 'cardiacDisease',
-      rules: [
-        {
-          fieldValueKey: 'cardiacDisease',
-          path: 'diseaseHistory.cardiacDisease',
-        },
-        {
-          fieldValueKey: 'cardiacDiseaseNote',
-          path: 'diseaseHistory.cardiacDiseaseNote',
-        },
-        {
-          fieldValueKey: 'others',
-          path: 'diseaseHistory.others',
-        },
-      ],
-    },
-  },
-  prevHeight: {
-    tranferRules: {
-      type: 'normal',
-      fieldName: 'prevHeight',
-      rules: [
-        {
-          fieldValueKey: 'prevHeight',
-          path: 'personalProfile.prevHeight',
-        },
-      ],
-    },
-  },
-};
+// const formDescriptionsWithoutSection = {
+//   laborTime: {
+//     tranferRules: test1,
+//   },
+//   perineumsuture: {
+//     tranferRules: test2,
+//   },
+//   cardiacDisease: {
+//     tranferRules: {
+//       type: 'multiple_value',
+//       fieldName: 'cardiacDisease',
+//       rules: [
+//         {
+//           fieldValueKey: 'cardiacDisease',
+//           path: 'diseaseHistory.cardiacDisease',
+//         },
+//         {
+//           fieldValueKey: 'cardiacDiseaseNote',
+//           path: 'diseaseHistory.cardiacDiseaseNote',
+//         },
+//         {
+//           fieldValueKey: 'others',
+//           path: 'diseaseHistory.others',
+//         },
+//       ],
+//     },
+//   },
+//   prevHeight: {
+//     tranferRules: {
+//       type: 'normal',
+//       fieldName: 'prevHeight',
+//       rules: [
+//         {
+//           fieldValueKey: 'prevHeight',
+//           path: 'personalProfile.prevHeight',
+//         },
+//       ],
+//     },
+//   },
+// };
 
-const data = {
-  laborTime: '2019-08-08',
-  perineumsuture: '1',
-  perineumsutureNote: '备注',
-  diseaseHistory: {
-    cardiacDisease: true,
-    cardiacDiseaseNote: '没啥',
-    hypertension: false,
-    hypertensionNote: '没啥22',
-    others: 'zzz',
-  },
-  personalProfile: {
-    prevHeight: '160',
-  },
-};
+// const data = {
+//   laborTime: '2019-08-08',
+//   perineumsuture: '1',
+//   perineumsutureNote: '备注',
+//   diseaseHistory: {
+//     cardiacDisease: true,
+//     cardiacDiseaseNote: '没啥',
+//     hypertension: false,
+//     hypertensionNote: '没啥22',
+//     others: 'zzz',
+//   },
+//   personalProfile: {
+//     prevHeight: '160',
+//   },
+// };
 
-const fromApi = (data, formDescriptionsWithoutSection) => {
-  const result = {};
-  map(formDescriptionsWithoutSection, formDesc => {
-    const { type, fieldName, rules } = get(formDesc, 'tranferRules');
-    switch (type) {
-      case 'multiple_value':
-        map(rules, rule => {
-          set(
-            result,
-            `${fieldName}.${rule.fieldValueKey}`,
-            rule.valueType === 'moment' ? moment(get(data, rule.path)) : get(data, rule.path),
-          );
-        });
-        break;
-      case 'normal':
-      default:
-        map(rules, rule => {
-          set(result, fieldName, rule.valueType === 'moment' ? moment(get(data, rule.path)) : get(data, rule.path));
-        });
-        break;
-    }
-  });
+// const fromApi = (data, formDescriptionsWithoutSection) => {
+//   const result = {};
+//   map(formDescriptionsWithoutSection, formDesc => {
+//     const { type, fieldName, rules } = get(formDesc, 'tranferRules');
+//     switch (type) {
+//       case 'multiple_value':
+//         map(rules, rule => {
+//           set(
+//             result,
+//             `${fieldName}.${rule.fieldValueKey}`,
+//             rule.valueType === 'moment' ? moment(get(data, rule.path)) : get(data, rule.path),
+//           );
+//         });
+//         break;
+//       case 'normal':
+//       default:
+//         map(rules, rule => {
+//           set(result, fieldName, rule.valueType === 'moment' ? moment(get(data, rule.path)) : get(data, rule.path));
+//         });
+//         break;
+//     }
+//   });
 
-  return result;
-};
+//   return result;
+// };
 
-const toApi = (data, formDescriptionsWithoutSection) => {
-  const result = {};
+// const toApi = (data, formDescriptionsWithoutSection) => {
+//   const result = {};
 
-  map(formDescriptionsWithoutSection, formDesc => {
-    const { type, fieldName, rules } = get(formDesc, 'tranferRules');
-    switch (type) {
-      case 'multiple_value':
-        map(rules, rule => {
-          set(
-            result,
-            rule.path,
-            rule.valueType === 'moment'
-              ? moment(get(data, rule.path))
-              : get(data, `${fieldName}.${rule.fieldValueKey}`),
-          );
-        });
-        break;
-      case 'normal':
-      default:
-        map(rules, rule => {
-          set(
-            result,
-            rule.path,
-            rule.valueType === 'moment' ? moment(get(data, fieldName)).format(rule.format) : get(data, fieldName),
-          );
-        });
-        break;
-    }
-  });
+//   map(formDescriptionsWithoutSection, formDesc => {
+//     const { type, fieldName, rules } = get(formDesc, 'tranferRules');
+//     switch (type) {
+//       case 'multiple_value':
+//         map(rules, rule => {
+//           set(
+//             result,
+//             rule.path,
+//             rule.valueType === 'moment'
+//               ? moment(get(data, rule.path))
+//               : get(data, `${fieldName}.${rule.fieldValueKey}`),
+//           );
+//         });
+//         break;
+//       case 'normal':
+//       default:
+//         map(rules, rule => {
+//           set(
+//             result,
+//             rule.path,
+//             rule.valueType === 'moment' ? moment(get(data, fieldName)).format(rule.format) : get(data, fieldName),
+//           );
+//         });
+//         break;
+//     }
+//   });
 
-  return result;
-};
+//   return result;
+// };
 
 // console.log(fromApi(data, formDescriptionsWithoutSection));
-console.log(toApi(fromApi(data, formDescriptionsWithoutSection), formDescriptionsWithoutSection));
+// console.log(toApi(fromApi(data, formDescriptionsWithoutSection), formDescriptionsWithoutSection));
+
+const moment = require('moment');
+
+console.log(moment().utc().format());

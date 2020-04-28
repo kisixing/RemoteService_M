@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Checkbox, Input, Row, Col } from 'antd';
 import { get, map, set, indexOf, clone, filter, unset, isEmpty, cloneDeep, values } from 'lodash';
-import InputWithLabel from '../InputWithLabel';
+import InputWithLabel from '@/components/GeneralComponents/InputWithLabel';
 import MultipleInputWithLabel, {
   Option as MultipleInputWithLabelOption,
 } from '@/components/GeneralComponents/MultipleInputWithLabel';

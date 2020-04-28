@@ -1,6 +1,6 @@
-import React from 'react';
-import { Row, Col, Radio } from 'antd';
-import { map } from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { Row, Col, Radio, Form, InputNumber, Divider } from 'antd';
+import { map, isEmpty, get, set } from 'lodash';
 
 const scoreHeaderData = [
   {
@@ -47,28 +47,69 @@ const scoreHeaderData = [
   },
 ];
 
+const titleArray = ['一分钟:', '五分钟:', '十分钟:'];
+const keyArray = ['apgar1', 'apgar5', 'apgar10'];
+
 export default (props: any) => {
+  const config = get(props, 'config');
+  const specialConfig = get(config, 'special_config') && JSON.parse(get(config, 'special_config'));
+  const { type } = specialConfig;
+
+  const [rectRadios, setRectRadios] = useState([
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+  ]);
+
+  const [scores, setScores] = useState([]);
+
+  useEffect(() => {
+    const { value } = props;
+    if (!isEmpty(value)) {
+      setScores(value);
+    }
+  }, [props.value]);
+
   const handleRadioChange = (row: number, column: number) => e => {
-    console.log(row, column, e.target.value);
+    const { onChange } = props;
+    set(rectRadios, `${row}.${column}`, e.target.value);
+    const newScores: any = {};
+    map(rectRadios, (rectRadioRow, index) => {
+      let tempSum = 0;
+      map(rectRadioRow, (item: number) => {
+        tempSum += Number(item);
+      });
+      set(newScores, keyArray[index], String(tempSum));
+    });
+    setRectRadios(rectRadios);
+    setScores(newScores);
+    onChange && onChange(newScores);
+  };
+
+  const handleInputChange = (index: any, inputType: any) => (inputValue: any) => {
+    const { onChange } = props;
+    const newScores = [...scores];
+    set(newScores, `${index}.${inputType}`, inputValue);
+    setScores(newScores);
+    onChange && onChange(scores);
   };
 
   const renderContent = () => {
     const element = [];
-    const titleArray = ['一分钟:', '五分钟:', '十分钟:'];
     for (let i = 0; i < 3; i++) {
       element.push(
         <Row style={{ marginTop: 8 }}>
           <Col span={2}>
             <div style={{ textAlign: 'right' }}>{titleArray[i]}</div>
           </Col>
-          {renderRadioGroup(i)}
+          {renderRadioGroup(i, keyArray[i])}
         </Row>,
       );
     }
     return element;
   };
 
-  const renderRadioGroup = (row: number) => {
+  const renderRadioGroup = (row: number, key: string) => {
     return map(scoreHeaderData, (item, column) => {
       if (column === 0) {
         return <></>;
@@ -76,7 +117,7 @@ export default (props: any) => {
       if (column === scoreHeaderData.length - 1) {
         return (
           <Col span={item.span} offset={item.offset}>
-            <div>10</div>
+            <div>{get(scores, key)}</div>
           </Col>
         );
       }
@@ -92,18 +133,67 @@ export default (props: any) => {
     });
   };
 
+  const renderSimpleContent = () => {
+    const { form } = props;
+    const fetusAppendages = (form && form.getFieldValue('fetusAppendages')) || [{}];
+    return map(fetusAppendages, (fetusAppendage, index) => {
+      return (
+        <>
+          <Divider orientation="left">
+            <span style={{ fontSize: 12 }}>胎儿{index + 1}</span>
+          </Divider>
+          <Row>
+            <Col span={7}>
+              <Form.Item label="一分钟" wrapperCol={{ span: 14 }} labelCol={{ span: 10 }}>
+                <InputNumber
+                  size="small"
+                  value={get(scores, `${index}.apgar1`)}
+                  onChange={handleInputChange(index, 'apgar1')}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={7}>
+              <Form.Item label="五分钟" wrapperCol={{ span: 14 }} labelCol={{ span: 10 }}>
+                <InputNumber
+                  size="small"
+                  value={get(scores, `${index}.apgar5`)}
+                  onChange={handleInputChange(index, 'apgar5')}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={7}>
+              <Form.Item label="十分钟" wrapperCol={{ span: 14 }} labelCol={{ span: 10 }}>
+                <InputNumber
+                  size="small"
+                  value={get(scores, `${index}.apgar10`)}
+                  onChange={handleInputChange(index, 'apgar10')}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+        </>
+      );
+    });
+  };
+
   return (
     <>
-      <Row>
-        {map(scoreHeaderData, item => {
-          return (
-            <Col span={item.span} offset={item.offset}>
-              {item.title}
-            </Col>
-          );
-        })}
-      </Row>
-      {renderContent()}
+      {type === 'simple' ? (
+        renderSimpleContent()
+      ) : (
+        <>
+          <Row>
+            {map(scoreHeaderData, item => {
+              return (
+                <Col span={item.span} offset={item.offset}>
+                  {item.title}
+                </Col>
+              );
+            })}
+          </Row>
+          {renderContent()}
+        </>
+      )}
     </>
   );
 };

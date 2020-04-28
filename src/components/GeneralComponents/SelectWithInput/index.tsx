@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Select, Input, InputNumber, Row, Col } from 'antd';
-import { map, get, set } from 'lodash';
+import { map, get, set, isEmpty } from 'lodash';
 
 export interface IOption {
   label: string;
@@ -19,8 +19,11 @@ interface IProps {
 export default (props: IProps) => {
   const { inputType = 'string', options: selectOptions, value, selectedValueShowInput } = props;
 
-  const [data, setData] = useState(value || {});
-  const [showInput, setShowInput] = useState(get(data, 'select') === selectedValueShowInput);
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    !isEmpty(value) && setData(value);
+  }, [props.value]);
 
   const handleChange = (type: 'string' | 'number' | 'select' | undefined) => (e: any) => {
     const { onChange } = props;
@@ -32,12 +35,9 @@ export default (props: IProps) => {
     }
     if (type === 'select') {
       set(data, 'select', e);
+      set(data, 'input', '');
     }
-    if (get(data, 'select') === selectedValueShowInput) {
-      setShowInput(true);
-    } else {
-      setShowInput(false);
-    }
+
     setData(data);
     onChange && onChange(data);
   };
@@ -56,7 +56,7 @@ export default (props: IProps) => {
             })}
           </Select>
         </Col>
-        {showInput && (
+        {get(data, 'select') === selectedValueShowInput && (
           <Col span={11} offset={1}>
             {inputType === 'string' ? (
               <Input

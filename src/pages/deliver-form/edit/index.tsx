@@ -19,7 +19,7 @@ export default class Pregnancies extends React.Component {
     const id = get(location, 'query.id');
     const formDescriptions = formDescriptionsFromApi(await request.get('/form-descriptions?moduleName=deliverForm'));
     const formDescriptionsWithoutSection = formDescriptionsWithoutSectionApi(formDescriptions);
-    const data = id ? fromApi(await request.get(`/pregnancies/${id}`), formDescriptionsWithoutSection) : {};
+    const data = id ? fromApi(await request.get(`/labour-records/${id}`), formDescriptionsWithoutSection) : {};
     this.setState({ formDescriptions, formDescriptionsWithoutSection, data });
   }
 
@@ -33,13 +33,13 @@ export default class Pregnancies extends React.Component {
       formDescriptionsWithoutSection,
     );
     console.log(params);
-    // if (get(values, 'id')) {
-    //   await request.put('/pregnancies', { data: params });
-    //   message.success('修改病例成功');
-    // } else {
-    //   await request.post('/pregnancies', { data: params });
-    //   message.success('新增病例成功');
-    // }
+    if (get(values, 'id')) {
+      await request.put('/labour-records', { data: params });
+      message.success('修改分娩记录单成功');
+    } else {
+      await request.post('/labour-records', { data: params });
+      message.success('新增分娩记录单成功');
+    }
   };
 
   render() {

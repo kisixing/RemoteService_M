@@ -5,30 +5,9 @@ import { map, get, cloneDeep, set, filter, split, isFunction, isEmpty } from 'lo
 import { getFormDescriptionByModuleName } from '@/components/BaseModalForm/FormSection';
 import FoetalAppendageFormSection from './FoetalAppendageFormSection';
 import { DynamicForm } from '@lianmed/components';
-import { fromApi } from './config';
+import { fromApi, toApi } from './config';
 import styles from './index.less';
 
-const mockValues = fromApi([
-  {
-    amnioticfluidcharacter: undefined,
-    insertion: undefined,
-    membranesintact: undefined,
-    placentaIntegrity: '345',
-    placentaintact: 2,
-    placentaintactNote: `{"2":{"key":2,"value":{"0":2,"1":3}}}`,
-    placentasize: undefined,
-    umbilicalcordlength: undefined,
-  },
-  {
-    amnioticfluidcharacter: undefined,
-    insertion: undefined,
-    membranesintact: undefined,
-    placentaIntegrity: '999',
-    placentaintact: undefined,
-    placentasize: undefined,
-    umbilicalcordlength: undefined,
-  },
-]);
 const TAB_TITLE = '胎儿';
 // 胎儿附属物
 export default class FoetalAppendage extends DynamicForm {
@@ -40,28 +19,31 @@ export default class FoetalAppendage extends DynamicForm {
       },
     ];
     this.state = {
-      nativeFormDescriptions: {},
       form: {},
       data,
     };
     this.index = 0;
+    this.nativeFormDescriptions = {};
   }
 
   async componentDidMount() {
+    const { value } = this.props;
     const data: any = [];
-    const nativeFormDescriptions = await getFormDescriptionByModuleName('foetalAppendage');
-    // mockValues
-    map(mockValues, (value, i) => {
+    this.nativeFormDescriptions = await getFormDescriptionByModuleName('foetalAppendage');
+    let result: any = [{}];
+    if (!isEmpty(value)) {
+      result = fromApi(value, this.nativeFormDescriptions);
+    }
+    map(result, (item, i) => {
       this.index = i;
       data.push({
         key: `${i}`,
-        ...value,
+        ...item,
       });
     });
     this.formRef.current && this.formRef.current.setFieldsValue(this.transferDataToForm(data));
     this.throwDataByOnChange(data);
     this.setState({
-      nativeFormDescriptions,
       form: this.formRef.current,
       data,
     });
@@ -118,17 +100,17 @@ export default class FoetalAppendage extends DynamicForm {
         }
       });
     });
+    this.throwDataByOnChange(data);
   };
 
   throwDataByOnChange = (data: any) => {
     const { onChange } = this.props;
-    onChange && onChange(data);
+    onChange && onChange(toApi(data, this.nativeFormDescriptions));
   };
 
   renderContent = (item: any, index: any) => {
-    const { nativeFormDescriptions } = this.state;
     const newFormDescriptions = {};
-    map(cloneDeep(nativeFormDescriptions), (formDescription, formDescriptionKey) => {
+    map(cloneDeep(this.nativeFormDescriptions), (formDescription, formDescriptionKey) => {
       set(formDescription, 'key', `${formDescriptionKey}_${item.key}`);
       set(formDescription, 'native_key', formDescriptionKey);
       set(newFormDescriptions, `${formDescriptionKey}_${item.key}`, formDescription);

@@ -547,6 +547,56 @@ const statusMapping = {
       value: '台湾省',
     },
   ],
+  fetalpositionMapping: [
+    {
+      value: 0,
+      title: '左枕前（LOA）',
+    },
+    {
+      value: 1,
+      title: '左枕横（LOT）',
+    },
+    {
+      value: 2,
+      title: '左枕后（LOP）',
+    },
+    {
+      value: 3,
+      title: '右枕前（LOA）',
+    },
+    {
+      value: 4,
+      title: '右枕横（LOT）',
+    },
+    {
+      value: 5,
+      title: '右枕后（LOP）',
+    },
+    {
+      value: 6,
+      title: '左骶前（LSA）',
+    },
+    {
+      value: 7,
+      title: '左骶横（LST）',
+    },
+    {
+      value: 8,
+      title: '左骶后（LSP）',
+    },
+    {
+      value: 9,
+      title: '右骶前（LSA）',
+    },
+    {
+      value: 10,
+      title: '右骶横（LST）',
+    },
+    {
+      value: 11,
+      title: '右骶后（LSP）',
+    },
+  ],
 };
 
 interface IProps {
@@ -557,7 +607,9 @@ interface IProps {
     | 'ethnicMapping'
     | 'maritalMapping'
     | 'provinceMapping'
-    | 'genderMapping';
+    | 'genderMapping'
+    | 'fetalpositionMapping';
+
   showSearch: true | false;
   placeholder?: string;
 }

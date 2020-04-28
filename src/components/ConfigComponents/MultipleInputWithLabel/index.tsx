@@ -17,13 +17,17 @@ export default (props: IProps) => {
 
   useEffect(() => {
     const { value } = props;
-    !isEmpty(value) && setData(value);
+    if (typeof value === 'string') {
+      setData(JSON.parse(value));
+    } else {
+      !isEmpty(value) && setData(value);
+    }
   }, []);
 
   const handleChange = (result: any) => {
     const { onChange } = props;
     setData(result);
-    onChange && onChange(data);
+    onChange && onChange(JSON.stringify(result));
   };
 
   return <MultipleInputWithLabel options={options} type={type} onChange={handleChange} value={data} />;

@@ -24,6 +24,9 @@ import MultipleInputWithLabel from '@/components/ConfigComponents/MultipleInputW
 import FoetalAppendage from '@/components/BusinessComponents/FoetalAppendage';
 import { formDescriptionsFromApi, formDescriptionsWithoutSectionApi } from '@/utils/adapter';
 import request from '@/utils/request';
+import CheckboxGroup from '@/components/ConfigComponents/CheckboxGroup';
+import InputWithLabel from '../ConfigComponents/InputWithLabel';
+import NormalCheckboxWithInput from '../ConfigComponents/NormalCheckboxWithInput';
 
 export const getFormDescriptionByModuleName = async (moduleName: string) => {
   return formDescriptionsWithoutSectionApi(
@@ -140,6 +143,15 @@ export class FormSection extends React.Component<IProps> {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
           styles: get(formDescription, 'styles'),
         });
+      case 'normal_checkbox_with_input':
+        return renderEditItem(get(formDescription, 'key'), <NormalCheckboxWithInput config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+        });
+      case 'checkbox_group':
+        return renderEditItem(get(formDescription, 'key'), <CheckboxGroup config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
+        });
       case 'disease_select':
         return renderEditItem(get(formDescription, 'key'), <DiseaseSelect config={formDescription} />, {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
@@ -164,7 +176,7 @@ export class FormSection extends React.Component<IProps> {
             styles: get(formDescription, 'styles'),
           },
         );
-      case 'foetal_appendage':
+      case 'fetus_appendages':
         return renderEditItem(
           get(formDescription, 'key'),
           <FoetalAppendage
@@ -180,6 +192,11 @@ export class FormSection extends React.Component<IProps> {
         );
       case 'multiple_input_with_label':
         return renderEditItem(get(formDescription, 'key'), <MultipleInputWithLabel config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
+        });
+      case 'input_with_label':
+        return renderEditItem(get(formDescription, 'key'), <InputWithLabel config={formDescription} />, {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
           styles: get(formDescription, 'styles'),
         });
@@ -363,7 +380,7 @@ export class FormSection extends React.Component<IProps> {
       case 'apgar_score_input':
         return renderEditItem(
           get(formDescription, 'key'),
-          <ApgarScoreInput size="small" {...get(formDescription, 'inputProps')} />,
+          <ApgarScoreInput size="small" config={formDescription} form={form} />,
           {
             customFormItemLayout: get(formDescription, 'formItemLayout') || {},
             styles: get(formDescription, 'styles'),

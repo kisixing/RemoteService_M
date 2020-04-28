@@ -1,7 +1,7 @@
-import React from 'react';
-import { Input, Row, Col, InputNumber } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Input, InputNumber } from 'antd';
 import { get } from 'lodash';
-import styles from './index.less';
+import InputWithLabel from '@/components/GeneralComponents/InputWithLabel';
 
 interface IProps {
   labelBefore?: string;
@@ -15,40 +15,22 @@ interface IProps {
   type?: 'string' | 'number';
 }
 
+// 通用的单个输入框
 export default (props: IProps) => {
-  return (
-    <div style={{ display: 'flex' }}>
-      {get(props, 'labelBefore') && (
-        <span
-          style={{
-            display: 'inline-block',
-            marginLeft: 8,
-            marginRight: 8,
-            width: 'auto',
-            ...get(props, 'labelAfterStyle'),
-          }}
-        >
-          {get(props, 'labelBefore')}
-        </span>
-      )}
-      {get(props, 'type') === 'number' ? (
-        <InputNumber className={styles.inputWidth} size="small" min={0} {...props} />
-      ) : (
-        <Input className={styles.inputWidth} size="small" {...props} />
-      )}
-      {get(props, 'labelAfter') && (
-        <span
-          style={{
-            display: 'inline-block',
-            marginLeft: 8,
-            marginRight: 8,
-            width: 'auto',
-            ...get(props, 'labelAfterStyle'),
-          }}
-        >
-          {get(props, 'labelAfter')}
-        </span>
-      )}
-    </div>
-  );
+  const [data, setData] = useState('');
+
+  const config = get(props, 'config');
+  const specialConfig = get(config, 'special_config') && JSON.parse(get(config, 'special_config'));
+  useEffect(() => {
+    const { value } = props;
+    value && setData(String(value));
+  }, [props.value]);
+
+  const handleChange = (value: any) => {
+    const { onChange } = props;
+    console.log(value);
+    onChange && onChange(value);
+  };
+
+  return <InputWithLabel onChange={handleChange} value={data} {...specialConfig} />;
 };

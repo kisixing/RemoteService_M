@@ -1,5 +1,5 @@
-import React from 'react';
-import { get } from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { get, isEmpty } from 'lodash';
 import SelectWithInput, { IOption as Option } from '@/components/GeneralComponents/SelectWithInput';
 
 export default (props: any) => {
@@ -9,15 +9,34 @@ export default (props: any) => {
   const inputType = get(specialConfig, 'inputType');
   const selectedValueShowInput = get(specialConfig, 'selectedValueShowInput');
 
-  const handleChange = (data: { select: any; input: any }) => {
-    console.log(data);
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    const { value } = props;
+    console.log(value);
+    if (!isEmpty(value)) {
+      setData({
+        select: get(value, 'key'),
+        input: get(value, 'keyNote'),
+      });
+    }
+  }, [props.value]);
+
+  const handleChange = (callbackData: { select: any; input: any }) => {
+    const { onChange } = props;
+    const newData = {
+      key: get(callbackData, 'select'),
+      keyNote: get(callbackData, 'input'),
+    };
+    setData(newData);
+    onChange && onChange(newData);
   };
 
   return (
     <SelectWithInput
       inputType={inputType}
       options={options}
-      value={props.value}
+      value={data}
       selectedValueShowInput={selectedValueShowInput}
       onChange={handleChange}
     />

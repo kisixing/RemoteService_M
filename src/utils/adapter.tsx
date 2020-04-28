@@ -1,4 +1,5 @@
-import { map, get, reduce, concat, keyBy } from 'lodash';
+import { map, get, reduce, concat, keyBy, set } from 'lodash';
+import moment from 'moment';
 
 export const formDescriptionsFromApi = data => {
   return map(data, item => {
@@ -30,4 +31,33 @@ export const formDescriptionsWithoutSectionApi = formDescriptions => {
     ),
     'key',
   );
+};
+
+export const transferDataToFormByRules = (data: any, nativeFormDescription: any) => {
+  const result = {};
+  map(nativeFormDescription, (desctiption, key) => {
+    const { tranfer_rules: tranferRules } = desctiption;
+    let type = 'default';
+    let path = key;
+    if (tranferRules && JSON.parse(tranferRules)) {
+      const tranferRulesJson = JSON.parse(tranferRules);
+      type = get(tranferRulesJson, 'type') ? get(tranferRulesJson, 'type') : 'default';
+      path = get(tranferRulesJson, 'path') ? get(tranferRulesJson, 'path') : key;
+    }
+
+    switch (type) {
+      case 'stage':
+        set(result, `${key}.0`, get(data, `${key}h`));
+        set(result, `${key}.1`, get(data, `${key}m`));
+        break;
+      case 'moment':
+        set(result, key, moment(get(data, path)));
+        break;
+      case 'default':
+      default:
+        set(result, key, get(data, path));
+        break;
+    }
+  });
+  return result;
 };

@@ -72,7 +72,7 @@ export default class FoetalAppendageFormSection extends React.Component<IProps> 
           />,
           { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
         );
-      case 'checkbox_with_input':
+      case 'normal_checkbox_with_input':
         return renderEditItem(formDescriptionKey, <NormalCheckboxWithInput config={formDescription} />, {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
         });

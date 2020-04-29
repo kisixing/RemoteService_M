@@ -2,12 +2,12 @@ import React from 'react';
 import Form from './components/form';
 import styles from './index.less';
 import request from '@/utils/request';
-import { keyBy, get, reduce, concat } from 'lodash';
+import { get } from 'lodash';
 import { toApi, fromApi } from './config/adapter';
 import { formDescriptionsFromApi, formDescriptionsWithoutSectionApi } from '@/utils/adapter';
-import { message } from 'antd';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
-export default class Pregnancies extends React.Component {
+export class Deliver extends React.Component {
   state = {
     data: {},
     formDescriptions: [],
@@ -57,3 +57,5 @@ export default class Pregnancies extends React.Component {
     );
   }
 }
+
+export default WithDynamicExport(Deliver);

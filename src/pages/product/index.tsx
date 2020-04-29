@@ -10,8 +10,9 @@ import { get } from 'lodash';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
 import CustomSpin from '@/components/GeneralComponents/CustomSpin';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
-export default class ProductsList extends BaseList {
+export class ProductsList extends BaseList {
   state = {
     total: 0,
     defaultQuery: {
@@ -125,3 +126,5 @@ export default class ProductsList extends BaseList {
     );
   }
 }
+
+export default WithDynamicExport(ProductsList);

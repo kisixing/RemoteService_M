@@ -38,6 +38,7 @@ export default (props: IProps) => {
       return (
         <InputWithLabel
           {...props}
+          key={index}
           value={get(data, index)}
           onChange={handleChange(index)}
           type={get(option, 'enterType') ? get(option, 'enterType') : get(props, 'type')}

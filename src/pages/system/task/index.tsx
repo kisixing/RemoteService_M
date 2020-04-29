@@ -8,8 +8,9 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
 import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 import TaskModal from './components/TaskModal';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
-export default class Task extends BaseList {
+export class Task extends BaseList {
   state = {
     dataSource: [],
     visible: false,
@@ -76,3 +77,5 @@ export default class Task extends BaseList {
     );
   }
 }
+
+export default WithDynamicExport(Task);

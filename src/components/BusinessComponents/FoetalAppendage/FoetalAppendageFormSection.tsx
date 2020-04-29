@@ -12,7 +12,7 @@ import InputWithLabel from '@/components/ConfigComponents/InputWithLabel';
 export default class FoetalAppendageFormSection extends React.Component<IProps> {
   renderRowAndCol = (formDescriptionArr = []) => {
     return (
-      <Row>
+      <Row key={get(formDescriptionArr, '0.key') || Math.random()}>
         {map(formDescriptionArr, (formDescription, index) => {
           return (
             <Col key={index} span={get(formDescription, 'span')} offset={get(formDescription, 'offset')}>

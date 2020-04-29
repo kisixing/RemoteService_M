@@ -11,8 +11,9 @@ import { EditOutlined, DeleteOutlined, RedoOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
 import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 import ResetPasswordModal from './components/ResetPasswordModal';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
-export default class Users extends BaseList {
+export class Users extends BaseList {
   state = {
     total: 0,
     needPagination: false,
@@ -185,3 +186,5 @@ export default class Users extends BaseList {
     );
   }
 }
+
+export default WithDynamicExport(Users);

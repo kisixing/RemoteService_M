@@ -5,12 +5,12 @@ import { tableColumns } from './config/table';
 import { Popconfirm, Button } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
-import styles from './index.less';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
 import CustomSpin from '@/components/GeneralComponents/CustomSpin';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
-export default class Versions extends BaseList {
+export class Versions extends BaseList {
   state = {
     total: 0,
     defaultQuery: {
@@ -61,17 +61,7 @@ export default class Versions extends BaseList {
   ];
 
   render() {
-    const {
-      dataSource,
-      visible,
-      editable,
-      id,
-      baseTitle,
-      total,
-      defaultQuery,
-      needPagination,
-      loding,
-    } = this.state;
+    const { dataSource, visible, editable, id, baseTitle, total, defaultQuery, needPagination, loding } = this.state;
 
     return (
       <Fragment>
@@ -107,3 +97,5 @@ export default class Versions extends BaseList {
     );
   }
 }
+
+export default WithDynamicExport(Versions);

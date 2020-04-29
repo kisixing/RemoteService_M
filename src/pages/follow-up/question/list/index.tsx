@@ -8,8 +8,9 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
 import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 import { router } from 'umi';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
-export default class FollowUpQuestion extends BaseList {
+export class FollowUpQuestion extends BaseList {
   state = {
     total: 0,
     needPagination: false,
@@ -83,3 +84,5 @@ export default class FollowUpQuestion extends BaseList {
     );
   }
 }
+
+export default WithDynamicExport(FollowUpQuestion);

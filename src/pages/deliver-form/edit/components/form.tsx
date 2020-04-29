@@ -14,7 +14,7 @@ const formItemLayout = {
   },
 };
 
-export default class PregnanciesForm extends DynamicForm {
+export default class DeliverForm extends DynamicForm {
   state = {
     formDescriptionsWithoutSection: [],
     formDescriptions: [],
@@ -66,13 +66,14 @@ export default class PregnanciesForm extends DynamicForm {
     const { data } = this.props;
     const { renderEditItem, form } = this.state;
     return (
-      <>
+      <div key={get(section, 'id')}>
         <Divider key={`${get(section, 'flag')}-divider`} orientation="left">
           {get(section, 'name')}
         </Divider>
         {isFunction(renderEditItem) && (
           <FormSection
             key={`${get(section, 'flag')}-section`}
+            customKey={`${get(section, 'flag')}-section`}
             data={data}
             formDescriptions={get(section, 'fields')}
             events={{ handleIDNumberChange: this.handleIDNumberChange }}
@@ -80,7 +81,7 @@ export default class PregnanciesForm extends DynamicForm {
             form={form}
           />
         )}
-      </>
+      </div>
     );
   };
 

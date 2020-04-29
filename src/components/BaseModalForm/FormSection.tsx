@@ -45,7 +45,7 @@ interface IProps {
 export class FormSection extends React.Component<IProps> {
   renderRowAndCol = (formDescriptionArr = []) => {
     return (
-      <Row>
+      <Row key={get(formDescriptionArr, '0.key') || Math.random()}>
         {map(formDescriptionArr, (formDescription, index) => {
           return (
             <Col key={index} span={get(formDescription, 'span')} offset={get(formDescription, 'offset')}>
@@ -438,7 +438,9 @@ export class FormSection extends React.Component<IProps> {
   };
 
   render() {
-    return <>{this.renderContent()}</>;
+    const { customKey } = this.props;
+
+    return <div key={customKey}>{this.renderContent()}</div>;
   }
 }
 

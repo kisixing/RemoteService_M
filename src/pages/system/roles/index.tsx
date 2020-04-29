@@ -11,11 +11,11 @@ import commonStyles from '@/common.less';
 import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 import request from '@/utils/request';
 import queryString from 'query-string';
-import { transferMenus } from '@/utils/format';
 import MenuPermissionCard from './components/MenuPermissionCard';
 import ApiPermissionCard from './components/ApiPermissionCard';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
-export default class Roles extends BaseList {
+export class Roles extends BaseList {
   state = {
     dataSource: [],
     menuDataSource: [],
@@ -64,9 +64,7 @@ export default class Roles extends BaseList {
 
   handleSearch = async () => {
     const { baseUrl, needPagination, defaultQuery } = this.state;
-    const dataSource = processFromApi(
-      await request.get(`${baseUrl}?${queryString.stringify(defaultQuery)}`),
-    );
+    const dataSource = processFromApi(await request.get(`${baseUrl}?${queryString.stringify(defaultQuery)}`));
     // console.log(dataSource);
     // const menuDataSource = transferMenus(await request.get('/permissions?size=100'));
     // console.log(menuDataSource);
@@ -119,16 +117,7 @@ export default class Roles extends BaseList {
   };
 
   render() {
-    const {
-      dataSource,
-      visible,
-      editable,
-      id,
-      baseTitle,
-      loding,
-      defaultCheckedMenu,
-      activeRole,
-    } = this.state;
+    const { dataSource, visible, editable, id, baseTitle, loding, defaultCheckedMenu, activeRole } = this.state;
 
     return (
       <Fragment>
@@ -180,3 +169,5 @@ export default class Roles extends BaseList {
     );
   }
 }
+
+export default WithDynamicExport(Roles);

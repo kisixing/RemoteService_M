@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Checkbox, Input, Row, Col } from 'antd';
 import { get, map, set, indexOf, clone, filter, unset, isEmpty, cloneDeep, values } from 'lodash';
 import InputWithLabel from '@/components/GeneralComponents/InputWithLabel';
@@ -110,8 +110,12 @@ export default (props: IProps) => {
           <Col span={inputSpan}>
             <span style={{ display: 'inline-block', marginRight: 4 }}>( </span>
             <Checkbox.Group value={boxValues} onChange={handleInputChange(inputType, option)}>
-              {map(checkboxOptions, checkboxOption => {
-                return <Checkbox value={get(checkboxOption, 'value')}>{get(checkboxOption, 'label')}</Checkbox>;
+              {map(checkboxOptions, (checkboxOption, index) => {
+                return (
+                  <Checkbox key={index} value={get(checkboxOption, 'value')}>
+                    {get(checkboxOption, 'label')}
+                  </Checkbox>
+                );
               })}
             </Checkbox.Group>
             <span style={{ display: 'inline-block', marginLeft: 4 }}> )</span>
@@ -146,7 +150,7 @@ export default (props: IProps) => {
           const { span = 3, offset = 0 } = option;
           if (option.withInput) {
             return (
-              <>
+              <Fragment key={index}>
                 <Col offset={offset} span={span}>
                   <Checkbox
                     style={
@@ -160,12 +164,12 @@ export default (props: IProps) => {
                   </Checkbox>
                 </Col>
                 {renderInput(option)}
-              </>
+              </Fragment>
             );
           }
 
           return (
-            <Col offset={offset} span={span}>
+            <Col key={index} offset={offset} span={span}>
               <Checkbox value={option.value}>{option.label}</Checkbox>
             </Col>
           );

@@ -83,7 +83,7 @@ export default class PregnanciesForm extends DynamicForm {
     const { data } = this.props;
     const { renderEditItem, form } = this.state;
     return (
-      <div key={get(section, 'flag')}>
+      <div key={get(section, 'id')}>
         <Divider key={`${get(section, 'flag')}-divider`} orientation="left">
           {get(section, 'name')}
         </Divider>

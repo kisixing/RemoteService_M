@@ -118,7 +118,7 @@ export default class FoetalAppendage extends DynamicForm {
     });
     const renderEditItem = this.generateRenderEditItem(newFormDescriptions);
     return (
-      <div className={styles.foetalPanel}>
+      <div key={index} className={styles.foetalPanel}>
         <div className={styles.foetalPanelContent}>
           <Divider orientation="left">
             <span style={{ fontSize: 12 }}>
@@ -138,7 +138,7 @@ export default class FoetalAppendage extends DynamicForm {
   render() {
     const { data } = this.state;
     return (
-      <Form ref={this.formRef} onFieldsChange={this.handleFieldsChange}>
+      <Form key="foetal-appendage-form" ref={this.formRef} onFieldsChange={this.handleFieldsChange}>
         <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
           <Button size="small" type="primary" onClick={this.handleAddFetus}>
             添加{TAB_TITLE}

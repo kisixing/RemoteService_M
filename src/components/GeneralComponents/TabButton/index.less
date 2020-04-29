@@ -1,0 +1,34 @@
+.customTabsButton {
+  width: 120px;
+  padding: 4px;
+  margin: 0 4px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4px;
+  border-radius: 2px;
+  &:hover {
+    cursor: pointer;
+    .customTabsButtonClose {
+      visibility: visible;
+    }
+  }
+}
+
+.customTabsButtonIcon {
+  width: 10px;
+  height: 10px;
+  background-color: #cccccc;
+  border-radius: 50%;
+}
+
+.customTabsButtonTitle {
+  margin: 0 8px;
+}
+
+.customTabsButtonClose {
+  cursor: pointer;
+  color: #cccccc;
+  visibility: hidden;
+}

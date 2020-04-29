@@ -8,9 +8,10 @@ import BaseList from '@/components/BaseList';
 import styles from './index.less';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
-import CustomSpin from '@/components/CustomSpin';
+import CustomSpin from '@/components/GeneralComponents/CustomSpin';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
-export default class Audit extends BaseList {
+export class Audit extends BaseList {
   state = {
     total: 0,
     defaultQuery: {
@@ -61,17 +62,7 @@ export default class Audit extends BaseList {
   ];
 
   render() {
-    const {
-      dataSource,
-      visible,
-      editable,
-      id,
-      baseTitle,
-      total,
-      defaultQuery,
-      needPagination,
-      loding
-    } = this.state;
+    const { dataSource, visible, editable, id, baseTitle, total, defaultQuery, needPagination, loding } = this.state;
 
     return (
       <Fragment>
@@ -107,3 +98,5 @@ export default class Audit extends BaseList {
     );
   }
 }
+
+export default WithDynamicExport(Audit);

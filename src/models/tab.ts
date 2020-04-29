@@ -11,20 +11,26 @@ export default {
         title: '首页',
         key: '/',
         path: '/',
+        search: '',
         closable: false,
       },
     ],
   },
 
   effects: {
-    *deleteTabs(_, { call, put, select }) {
+    *deleteTabs(data: any, { call, put, select }) {
       let tabs = yield select(state => {
         return state.tab.tabs;
       });
-      const key = get(_, 'payload.data.key');
+
+      const key = get(data, 'payload.data.key');
       tabs = filter(tabs, tab => tab.key !== key);
       const activeKey = get(last(tabs), 'key');
-      router.push(get(keyBy(tabs, 'key'), `${activeKey}.path`));
+      router.push(
+        `${get(keyBy(tabs, 'key'), `${activeKey}.path`)}${
+          get(keyBy(tabs, 'key'), `${activeKey}.search`) ? get(keyBy(tabs, 'key'), `${activeKey}.search`) : ''
+        }`,
+      );
       yield put({
         type: 'tab/changeTabs',
         payload: {
@@ -50,7 +56,6 @@ export default {
         tabs = filter(tabs, tab => tab.key !== key);
         activeKey = get(last(tabs), 'key');
       }
-
       return {
         ...state,
         tabs,

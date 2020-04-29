@@ -6,8 +6,9 @@ import { keyBy, get, reduce, concat } from 'lodash';
 import { toApi, fromApi } from './config/adapter';
 import { formDescriptionsFromApi, formDescriptionsWithoutSectionApi } from '@/utils/adapter';
 import { message } from 'antd';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
-export default class Pregnancies extends React.Component {
+export class Pregnancies extends React.Component {
   state = {
     data: {},
     formDescriptions: [],
@@ -54,3 +55,5 @@ export default class Pregnancies extends React.Component {
     );
   }
 }
+
+export default WithDynamicExport(Pregnancies);

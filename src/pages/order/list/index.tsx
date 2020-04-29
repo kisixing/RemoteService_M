@@ -14,6 +14,7 @@ import { message } from 'antd';
 import queryString from 'query-string';
 import { get, pick, keys, keyBy, join, isNil, set } from 'lodash';
 import { formatTimeToApi } from '@/utils/format';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
 export class OrderList extends React.Component {
   state = {
@@ -334,4 +335,4 @@ export class OrderList extends React.Component {
   }
 }
 
-export default OrderList;
+export default WithDynamicExport(OrderList);

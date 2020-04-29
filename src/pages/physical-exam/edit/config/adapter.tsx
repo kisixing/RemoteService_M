@@ -1,6 +1,6 @@
 import { map, get, keys, filter, isNil, set, indexOf, split, isObject, isUndefined } from 'lodash';
 import moment, { Moment } from 'moment';
-import { fixedSelects, getPregnancyHistoryFormDescriptions } from '@/components/PregnancyHistory';
+import { fixedSelects, getPregnancyHistoryFormDescriptions } from '@/components/BusinessComponents/PregnancyHistory';
 import request from '@/utils/request';
 
 export const formDescriptionsFromApi = data => {

@@ -1,0 +1,123 @@
+@import '~antd/dist/antd.less';
+@import './Table.less';
+
+@menu-logo-bg: #f9f9f9;
+// @menu-logo-bg: #001529;
+// @menu-logo-bg: #304156;
+@menu-sub-menu-bg: #f5f5ff;
+// @menu-sub-menu-bg: #001529;
+@menu-normal-color: rgba(0, 0, 0, 0.65);
+
+@panel-tab-actice-bg: @primary-color;
+@panel-tab-border-color: #ebeef5;
+
+.customProLayout {
+  :global {
+    .ant-pro-sider-menu-logo {
+      background: @menu-logo-bg;
+      // a {
+      //   height: 50px;
+      //   justify-content: center;
+      // }
+      h1 {
+        // font-size: 14px;
+        color: @menu-normal-color;
+      }
+      img {
+        // height: 20px;
+      }
+    }
+    .ant-layout-sider-children {
+      background: @menu-logo-bg;
+    }
+    .ant-pro-sider-menu {
+      background: @menu-logo-bg;
+      .ant-menu-sub {
+        background: @menu-sub-menu-bg;
+      }
+      .ant-menu-submenu-title {
+        span {
+          color: @menu-normal-color !important;
+        }
+      }
+      a {
+        color: @menu-normal-color !important;
+      }
+      .ant-menu-submenu-arrow {
+        &::after {
+          background: @menu-normal-color !important;
+        }
+        &::before {
+          background: @menu-normal-color !important;
+        }
+      }
+      // .ant-menu-item-selected {
+      //   background: @menu-sub-menu-bg;
+      //   .anticon + span {
+      //     color: @primary-color;
+      //   }
+      // }
+    }
+  }
+}
+
+:global {
+  .ant-menu-submenu-popup {
+    .ant-menu-item-selected {
+      background-color: @menu-sub-menu-bg !important;
+      .anticon + span {
+        color: @primary-color;
+      }
+    }
+  }
+}
+
+.customPanel {
+  margin: 10px 20px;
+
+  // :global {
+  //   .ant-tabs-bar {
+  //     border-bottom: none !important;
+  //     background: @white;
+  //     margin: 4px 0;
+  //     padding: 4px 20px;
+  //     position: fixed;
+  //     z-index: 10;
+  //     margin-left: 52px;
+  //     width: 60%;
+  //     top: 12px;
+  //     .ant-tabs-nav-container {
+  //       margin-bottom: -16px;
+  //       .ant-tabs-tab-arrow-show {
+  //         span {
+  //           top: 30%;
+  //         }
+  //       }
+  //     }
+  //     .ant-tabs-nav-wrap {
+  //       .ant-tabs-tab {
+  //         height: 24px !important;
+  //         line-height: 24px !important;
+  //         margin-right: 8px !important;
+  //         &.ant-tabs-tab-active {
+  //           border-bottom: 0px !important;
+  //           background-color: @panel-tab-actice-bg !important;
+  //           color: @white;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+}
+
+.customPageHeader {
+  position: fixed;
+  z-index: 9;
+  margin-left: 20px;
+  top: 9px;
+}
+
+.customPanelChild {
+  overflow: scroll;
+  margin-top: 58px;
+}

@@ -5,13 +5,13 @@ import { tableColumns } from './config/table';
 import { Popconfirm, Button } from 'antd';
 import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
-import styles from './index.less';
 import { processFromApi } from './config/adapter';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
-import CustomSpin from '@/components/CustomSpin';
+import CustomSpin from '@/components/GeneralComponents/CustomSpin';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
-export default class Menus extends BaseList {
+export class Menus extends BaseList {
   state = {
     total: 0,
     needPagination: true,
@@ -63,16 +63,7 @@ export default class Menus extends BaseList {
   ];
 
   render() {
-    const {
-      dataSource,
-      visible,
-      editable,
-      id,
-      baseTitle,
-      total,
-      defaultQuery,
-      loding,
-    } = this.state;
+    const { dataSource, visible, editable, id, baseTitle, total, defaultQuery, loding } = this.state;
 
     return (
       <Fragment>
@@ -107,3 +98,5 @@ export default class Menus extends BaseList {
     );
   }
 }
+
+export default WithDynamicExport(Menus);

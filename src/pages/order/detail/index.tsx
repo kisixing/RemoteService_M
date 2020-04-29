@@ -9,6 +9,7 @@ import ActionsTable from './components/ActionsTable';
 import styles from './index.less';
 import request from '@/utils/request';
 import { processFromApi } from '../list/config/adapter';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
 interface InterfaceOrderDetailProps {}
 interface InterfaceOrderDetailState {
@@ -116,4 +117,4 @@ export class OrderDetail extends React.Component<InterfaceOrderDetailProps, Inte
   }
 }
 
-export default OrderDetail;
+export default WithDynamicExport(OrderDetail);

@@ -5,12 +5,12 @@ import DeviceStatusSelect from '@/components/selects/DeviceStatusSelect';
 import PermissionSelect from '@/components/selects/PermissionSelect';
 import ParentPermissionSelect from '../selects/ParentPermissionSelect';
 import PermissionTypeSelect from '../selects/PermissionTypeSelect';
-import UploadImg from '@/components/UploadImg';
-import CustomEditor from '@/components/CustomEditor';
+import UploadImg from '@/components/GeneralComponents/UploadImg';
+import CustomEditor from '@/components/GeneralComponents/CustomEditor';
 import DataSelect from '@/components/DataSelect';
 import CascaderAddress from '@/components/selects/CascaderAddress';
 import { connect } from 'dva';
-import PregnancyHistory from '@/components/PregnancyHistory';
+import PregnancyHistory from '@/components/BusinessComponents/PregnancyHistory';
 import TriggerTypeSelect from '@/components/selects/TriggerTypeSelect';
 import CronSelect from '@/components/selects/CronSelect';
 import RadioWithInput from '@/components/selects/RadioWithInput';
@@ -18,7 +18,21 @@ import RadioWithInputNumber from '@/components/selects/RadioWithInputNumber';
 import DiseaseSelect from '@/components/selects/DiseaseSelect';
 import NormalSelect from '@/components/selects/NormalSelect';
 import CountrySelect from '@/components/selects/CountrySelect';
-import CheckboxWithInput from '@/components/selects/CheckboxWithInput';
+import CheckboxWithInput from '@/components/ConfigComponents/CheckboxWithInput';
+import ApgarScoreInput from '@/components/selects/ApgarScoreInput';
+import MultipleInputWithLabel from '@/components/ConfigComponents/MultipleInputWithLabel';
+import FoetalAppendage from '@/components/BusinessComponents/FoetalAppendage';
+import { formDescriptionsFromApi, formDescriptionsWithoutSectionApi } from '@/utils/adapter';
+import request from '@/utils/request';
+import CheckboxGroup from '@/components/ConfigComponents/CheckboxGroup';
+import InputWithLabel from '../ConfigComponents/InputWithLabel';
+import NormalCheckboxWithInput from '../ConfigComponents/NormalCheckboxWithInput';
+
+export const getFormDescriptionByModuleName = async (moduleName: string) => {
+  return formDescriptionsWithoutSectionApi(
+    formDescriptionsFromApi(await request.get(`/form-descriptions?moduleName=${moduleName}`)),
+  );
+};
 
 interface IProps {
   renderEditItem: (key: any, reactNode: any, options?: any) => any;
@@ -31,7 +45,7 @@ interface IProps {
 export class FormSection extends React.Component<IProps> {
   renderRowAndCol = (formDescriptionArr = []) => {
     return (
-      <Row>
+      <Row key={get(formDescriptionArr, '0.key') || Math.random()}>
         {map(formDescriptionArr, (formDescription, index) => {
           return (
             <Col key={index} span={get(formDescription, 'span')} offset={get(formDescription, 'offset')}>
@@ -129,6 +143,15 @@ export class FormSection extends React.Component<IProps> {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
           styles: get(formDescription, 'styles'),
         });
+      case 'normal_checkbox_with_input':
+        return renderEditItem(get(formDescription, 'key'), <NormalCheckboxWithInput config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+        });
+      case 'checkbox_group':
+        return renderEditItem(get(formDescription, 'key'), <CheckboxGroup config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
+        });
       case 'disease_select':
         return renderEditItem(get(formDescription, 'key'), <DiseaseSelect config={formDescription} />, {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
@@ -140,14 +163,10 @@ export class FormSection extends React.Component<IProps> {
           styles: get(formDescription, 'styles'),
         });
       case 'pregnancy_history':
-        return renderEditItem(
-          get(formDescription, 'key'),
-          <PregnancyHistory config={formDescription} form={form} required />,
-          {
-            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
-            styles: get(formDescription, 'styles'),
-          },
-        );
+        return renderEditItem(get(formDescription, 'key'), <PregnancyHistory config={formDescription} form={form} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
+        });
       case 'input':
         return renderEditItem(
           get(formDescription, 'key'),
@@ -157,6 +176,30 @@ export class FormSection extends React.Component<IProps> {
             styles: get(formDescription, 'styles'),
           },
         );
+      case 'fetus_appendages':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <FoetalAppendage
+            size="small"
+            {...get(formDescription, 'inputProps')}
+            renderEditItem={renderEditItem}
+            form={form}
+          />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
+        );
+      case 'multiple_input_with_label':
+        return renderEditItem(get(formDescription, 'key'), <MultipleInputWithLabel config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
+        });
+      case 'input_with_label':
+        return renderEditItem(get(formDescription, 'key'), <InputWithLabel config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+          styles: get(formDescription, 'styles'),
+        });
       case 'id_number_input':
         return renderEditItem(
           get(formDescription, 'key'),
@@ -334,6 +377,15 @@ export class FormSection extends React.Component<IProps> {
             styles: get(formDescription, 'styles'),
           },
         );
+      case 'apgar_score_input':
+        return renderEditItem(
+          get(formDescription, 'key'),
+          <ApgarScoreInput size="small" config={formDescription} form={form} />,
+          {
+            customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+            styles: get(formDescription, 'styles'),
+          },
+        );
       case 'view_only':
         return renderEditItem(get(formDescription, 'key'), <span>{get(data, get(formDescription, 'path'))}</span>);
       default:
@@ -386,7 +438,9 @@ export class FormSection extends React.Component<IProps> {
   };
 
   render() {
-    return <>{this.renderContent()}</>;
+    const { customKey } = this.props;
+
+    return <div key={customKey}>{this.renderContent()}</div>;
   }
 }
 

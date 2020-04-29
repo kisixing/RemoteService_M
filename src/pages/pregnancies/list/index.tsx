@@ -9,10 +9,11 @@ import queryString from 'query-string';
 import { get, isFunction } from 'lodash';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import commonStyles from '@/common.less';
-import CustomSpin from '@/components/CustomSpin';
+import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 import { router } from 'umi';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
-export default class Versions extends BaseList {
+export class PregnanciesList extends BaseList {
   state = {
     total: 0,
     defaultQuery: {
@@ -119,3 +120,5 @@ export default class Versions extends BaseList {
     );
   }
 }
+
+export default WithDynamicExport(PregnanciesList);

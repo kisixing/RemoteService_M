@@ -7,10 +7,11 @@ import { get } from 'lodash';
 import BaseList from '@/components/BaseList';
 import request from '@/utils/request';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import CustomSpin from '@/components/CustomSpin';
+import CustomSpin from '@/components/GeneralComponents/CustomSpin';
 import commonStyles from '@/common.less';
+import WithDynamicExport from '@/components/WithDynamicExport';
 
-export default class PackageList extends BaseList {
+export class PackageList extends BaseList {
   state = {
     total: 0,
     needPagination: false,
@@ -30,21 +31,14 @@ export default class PackageList extends BaseList {
       title: '是否可用',
       dataIndex: 'isdeleted',
       render: (isdeleted, rowData) => {
-        return (
-          <Switch
-            defaultChecked={isdeleted}
-            onChange={this.handleChangeFields('isdeleted', rowData)}
-          />
-        );
+        return <Switch defaultChecked={isdeleted} onChange={this.handleChangeFields('isdeleted', rowData)} />;
       },
     },
     {
       title: '是否置顶',
       dataIndex: 'topflag',
       render: (topflag, rowData) => {
-        return (
-          <Switch defaultChecked={topflag} onChange={this.handleChangeFields('topflag', rowData)} />
-        );
+        return <Switch defaultChecked={topflag} onChange={this.handleChangeFields('topflag', rowData)} />;
       },
     },
     {
@@ -120,3 +114,5 @@ export default class PackageList extends BaseList {
     );
   }
 }
+
+export default WithDynamicExport(PackageList);

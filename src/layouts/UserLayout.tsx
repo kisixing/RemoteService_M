@@ -4,7 +4,6 @@ import { Link } from 'umi';
 import React from 'react';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { connect } from 'dva';
-import SelectLang from '@/components/SelectLang';
 import { ConnectProps, ConnectState } from '@/models/connect';
 import logo from '../assets/logo.jpg';
 import styles from './UserLayout.less';
@@ -44,7 +43,7 @@ const UserLayout: React.FC<UserLayoutProps> = props => {
 
       <div className={styles.container}>
         <div className={styles.lang}>
-          <SelectLang />
+          {/* <SelectLang /> */}
         </div>
         <div className={styles.content}>
           <div className={styles.top}>

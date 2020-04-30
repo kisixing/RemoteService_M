@@ -97,6 +97,9 @@ export default {
   'menu.system.task': '任务管理',
   'menu.system.audit': '审计管理',
   'menu.system.version': '版本管理',
+  'menu.system.config-form': '表单配置',
+  'menu.system.config-form.section': '模块配置',
+  'menu.system.config-form.form-description': '详情配置',
 
   'menu.follow-up': '随访管理',
   'menu.follow-up.question': '问卷管理',

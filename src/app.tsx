@@ -1,4 +1,5 @@
 import store from 'store';
+import { startsWith } from 'lodash';
 import { router } from 'umi';
 import { TOKEN } from '@/utils/request';
 
@@ -9,10 +10,15 @@ export const render = (oldRender: any) => {
   const token = store.get(TOKEN);
   const loginTime = store.get('loginTime');
   const expiredTime = store.get('expiredTime');
-  if (!token || !username || loginTime + expiredTime < new Date().getTime()) {
-    router.push('/user/login');
+  if (startsWith(window.location.hash, '#/user/login')) {
     oldRender();
   } else {
-    oldRender();
+    // eslint-disable-next-line no-lonely-if
+    if (!token || !username || loginTime + expiredTime < new Date().getTime()) {
+      router.push('/user/login');
+      oldRender();
+    } else {
+      oldRender();
+    }
   }
 };

@@ -43,7 +43,7 @@ const omitMenus = [
 ];
 
 const BasicLayout = (props: any) => {
-  const [panelHeight, setPanelHeight] = useState(document.documentElement.clientHeight - 130);
+  const [panelHeight, setPanelHeight] = useState(document.documentElement.clientHeight - 135);
   const [routerTabWidth, setRouterTabWidth] = useState(
     document.documentElement.clientWidth - (props.collapsed ? 100 : 276),
   );
@@ -65,55 +65,36 @@ const BasicLayout = (props: any) => {
   // 登录过期与退出登录
   useEffect(() => {
     const { currentUser, allPermissions } = props;
-
     const username = store.get('username');
     const token = store.get(TOKEN);
     const loginTime = store.get('loginTime');
     const expiredTime = store.get('expiredTime');
-    if (loginTime + expiredTime < new Date().getTime()) {
-      showOvertime();
-    }
+
     if (!username || !token) {
       dispatch({
         type: 'login/logout',
       });
-    }
+      dispatch({
+        type: 'user/saveCurrentUser',
+        payload: {},
+      });
 
+      dispatch({
+        type: 'user/saveAllPermissions',
+        payload: {},
+      });
+      return;
+    }
+    if (loginTime + expiredTime < new Date().getTime()) {
+      showOvertime();
+      return;
+    }
     if (!isEmpty(currentUser) && !isNil(allPermissions)) {
       dispatchTabs(currentUser, allPermissions);
+    } else {
+      initGetData();
     }
   }, [props.location.pathname, props.collapsed]);
-
-  // 获取权限
-  useEffect(() => {
-    const { products, currentUser, allPermissions } = props;
-    const username = store.get('username');
-    (async () => {
-      if (isEmpty(products)) {
-        await dispatch({
-          type: 'select/getProducts',
-          payload: {},
-        });
-      }
-
-      const newCurrentUser = isEmpty(currentUser) ? await request.get(`/users/${username}`) : currentUser;
-      const newAllPermissions = isEmpty(allPermissions)
-        ? await request.get('/permissions?type.equals=menu&size=200')
-        : allPermissions;
-
-      await dispatch({
-        type: 'user/saveCurrentUser',
-        payload: newCurrentUser,
-      });
-
-      await dispatch({
-        type: 'user/saveAllPermissions',
-        payload: newAllPermissions,
-      });
-
-      dispatchTabs(newCurrentUser, newAllPermissions);
-    })();
-  }, []);
 
   // 监听 resize 和清除 resize
   useEffect(() => {
@@ -122,6 +103,34 @@ const BasicLayout = (props: any) => {
       window.removeEventListener('resize', () => {});
     };
   }, []);
+
+  const initGetData = async () => {
+    const { products, currentUser, allPermissions } = props;
+    const username = store.get('username');
+    if (isEmpty(products)) {
+      await dispatch({
+        type: 'select/getProducts',
+        payload: {},
+      });
+    }
+
+    const newCurrentUser = isEmpty(currentUser) ? await request.get(`/users/${username}`) : currentUser;
+    const newAllPermissions = isEmpty(allPermissions)
+      ? await request.get('/permissions?type.equals=menu&size=200')
+      : allPermissions;
+
+    await dispatch({
+      type: 'user/saveCurrentUser',
+      payload: newCurrentUser,
+    });
+
+    await dispatch({
+      type: 'user/saveAllPermissions',
+      payload: newAllPermissions,
+    });
+
+    dispatchTabs(newCurrentUser, newAllPermissions);
+  };
 
   const dispatchTabs = (currentUser: any, allPermissions: any) => {
     const { location } = props;
@@ -160,7 +169,7 @@ const BasicLayout = (props: any) => {
   };
 
   const handleResize = () => {
-    setPanelHeight(document.documentElement.clientHeight - 130);
+    setPanelHeight(document.documentElement.clientHeight - 135);
     setRouterTabWidth(document.documentElement.clientWidth - (props.collapsed ? 276 : 100));
   };
 

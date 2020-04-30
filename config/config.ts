@@ -127,7 +127,7 @@ export default {
   }, // chainWebpack: webpackPlugin,
   proxy: {
     '/api/form-descriptions': {
-      target: 'http://localhost:3335/',
+      target: 'http://127.0.0.1:3335/',
       changeOrigin: true,
       // pathRewrite: { '^/server': '' },
     },

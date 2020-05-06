@@ -127,13 +127,12 @@ export default {
   }, // chainWebpack: webpackPlugin,
   proxy: {
     '/api/form-descriptions': {
-      target: 'http://127.0.0.1:3335/',
+      target: process.env.formDescriptionUrl || 'http://localhost:3335/',
       changeOrigin: true,
       // pathRewrite: { '^/server': '' },
     },
     '/api/': {
-      // target: 'http://192.168.123.56:9987/',
-      target: 'http://transfer.lian-med.com:9988/',
+      target: process.env.hostUrl || 'http://transfer.lian-med.com:9988/',
       changeOrigin: true,
       // pathRewrite: { '^/server': '' },
     },

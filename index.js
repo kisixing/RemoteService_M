@@ -12,7 +12,7 @@ const formDescriptionUrl = process.env.formDescriptionUrl || 'http://127.0.0.1:3
 app.use(static(path.join(__dirname, staticPath)));
 const options = {
   targets: {
-    '/api/form-descriptions/(.*)': {
+    '/api/form-descriptions(.*)': {
       target: formDescriptionUrl,
       changeOrigin: true,
       // pathRewrite: { '^/server': '' },

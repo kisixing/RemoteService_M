@@ -19,8 +19,8 @@ export class Pregnancies extends React.Component {
     const { location } = this.props;
     const id = get(location, 'query.id');
     const formDescriptions = formDescriptionsFromApi(await request.get('/form-descriptions?moduleName=pregnant'));
-    const data = id ? fromApi(await request.get(`/pregnancies/${id}`)) : {};
     const formDescriptionsWithoutSection = formDescriptionsWithoutSectionApi(formDescriptions);
+    const data = id ? fromApi(await request.get(`/pregnancies/${id}`), formDescriptionsWithoutSection) : {};
     this.setState({ formDescriptions, formDescriptionsWithoutSection, data });
   }
 

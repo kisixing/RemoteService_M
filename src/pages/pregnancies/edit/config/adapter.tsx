@@ -1,4 +1,4 @@
-import { map, get, keys, filter, isNil, set, indexOf, split, isObject, isUndefined } from 'lodash';
+import { map, get, keys, filter, isNil, set, indexOf, split, isObject, isUndefined, last } from 'lodash';
 import moment, { Moment } from 'moment';
 import { fixedSelects, getPregnancyHistoryFormDescriptions } from '@/components/BusinessComponents/PregnancyHistory';
 import request from '@/utils/request';
@@ -60,92 +60,138 @@ export const formDescriptionsFromApi = data => {
 //   return newData;
 // };
 
-export const fromApi = data => {
-  const deliverWays = fixedSelects.deliverWays;
-  const abortionWays = fixedSelects.abortionWays;
-  const badPregnancies = fixedSelects.badPregnancies;
-  const pregnancyHistories = map(get(data, 'pregnancyHistories'), pregnancyHistory => {
-    // console.log(pregnancyHistory);
-    let deliverWay = null;
-    let abortionWay = null;
-    const badPregnancy: any = [];
-    map(deliverWays, item => {
-      get(pregnancyHistory, item) && (deliverWay = item);
-    });
-    map(abortionWays, item => {
-      get(pregnancyHistory, item) && (abortionWay = item);
-    });
-    map(badPregnancies, item => {
-      get(pregnancyHistory, item) && badPregnancy.push(item);
-    });
-    return {
-      ...pregnancyHistory,
-      deliverWay,
-      abortionWay,
-      badPregnancy,
-      pregnancyEnd:
-        get(pregnancyHistory, 'year') &&
-        get(pregnancyHistory, 'month') &&
-        `${get(pregnancyHistory, 'year')}-${get(pregnancyHistory, 'month')}`,
-      hasPregnancy: !isNil(get(pregnancyHistory, 'fetalcount')) && !isNil(get(pregnancyHistory, 'hospital')),
-    };
+// export const fromApi = data => {
+//   const deliverWays = fixedSelects.deliverWays;
+//   const abortionWays = fixedSelects.abortionWays;
+//   const badPregnancies = fixedSelects.badPregnancies;
+//   const pregnancyHistories = map(get(data, 'pregnancyHistories'), pregnancyHistory => {
+//     // console.log(pregnancyHistory);
+//     let deliverWay = null;
+//     let abortionWay = null;
+//     const badPregnancy: any = [];
+//     map(deliverWays, item => {
+//       get(pregnancyHistory, item) && (deliverWay = item);
+//     });
+//     map(abortionWays, item => {
+//       get(pregnancyHistory, item) && (abortionWay = item);
+//     });
+//     map(badPregnancies, item => {
+//       get(pregnancyHistory, item) && badPregnancy.push(item);
+//     });
+//     return {
+//       ...pregnancyHistory,
+//       deliverWay,
+//       abortionWay,
+//       badPregnancy,
+//       pregnancyEnd:
+//         get(pregnancyHistory, 'year') &&
+//         get(pregnancyHistory, 'month') &&
+//         `${get(pregnancyHistory, 'year')}-${get(pregnancyHistory, 'month')}`,
+//       hasPregnancy: !isNil(get(pregnancyHistory, 'fetalcount')) && !isNil(get(pregnancyHistory, 'hospital')),
+//     };
+//   });
+//   return {
+//     ...data,
+//     dob: moment(get(data, 'dob')),
+//     validateDate: moment(get(data, 'validateDate')),
+//     lmp: moment(get(data, 'lmp')),
+//     edd: moment(get(data, 'edd')),
+//     sureEdd: moment(get(data, 'sureEdd')),
+//     pregnancyHistories,
+//     personalProfilePreWeight: get(data, 'personalProfile.preweight'),
+//     personalProfilePreHeight: get(data, 'personalProfile.preheight'),
+//     personalProfileBMI: get(data, 'personalProfile.bmi'),
+//     menstrualHistoryMenarche: get(data, 'menstrualHistory.menarche'),
+//     menstrualHistoryMenstrualPeriod: get(data, 'menstrualHistory.menstrualPeriod'),
+//     menstrualHistoryMenstrualCycle: get(data, 'menstrualHistory.menstrualCycle'),
+//     menstrualHistoryDysmenorrhea: {
+//       dysmenorrhea: get(data, 'menstrualHistory.dysmenorrhea'),
+//       dysmenorrheaNote: get(data, 'menstrualHistory.dysmenorrheaNote'),
+//     },
+//     personalProfileSmoke: {
+//       smoke: get(data, 'personalProfile.smoke'),
+//       smokeNote: get(data, 'personalProfile.smokeNote'),
+//     },
+//     personalProfileAlcohol: {
+//       alcohol: get(data, 'personalProfile.alcohol'),
+//       alcoholNote: get(data, 'personalProfile.alcoholNote'),
+//     },
+//     partnerProfileSmoke: {
+//       smoke: get(data, 'partnerProfile.smoke'),
+//       smokeNote: get(data, 'partnerProfile.smokeNote'),
+//     },
+//     partnerProfileAlcohol: {
+//       alcohol: get(data, 'partnerProfile.alcohol'),
+//       alcoholNote: get(data, 'partnerProfile.alcoholNote'),
+//     },
+//     personalProfileHazardoussubstances: {
+//       hazardoussubstances: get(data, 'personalProfile.hazardoussubstances'),
+//       hazardoussubstancesNote: get(data, 'personalProfile.hazardoussubstancesNote'),
+//     },
+//     personalProfileRadioactivity: {
+//       radioactivity: get(data, 'personalProfile.radioactivity'),
+//       radioactivityNote: get(data, 'personalProfile.radioactivityNote'),
+//     },
+//     diseaseHistoryHypertension: {
+//       hypertension: get(data, 'diseaseHistory.hypertension'),
+//       hypertensionNote: get(data, 'diseaseHistory.hypertensionNote'),
+//     },
+//     diseaseHistoryDiabetes: {
+//       diabetes: get(data, 'diseaseHistory.diabetes'),
+//       diabetesNote: get(data, 'diseaseHistory.diabetesNote'),
+//     },
+//     diseaseHistoryCardiacDisease: {
+//       cardiacDisease: get(data, 'diseaseHistory.cardiacDisease'),
+//       cardiacDiseaseNote: get(data, 'diseaseHistory.cardiacDiseaseNote'),
+//     },
+//     partnerProfileDisease: get(data, 'partnerProfile.disease'),
+//     partnerOutpatientNO: get(data, 'partnerProfile.outpatientNO'),
+//   };
+// };
+
+export const fromApi = (data: any, nativeFormDescriptions: any) => {
+  const result = {};
+  map(nativeFormDescriptions, (desctiption, key) => {
+    const { tranfer_rules: tranferRules } = desctiption;
+    let type = 'default';
+    let path = key;
+    let nativeKey = key;
+    if (tranferRules && JSON.parse(tranferRules)) {
+      const tranferRulesJson = JSON.parse(tranferRules);
+      type = get(tranferRulesJson, 'type') ? get(tranferRulesJson, 'type') : 'default';
+      path = get(tranferRulesJson, 'path') ? get(tranferRulesJson, 'path') : key;
+      nativeKey = get(tranferRulesJson, 'path') ? (last(split(get(tranferRulesJson, 'path'), ',')) as string) : key;
+    }
+
+    switch (type) {
+      case 'key_and_keyNote':
+        set(result, `${key}.key`, get(data, path));
+        set(result, `${key}.keyNote`, get(data, `${path}Note`));
+        break;
+      case 'stage':
+        set(result, `${key}.0`, get(data, `${key}h`));
+        set(result, `${key}.1`, get(data, `${key}m`));
+        break;
+      case 'apgar':
+        map(get(data, 'noenateRecord'), (record, index) => {
+          set(result, `${key}.${index}.apgar1`, get(record, 'apgar1'));
+          set(result, `${key}.${index}.apgar5`, get(record, 'apgar5'));
+          set(result, `${key}.${index}.apgar10`, get(record, 'apgar10'));
+        });
+        break;
+      case 'moment':
+        set(result, key, moment(get(data, path)));
+        break;
+      case 'default':
+      default:
+        set(result, key, get(data, path));
+        break;
+    }
   });
+  console.log(result);
   return {
-    ...data,
-    dob: moment(get(data, 'dob')),
-    validateDate: moment(get(data, 'validateDate')),
-    lmp: moment(get(data, 'lmp')),
-    edd: moment(get(data, 'edd')),
-    sureEdd: moment(get(data, 'sureEdd')),
-    pregnancyHistories,
-    personalProfilePreWeight: get(data, 'personalProfile.preweight'),
-    personalProfilePreHeight: get(data, 'personalProfile.preheight'),
-    personalProfileBMI: get(data, 'personalProfile.bmi'),
-    menstrualHistoryMenarche: get(data, 'menstrualHistory.menarche'),
-    menstrualHistoryMenstrualPeriod: get(data, 'menstrualHistory.menstrualPeriod'),
-    menstrualHistoryMenstrualCycle: get(data, 'menstrualHistory.menstrualCycle'),
-    menstrualHistoryDysmenorrhea: {
-      dysmenorrhea: get(data, 'menstrualHistory.dysmenorrhea'),
-      dysmenorrheaNote: get(data, 'menstrualHistory.dysmenorrheaNote'),
-    },
-    personalProfileSmoke: {
-      smoke: get(data, 'personalProfile.smoke'),
-      smokeNote: get(data, 'personalProfile.smokeNote'),
-    },
-    personalProfileAlcohol: {
-      alcohol: get(data, 'personalProfile.alcohol'),
-      alcoholNote: get(data, 'personalProfile.alcoholNote'),
-    },
-    partnerProfileSmoke: {
-      smoke: get(data, 'partnerProfile.smoke'),
-      smokeNote: get(data, 'partnerProfile.smokeNote'),
-    },
-    partnerProfileAlcohol: {
-      alcohol: get(data, 'partnerProfile.alcohol'),
-      alcoholNote: get(data, 'partnerProfile.alcoholNote'),
-    },
-    personalProfileHazardoussubstances: {
-      hazardoussubstances: get(data, 'personalProfile.hazardoussubstances'),
-      hazardoussubstancesNote: get(data, 'personalProfile.hazardoussubstancesNote'),
-    },
-    personalProfileRadioactivity: {
-      radioactivity: get(data, 'personalProfile.radioactivity'),
-      radioactivityNote: get(data, 'personalProfile.radioactivityNote'),
-    },
-    diseaseHistoryHypertension: {
-      hypertension: get(data, 'diseaseHistory.hypertension'),
-      hypertensionNote: get(data, 'diseaseHistory.hypertensionNote'),
-    },
-    diseaseHistoryDiabetes: {
-      diabetes: get(data, 'diseaseHistory.diabetes'),
-      diabetesNote: get(data, 'diseaseHistory.diabetesNote'),
-    },
-    diseaseHistoryCardiacDisease: {
-      cardiacDisease: get(data, 'diseaseHistory.cardiacDisease'),
-      cardiacDiseaseNote: get(data, 'diseaseHistory.cardiacDiseaseNote'),
-    },
-    partnerProfileDisease: get(data, 'partnerProfile.disease'),
-    partnerOutpatientNO: get(data, 'partnerProfile.outpatientNO'),
+    ...result,
+    id: get(data, 'id'),
   };
 };
 

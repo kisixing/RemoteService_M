@@ -27,6 +27,7 @@ import request from '@/utils/request';
 import CheckboxGroup from '@/components/ConfigComponents/CheckboxGroup';
 import InputWithLabel from '../ConfigComponents/InputWithLabel';
 import NormalCheckboxWithInput from '../ConfigComponents/NormalCheckboxWithInput';
+import PureCheckbox from '../ConfigComponents/PureCheckbox';
 
 export const getFormDescriptionByModuleName = async (moduleName: string) => {
   return formDescriptionsWithoutSectionApi(
@@ -145,6 +146,10 @@ export class FormSection extends React.Component<IProps> {
         });
       case 'normal_checkbox_with_input':
         return renderEditItem(get(formDescription, 'key'), <NormalCheckboxWithInput config={formDescription} />, {
+          customFormItemLayout: get(formDescription, 'formItemLayout') || {},
+        });
+      case 'pure_checkbox':
+        return renderEditItem(get(formDescription, 'key'), <PureCheckbox config={formDescription} />, {
           customFormItemLayout: get(formDescription, 'formItemLayout') || {},
         });
       case 'checkbox_group':

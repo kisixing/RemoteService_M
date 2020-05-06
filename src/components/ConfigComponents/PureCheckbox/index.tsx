@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { get, isEmpty, isNil } from 'lodash';
+import { get, isNil } from 'lodash';
 import CheckboxWithInput from '@/components/GeneralComponents/CheckboxWithInput';
-import { isJsonStr } from '@/utils/helper';
 
 type Option = {
   value: string;
@@ -15,10 +14,7 @@ type Option = {
 
 // 接收格式
 /**
- * {
- *  key: '',
- *  keyNote: ''
- * }
+ * value: ''
  */
 
 export default (props: any) => {
@@ -29,23 +25,16 @@ export default (props: any) => {
 
   const [data, setData] = useState({});
   useEffect(() => {
-    const key = get(props, 'value.key');
-    const keyNote = get(props, 'value.keyNote');
-
-    !isEmpty(get(props, 'value')) &&
-      setData({
-        checkedValues: !isNil(key) && [key],
-        withInputValues: isJsonStr(keyNote) ? JSON.parse(keyNote) : undefined,
-      });
+    const key = get(props, 'value');
+    setData({
+      checkedValues: !isNil(key) && [key],
+      withInputValues: 'purecheckbox',
+    });
   }, [props.value]);
 
   const handleChange = (callbackData: any) => {
     const { onChange } = props;
-    onChange &&
-      onChange({
-        key: get(callbackData, 'checkedValues.0'),
-        keyNote: JSON.stringify(get(callbackData, 'withInputValues')),
-      });
+    onChange && onChange(get(callbackData, 'checkedValues.0'));
   };
 
   return <CheckboxWithInput type={type} options={options} onChange={handleChange} value={data} />;

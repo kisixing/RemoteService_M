@@ -87,6 +87,7 @@ export type InputType =
   | 'input_number'
   | 'checkbox_with_input'
   | 'normal_checkbox_with_input'
+  | 'pure_checkbox'
   | 'input_with_label'
   | 'normal_checkbox_with_input'
   | 'radio_with_input_number'

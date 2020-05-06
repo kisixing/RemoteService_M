@@ -14,6 +14,6 @@ export default class CustomTable extends React.PureComponent {
   // }
 
   render() {
-    return <Table className={stylesCustomTable.table} size="small" {...this.props} bordered={false} />;
+    return <Table className={stylesCustomTable.table} size="small" bordered={false} {...this.props} />;
   }
 }

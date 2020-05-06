@@ -12,7 +12,7 @@ const formDescriptionUrl = process.env.formDescriptionUrl || 'http://127.0.0.1:3
 app.use(static(path.join(__dirname, staticPath)));
 const options = {
   targets: {
-    '/api/form-descriptions': {
+    '/api/form-descriptions/(.*)': {
       target: formDescriptionUrl,
       changeOrigin: true,
       // pathRewrite: { '^/server': '' },
@@ -28,5 +28,6 @@ const options = {
 app.use(proxy(options));
 
 app.listen(port, () => {
+  console.log(`apiHostUrl: http://localhost:${hostUrl}, formDescriptionUrl: ${formDescriptionUrl}`);
   console.log(`server link is: http://localhost:${port}`);
 });

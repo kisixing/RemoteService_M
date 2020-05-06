@@ -1,10 +1,8 @@
-import { IRoute } from 'umi-types';
-
-const r: IRoute = {
+// 异常页路由
+export default {
   name: 'exception',
   icon: 'warning',
   path: '/exception',
-  // component: '../layouts/BasicLayout',
   routes: [
     {
       name: '403',
@@ -26,5 +24,3 @@ const r: IRoute = {
     },
   ],
 };
-
-export default r;

@@ -1,159 +1,146 @@
 import React from 'react';
-import { Tabs, Input, Row, Col, Radio, InputNumber, Button, Divider, Select } from 'antd';
-import { map, get, set, isEmpty, isFunction, toArray, cloneDeep, isEqual } from 'lodash';
-import moment from 'moment';
-import { DynamicForm } from '@lianmed/components';
+import { Input, Row, Col, Radio, InputNumber, Button, Divider, Form } from 'antd';
+import { map, get, set, isEmpty, isFunction, toArray, isArray, isNil, filter, indexOf, keyBy } from 'lodash';
 import PregnancyHistoryFormSection from './PregnancyHistoryFormSection';
 import { getPregnancyHistoryFormDescriptions } from '.';
 import NormalSelect from '@/components/selects/NormalSelect';
+import { MinusCircleOutlined } from '@ant-design/icons';
+import styles from './index.less';
 
-const TAB_TITLE = '孕次';
+// 默认展示字段
+const defaultFormFields = ['pregnancyEnd', 'complicationNote', 'hasPregnancy'];
 
-interface IProps {
-  value?: any;
-  onChange?: any;
-}
+// 已分娩字段
+const hasPregnancyFormFields = [
+  'hospital',
+  'gestationalWeek',
+  'fetalcount',
+  'deliverWay',
+  'puerperalFever',
+  'hemorrhage',
+];
 
-export default class PregnancyHistoryForm extends DynamicForm {
-  constructor(props: IProps) {
-    super(props);
-    this.newTabIndex = 1;
-    this.state = {
-      tabPanes: [],
-      activeKey: undefined,
-      formData: {},
-    };
-  }
+// 未分娩字段
+const noPregnancyFormFields = ['abortionWay', 'badPregnancy'];
 
-  nativeFormDescriptions = {};
+// 胎数大于0 默认字段
+const fetalcountLgZeroDefaultFormFields = ['childDeath'];
+
+// 胎数大于0 孩子死亡展示字段
+const fetalcountLgZeroChildDeathFormFields = ['childDeathNote'];
+
+// 胎数大于0 孩子存活展示字段
+const fetalcountLgZeroChildLiveFormFields = [
+  'childGender',
+  'sequela',
+  'childDeformity',
+  'neonateWeight',
+  'neonateHeight',
+];
+
+export const horizontalFormItemLayout = {
+  labelCol: {
+    span: 12,
+  },
+  wrapperCol: {
+    span: 12,
+  },
+};
+
+export default class PregnancyHistoryForm extends React.Component {
+  newTabIndex: number = 1;
+
+  nativeFormDescriptions: object = {};
+
+  state = {
+    formDescriptionsArray: [] as any[],
+    fetalcountArray: [],
+  };
 
   /**
    * 获取表单配置以及渲染数据
    */
   async componentDidMount() {
-    const { value: pregnancyHistories, form } = this.props;
+    const { value: pregnancyHistories } = this.props;
     const nativeFormDescriptions = await getPregnancyHistoryFormDescriptions();
-
     this.nativeFormDescriptions = nativeFormDescriptions;
+    let formDescriptionsArray: any[] = [];
+    const fetalcountArray: any[] = [];
 
     // 渲染数据
     if (!isEmpty(pregnancyHistories)) {
-      const tabPanes: any = [];
+      // 渲染表单配置
       map(pregnancyHistories, (pregnancyHistory, index) => {
-        const activeKey = `${TAB_TITLE}${this.newTabIndex++}`;
-        tabPanes.push({ title: activeKey, key: activeKey });
-
-        form.setFieldsValue({
-          [`pregnancyEnd_${index}`]: moment(get(pregnancyHistory, 'pregnancyEnd')),
-          [`complicationNote_${index}`]: get(pregnancyHistory, 'complicationNote'),
-          [`hasPregnancy_${index}`]: get(pregnancyHistory, 'hasPregnancy'),
-          [`hospital_${index}`]: get(pregnancyHistory, 'hospital'),
-          [`fetalcount_${index}`]: get(pregnancyHistory, 'fetalcount'),
-          [`gestationalWeek_${index}`]: get(pregnancyHistory, 'gestationalWeek'),
-          [`deliverWay_${index}`]: get(pregnancyHistory, 'deliverWay'),
-          [`puerperalFever_${index}`]: get(pregnancyHistory, 'puerperalFever'),
-          [`hemorrhage_${index}`]: get(pregnancyHistory, 'hemorrhage'),
-          [`abortionWay_${index}`]: get(pregnancyHistory, 'abortionWay'),
-          [`badPregnancy_${index}`]: get(pregnancyHistory, 'badPregnancy'),
-        });
-        map(get(pregnancyHistory, 'children'), (children, i) => {
-          form.setFieldsValue({
-            [`childDeath_${index}_${i}`]: get(children, 'childDeath'),
-            [`childDeathNote_${index}_${i}`]: get(children, 'childDeathNote'),
-            [`childGender_${index}_${i}`]: get(children, 'childGender'),
-            [`sequela_${index}_${i}`]: get(children, 'sequela'),
-            [`childDeformity_${index}_${i}`]: get(children, 'childDeformity'),
-            [`neonateWeight_${index}_${i}`]: get(children, 'neonateWeight'),
-            [`neonateHeight_${index}_${i}`]: get(children, 'neonateHeight'),
-          });
-        });
+        let tempFieldsArray = defaultFormFields;
+        const fetalcount = get(pregnancyHistory, 'fetalcount');
+        const hasPregnancy = !isNil(fetalcount) && !isNil(get(pregnancyHistory, 'hospital'));
+        if (hasPregnancy) {
+          tempFieldsArray = [...tempFieldsArray, ...hasPregnancyFormFields];
+        } else {
+          tempFieldsArray = [...tempFieldsArray, ...noPregnancyFormFields];
+        }
+        if (fetalcount > 0) {
+          set(fetalcountArray, index, fetalcount);
+        }
+        formDescriptionsArray.push(this.getFormDescriptions(tempFieldsArray));
       });
-      this.setState({
-        tabPanes,
-        activeKey: isEmpty(tabPanes) ? undefined : get(tabPanes, '0.key'),
-      });
+    } else {
+      formDescriptionsArray = [this.getFormDescriptions()];
     }
-  }
-
-  /**
-   *
-   * this.state.formData 作为重渲染的关键，form 中字段改变后，
-   * 需要对比 formData 和 form.getFieldsValue()，如果不一致，
-   * form.getFieldsValue() 再赋值一次给 this.state.formData
-   */
-  componentDidUpdate(prevProps, prevState) {
-    const { form } = this.props;
-    const { formData: prevFormData } = prevState;
-    if (form) {
-      if (!isEqual(prevFormData, form.getFieldsValue())) {
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({
-          formData: form.getFieldsValue(),
-        });
-      }
-    }
-  }
-
-  // 改变 active Tab
-  handleChange = activeKey => {
-    this.setState({ activeKey });
-  };
-
-  // 更新 tab
-  handleEdit = (targetKey, action) => {
-    this[action](targetKey);
-  };
-
-  // 添加 tab
-  add = () => {
-    const { tabPanes } = this.state;
-    const activeKey = `${TAB_TITLE}${this.newTabIndex++}`;
-    tabPanes.push({ title: activeKey, key: activeKey });
-    this.setState({ tabPanes, activeKey });
-  };
-
-  // 删除 tab
-  remove = targetKey => {
-    let { activeKey, tabPanes } = this.state;
-    let lastIndex;
-    tabPanes.forEach((pane, i) => {
-      if (pane.key === targetKey) {
-        lastIndex = i - 1;
-      }
+    this.setState({
+      formDescriptionsArray,
+      fetalcountArray,
     });
-    const panes = tabPanes.filter(pane => pane.key !== targetKey);
-    if (panes.length && activeKey === targetKey) {
-      if (lastIndex >= 0) {
-        activeKey = panes[lastIndex].key;
-      } else {
-        activeKey = panes[0].key;
-      }
-    }
-    this.setState({ tabPanes: panes, activeKey });
+  }
+
+  generateRenderEditItem = (formDescriptions: any, { formItemLayout = horizontalFormItemLayout, isBind = true }) => {
+    return (key: any, reactNode: React.ReactNode, others: object = {}) => {
+      const config = isArray(key) ? get(formDescriptions, get(key, 1)) : get(formDescriptions, key);
+      const { label, rules } = config;
+      const bindProps = isBind ? { name: key } : {};
+      return (
+        <Form.Item
+          {...formItemLayout}
+          {...get(others, 'customFormItemLayout')}
+          style={{ ...get(others, 'styles') }}
+          key={key}
+          label={label}
+          rules={rules}
+          {...bindProps}
+        >
+          {reactNode}
+        </Form.Item>
+      );
+    };
   };
 
   // 设置表单数据
-  setFormData = () => {
+  setFormChildrenData = (pregnancyIndex: any, childIndex: any, type: string) => async (e: any) => {
     const { form } = this.props;
-    this.setState({
-      formData: form.getFieldsValue(),
+    const pregnancyHistories = form.getFieldValue('pregnancyHistories');
+    switch (type) {
+      case 'childGender':
+      case 'neonateHeight':
+      case 'neonateWeight':
+        set(pregnancyHistories, `${pregnancyIndex}.children.${childIndex}.${type}`, e);
+        break;
+      default:
+        set(pregnancyHistories, `${pregnancyIndex}.children.${childIndex}.${type}`, get(e, 'target.value'));
+        break;
+    }
+    await form.setFieldsValue({
+      pregnancyHistories,
     });
   };
 
   // 渲染胎儿信息
-  renderChildrens = (index, formDescriptions) => {
-    const { formData } = this.state;
+  renderChildrens = (index: any, fetalcount: number) => {
+    const { form } = this.props;
+    const pregnancyHistories = form.getFieldValue('pregnancyHistories');
     const childrens = [];
-    const fetalcount = get(formData, `fetalcount_${index}`);
-    let renderEditItem;
-    const newFormDescriptions = {};
-
+    const renderEditItem = this.generateRenderEditItem(this.nativeFormDescriptions, { isBind: false });
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < fetalcount; i++) {
-      map(formDescriptions, (formDescription, formDescriptionKey) => {
-        set(newFormDescriptions, `${formDescriptionKey}_${i}`, formDescription);
-      });
-      renderEditItem = this.generateRenderEditItem(newFormDescriptions);
       const temp = (
         <div>
           <Divider key={`fetalcount-${index + 1}`} orientation="left">
@@ -165,12 +152,11 @@ export default class PregnancyHistoryForm extends DynamicForm {
               offset={get(this.nativeFormDescriptions, 'childDeath.offset')}
             >
               {renderEditItem(
-                `childDeath_${index}_${i}`,
+                'childDeath',
                 <Radio.Group
                   size="small"
-                  onChange={e => {
-                    this.setFormData();
-                  }}
+                  value={get(pregnancyHistories, `${index}.children.${i}.childDeath`)}
+                  onChange={this.setFormChildrenData(index, i, 'childDeath')}
                 >
                   <Radio value={false}>健在</Radio>
                   <Radio value={true}>死亡</Radio>
@@ -178,20 +164,25 @@ export default class PregnancyHistoryForm extends DynamicForm {
                 { customFormItemLayout: get(this.nativeFormDescriptions, 'childDeath.formItemLayout') || {} },
               )}
             </Col>
-            {get(formData, `childDeath_${index}_${i}`) && (
+            {get(pregnancyHistories, `${index}.children.${i}.childDeath`) === true && (
               <Col
                 span={get(this.nativeFormDescriptions, 'childDeathNote.span')}
                 offset={get(this.nativeFormDescriptions, 'childDeathNote.offset')}
               >
                 {renderEditItem(
-                  `childDeathNote_${index}_${i}`,
-                  <Input size="small" {...get(this.nativeFormDescriptions, 'childDeathNote.inputProps')} />,
+                  'childDeathNote',
+                  <Input
+                    size="small"
+                    value={get(pregnancyHistories, `${index}.children.${i}.childDeathNote`)}
+                    {...get(this.nativeFormDescriptions, 'childDeathNote.inputProps')}
+                    onChange={this.setFormChildrenData(index, i, 'childDeathNote')}
+                  />,
                   { customFormItemLayout: get(this.nativeFormDescriptions, 'childDeathNote.formItemLayout') || {} },
                 )}
               </Col>
             )}
           </Row>
-          {get(formData, `childDeath_${index}_${i}`) === false && (
+          {get(pregnancyHistories, `${index}.children.${i}.childDeath`) === false && (
             <>
               <Row>
                 <Col
@@ -199,10 +190,12 @@ export default class PregnancyHistoryForm extends DynamicForm {
                   offset={get(this.nativeFormDescriptions, 'childGender.offset')}
                 >
                   {renderEditItem(
-                    `childGender_${index}_${i}`,
+                    'childGender',
                     <NormalSelect
                       type="genderMapping"
+                      value={get(pregnancyHistories, `${index}.children.${i}.childGender`)}
                       {...get(this.nativeFormDescriptions, 'childGender.inputProps')}
+                      onChange={this.setFormChildrenData(index, i, 'childGender')}
                     />,
                     { customFormItemLayout: get(this.nativeFormDescriptions, 'childGender.formItemLayout') || {} },
                   )}
@@ -212,8 +205,13 @@ export default class PregnancyHistoryForm extends DynamicForm {
                   offset={get(this.nativeFormDescriptions, 'sequela.offset')}
                 >
                   {renderEditItem(
-                    `sequela_${index}_${i}`,
-                    <Radio.Group size="small" {...get(this.nativeFormDescriptions, 'sequela.inputProps')}>
+                    'sequela',
+                    <Radio.Group
+                      size="small"
+                      value={get(pregnancyHistories, `${index}.children.${i}.sequela`)}
+                      {...get(this.nativeFormDescriptions, 'sequela.inputProps')}
+                      onChange={this.setFormChildrenData(index, i, 'sequela')}
+                    >
                       <Radio value={false}>无</Radio>
                       <Radio value={true}>有</Radio>
                     </Radio.Group>,
@@ -225,8 +223,13 @@ export default class PregnancyHistoryForm extends DynamicForm {
                   offset={get(this.nativeFormDescriptions, 'childDeformity.offset')}
                 >
                   {renderEditItem(
-                    `childDeformity_${index}_${i}`,
-                    <Radio.Group size="small" {...get(this.nativeFormDescriptions, 'childDeformity.inputProps')}>
+                    'childDeformity',
+                    <Radio.Group
+                      size="small"
+                      value={get(pregnancyHistories, `${index}.children.${i}.childDeformity`)}
+                      {...get(this.nativeFormDescriptions, 'childDeformity.inputProps')}
+                      onChange={this.setFormChildrenData(index, i, 'childDeformity')}
+                    >
                       <Radio value={false}>无</Radio>
                       <Radio value={true}>有</Radio>
                     </Radio.Group>,
@@ -240,11 +243,13 @@ export default class PregnancyHistoryForm extends DynamicForm {
                   offset={get(this.nativeFormDescriptions, 'neonateWeight.offset')}
                 >
                   {renderEditItem(
-                    `neonateWeight_${index}_${i}`,
+                    'neonateWeight',
                     <InputNumber
                       size="small"
                       min={0}
+                      value={get(pregnancyHistories, `${index}.children.${i}.neonateWeight`)}
                       {...get(this.nativeFormDescriptions, 'neonateWeight.inputProps')}
+                      onChange={this.setFormChildrenData(index, i, 'neonateWeight')}
                     />,
                     { customFormItemLayout: get(this.nativeFormDescriptions, 'neonateWeight.formItemLayout') || {} },
                   )}
@@ -254,11 +259,13 @@ export default class PregnancyHistoryForm extends DynamicForm {
                   offset={get(this.nativeFormDescriptions, 'neonateHeight.offset')}
                 >
                   {renderEditItem(
-                    `neonateHeight_${index}_${i}`,
+                    'neonateHeight',
                     <InputNumber
                       size="small"
                       min={0}
+                      value={get(pregnancyHistories, `${index}.children.${i}.neonateHeight`)}
                       {...get(this.nativeFormDescriptions, 'neonateHeight.inputProps')}
+                      onChange={this.setFormChildrenData(index, i, 'neonateHeight')}
                     />,
                     { customFormItemLayout: get(this.nativeFormDescriptions, 'neonateHeight.formItemLayout') || {} },
                   )}
@@ -273,61 +280,106 @@ export default class PregnancyHistoryForm extends DynamicForm {
     return childrens;
   };
 
-  // 渲染孕次
-  renderTabContent = (key, index) => {
-    const { formData } = this.state;
-    const { form } = this.props;
-    const newFormDescriptions = {};
-    map(cloneDeep(this.nativeFormDescriptions), (formDescription, formDescriptionKey) => {
-      set(formDescription, 'key', `${formDescriptionKey}_${index}`);
-      set(formDescription, 'native_key', formDescriptionKey);
-      set(newFormDescriptions, `${formDescriptionKey}_${index}`, formDescription);
+  handleAddPregnancy = (add: () => void) => () => {
+    const { formDescriptionsArray } = this.state;
+    formDescriptionsArray.push(this.getFormDescriptions());
+    add();
+    this.setState({
+      formDescriptionsArray,
     });
-    const renderEditItem = this.generateRenderEditItem(newFormDescriptions);
+  };
+
+  handleRemovePregnancy = (remove: (index: number) => void, field: any) => () => {
+    remove(field.name);
+  };
+
+  getFormDescriptions = (formFields: string[] = defaultFormFields) =>
+    keyBy(
+      filter(this.nativeFormDescriptions, (formDescription, key) => indexOf(formFields, key) > -1),
+      'key',
+    );
+
+  updateFormDescriptions = (type: string, field: any) => (e: any) => {
+    const { formDescriptionsArray, fetalcountArray } = this.state;
+    const { form } = this.props;
+    const key = get(field, 'key');
+    switch (type) {
+      case 'has_pregnancy':
+        if (get(e, 'target.value')) {
+          const fetalcount = get(form.getFieldValue('pregnancyHistories'), `${key}.fetalcount`);
+          set(fetalcountArray, key, fetalcount);
+          set(formDescriptionsArray, key, this.getFormDescriptions([...defaultFormFields, ...hasPregnancyFormFields]));
+        } else {
+          set(fetalcountArray, key, 0);
+          set(formDescriptionsArray, key, this.getFormDescriptions([...defaultFormFields, ...noPregnancyFormFields]));
+        }
+        break;
+      case 'fetal_count':
+        set(fetalcountArray, key, e);
+        break;
+      default:
+        set(formDescriptionsArray, key, this.getFormDescriptions());
+        break;
+    }
+    this.setState({
+      formDescriptionsArray,
+      fetalcountArray,
+    });
+  };
+
+  renderPregnancyContent = (field: any, formDescriptions: object) => {
+    const { fetalcountArray } = this.state;
+    const fetalcount = get(fetalcountArray, get(field, 'key'));
+    const renderEditItem = this.generateRenderEditItem(formDescriptions, {});
     return (
-      <>
+      <div>
         {isFunction(renderEditItem) && (
           <PregnancyHistoryFormSection
-            tabIndex={index}
-            formData={formData}
-            form={form}
-            formDescriptions={toArray(newFormDescriptions)}
-            events={{ setFormData: this.setFormData }}
+            formDescriptions={toArray(formDescriptions)}
+            field={field}
+            events={{ updateFormDescriptions: this.updateFormDescriptions }}
             renderEditItem={renderEditItem}
           />
         )}
-        {get(formData, `hasPregnancy_${index}`) && this.renderChildrens(index, newFormDescriptions)}
-      </>
+        {fetalcount > 0 && this.renderChildrens(get(field, 'key'), fetalcount)}
+      </div>
     );
   };
 
   render() {
-    const { tabPanes, activeKey } = this.state;
+    const { formDescriptionsArray } = this.state;
     return (
-      <>
-        <div style={{ marginTop: 8, marginBottom: 8 }}>
-          <Button onClick={this.add} size="small" type="default">
-            添加孕产史信息
-          </Button>
-        </div>
-        {!isEmpty(tabPanes) && (
-          <Tabs
-            type="editable-card"
-            hideAdd
-            onChange={this.handleChange}
-            activeKey={activeKey}
-            onEdit={this.handleEdit}
-          >
-            {map(tabPanes, (pane, index) => {
-              return (
-                <Tabs.TabPane forceRender key={get(pane, 'key')} tab={get(pane, 'title')}>
-                  {this.renderTabContent(get(pane, 'key'), index)}
-                </Tabs.TabPane>
-              );
-            })}
-          </Tabs>
-        )}
-      </>
+      <Form.List name="pregnancyHistories">
+        {(fields, { add, remove }) => {
+          return (
+            <div>
+              <div style={{ marginTop: 8, marginBottom: 8 }}>
+                <Button onClick={this.handleAddPregnancy(add)} size="small" type="default">
+                  添加孕产史信息
+                </Button>
+              </div>
+              {map(fields, (field, index) => {
+                return (
+                  <Row className={styles.indexFormPregnancy}>
+                    <Col span={23}>
+                      <Divider orientation="left">
+                        <span style={{ fontSize: 14 }}>孕次{index + 1}</span>
+                      </Divider>
+                      {this.renderPregnancyContent(field, get(formDescriptionsArray, field.key))}
+                    </Col>
+                    <Col span={1} className={styles.indexFormDeleteIconBlock}>
+                      <MinusCircleOutlined
+                        className={styles.indexFormDeleteIcon}
+                        onClick={this.handleRemovePregnancy(remove, field)}
+                      />
+                    </Col>
+                  </Row>
+                );
+              })}
+            </div>
+          );
+        }}
+      </Form.List>
     );
   }
 }

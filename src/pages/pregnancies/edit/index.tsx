@@ -19,18 +19,21 @@ export class Pregnancies extends React.Component {
     const { location } = this.props;
     const id = get(location, 'query.id');
     const formDescriptions = formDescriptionsFromApi(await request.get('/form-descriptions?moduleName=pregnant'));
-    const data = id ? fromApi(await request.get(`/pregnancies/${id}`)) : {};
     const formDescriptionsWithoutSection = formDescriptionsWithoutSectionApi(formDescriptions);
+    const data = id ? fromApi(await request.get(`/pregnancies/${id}`), formDescriptionsWithoutSection) : {};
     this.setState({ formDescriptions, formDescriptionsWithoutSection, data });
   }
 
   handleSubmit = async values => {
-    const { data } = this.state;
-    const params = await toApi({
-      ...data,
-      ...values,
-      familyHistory: { id: get(data, 'familyHistory.id'), ...get(values, 'familyHistory') },
-    });
+    const { data, formDescriptionsWithoutSection } = this.state;
+    const params = await toApi(
+      {
+        ...data,
+        ...values,
+      },
+      formDescriptionsWithoutSection,
+    );
+    console.log(params);
     if (get(values, 'id')) {
       await request.put('/pregnancies', { data: params });
       message.success('修改病例成功');

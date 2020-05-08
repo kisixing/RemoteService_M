@@ -35,16 +35,18 @@ export default (props: any) => {
     !isEmpty(get(props, 'value')) &&
       setData({
         checkedValues: !isNil(key) && [key],
-        withInputValues: isJsonStr(keyNote) ? JSON.parse(keyNote) : undefined,
+        withInputValues: keyNote ? { [key]: { key, value: { '0': keyNote } } } : undefined,
       });
   }, [props.value]);
 
   const handleChange = (callbackData: any) => {
     const { onChange } = props;
+    const key = get(callbackData, 'checkedValues.0');
+    const keyNote = get(callbackData, `withInputValues.${key}.value.0`);
     onChange &&
       onChange({
-        key: get(callbackData, 'checkedValues.0'),
-        keyNote: JSON.stringify(get(callbackData, 'withInputValues')),
+        key,
+        keyNote,
       });
   };
 

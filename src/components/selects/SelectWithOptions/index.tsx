@@ -65,6 +65,7 @@ export default (props: IProps) => {
         size="small"
         value={data}
         onChange={handleChange}
+        dropdownMatchSelectWidth
         {...get(props, 'config.inputProps')}
       >
         {map(options, option => {

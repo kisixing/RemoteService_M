@@ -30,8 +30,6 @@ interface IProps {
   formDescriptions: {};
   id?: Number | String;
   data?: any;
-  field?: any;
-  events?: any;
 }
 
 export class FormSection extends React.Component<IProps> {
@@ -50,8 +48,8 @@ export class FormSection extends React.Component<IProps> {
   };
 
   renderItem = (formDescription: any) => {
-    const { renderEditItem, id, data, products, events, formData, form, field } = this.props;
-    const formDescriptionKey = [get(field, 'name'), get(formDescription, 'key')];
+    const { renderEditItem, id, data, products, events, formData, form } = this.props;
+    const formDescriptionKey = get(formDescription, 'key');
     switch (get(formDescription, 'inputType')) {
       case 'input':
         return renderEditItem(formDescriptionKey, <Input size="small" {...get(formDescription, 'inputProps')} />, {
@@ -77,7 +75,7 @@ export class FormSection extends React.Component<IProps> {
       case 'has_pregnancy':
         return renderEditItem(
           formDescriptionKey,
-          <Radio.Group onChange={get(events, 'updateFormDescriptions')('has_pregnancy', field)}>
+          <Radio.Group onChange={get(events, 'setFormData')}>
             <Radio value={true}>是</Radio>
             <Radio value={false}>否</Radio>
           </Radio.Group>,
@@ -105,7 +103,7 @@ export class FormSection extends React.Component<IProps> {
             size="small"
             min={0}
             {...get(formDescription, 'inputProps')}
-            onChange={get(events, 'updateFormDescriptions')('fetal_count', field)}
+            onChange={get(events, 'setFormData')}
           />,
           { customFormItemLayout: get(formDescription, 'formItemLayout') || {} },
         );

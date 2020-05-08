@@ -2,12 +2,15 @@ const Koa = require('koa');
 const path = require('path');
 const static = require('koa-static');
 const proxy = require('koa2-proxy-middleware');
+const compress = require('koa-compress');
 
 const app = new Koa();
 const port = process.env.port || 3333;
 const staticPath = './dist';
 const hostUrl = process.env.hostUrl || 'http://transfer.lian-med.com:9988';
 const formDescriptionUrl = process.env.formDescriptionUrl || 'http://127.0.0.1:3335';
+
+app.use(compress({ threshold: 1024 }));
 
 app.use(static(path.join(__dirname, staticPath)));
 const options = {

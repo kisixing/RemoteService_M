@@ -77,31 +77,31 @@ export interface IRule {
 
 // 组件类型
 export type InputType =
-  | 'input'
-  | 'single_date_picker'
-  | 'normal_checkbox_with_input'
-  | 'checkbox_group'
-  | 'multiple_input_with_label'
-  | 'select_with_input'
-  | 'normal_select'
-  | 'input_number'
-  | 'checkbox_with_input'
-  | 'normal_checkbox_with_input'
-  | 'pure_checkbox'
-  | 'input_with_label'
-  | 'normal_checkbox_with_input'
-  | 'radio_with_input_number'
-  | 'disease_select'
-  | 'pregnancy_history'
-  | 'address'
-  | 'apgar_score_input'
-  | 'fetus_appendages'
-  | 'fetal_count'
-  | 'id_number_input'
-  | 'country_select'
-  | 'select_with_options'
-  | 'pregnant_radio'
-  | 'has_pregnancy';
+  | 'input'                       // 普通输入框
+  | 'single_date_picker'          // 单个日期选择框
+  | 'checkbox_group'              // 多个 checkbox
+  | 'multiple_input_with_label'   // 多个输入框
+  | 'select_with_input'           // 下拉选择后输入
+  | 'select_with_options'         // 下拉选择，参数自带，TODO: 与上一个重复，待优化
+  | 'normal_select'               // 常规选择，选项固定，
+  | 'input_number'                // 数字输入
+  | 'checkbox_with_input'         // 打钩选择后输入
+  | 'normal_checkbox_with_input'  // 打钩选择后输入，形如 key,keyNote，其中keyNote 为 json 字符串格式
+  | 'checkbox_with_single_input'  // 打钩选择后输入，形如 key,keyNote，其中keyNote 为数字或单个字符串
+  | 'pure_checkbox'               // 纯净的 checkbox
+  | 'input_with_label'            // 输入框带前置或后置 label
+  | 'radio_with_input_number'     // 单选带输入数字
+  | 'disease_select'              // 疾病选择
+  // 以下是特殊情况，一般无需配置
+  | 'pregnancy_history'           // 孕产史
+  | 'address'                     // 地址选择
+  | 'apgar_score_input'           // 胎儿评分
+  | 'fetus_appendages'            // 胎盘附属物
+  | 'fetal_count'                 // 胎数
+  | 'id_number_input'             // 身份证号码输入
+  | 'country_select'              // 国家选择
+  | 'pregnant_radio'              // 单选，TODO: 待优化
+  | 'has_pregnancy';              // 是否怀孕
 
 export interface IInputProps extends React.AllHTMLAttributes<HTMLFormControlsCollection> {}
 

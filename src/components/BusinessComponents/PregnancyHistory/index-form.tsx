@@ -1,14 +1,11 @@
 import React from 'react';
-import { Tabs, Input, Row, Col, Radio, InputNumber, Button, Divider, Select, Form } from 'antd';
-import { map, get, set, isEmpty, isFunction, toArray, isArray, isEqual, isNil, filter, indexOf, keyBy } from 'lodash';
-import moment from 'moment';
-import { DynamicForm } from '@lianmed/components';
+import { Input, Row, Col, Radio, InputNumber, Button, Divider, Form } from 'antd';
+import { map, get, set, isEmpty, isFunction, toArray, isArray, isNil, filter, indexOf, keyBy } from 'lodash';
 import PregnancyHistoryFormSection from './PregnancyHistoryFormSection';
 import { getPregnancyHistoryFormDescriptions } from '.';
 import NormalSelect from '@/components/selects/NormalSelect';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-
-const TAB_TITLE = '孕次';
+import { MinusCircleOutlined } from '@ant-design/icons';
+import styles from './index.less';
 
 // 默认展示字段
 const defaultFormFields = ['pregnancyEnd', 'complicationNote', 'hasPregnancy'];
@@ -50,11 +47,6 @@ export const horizontalFormItemLayout = {
   },
 };
 
-interface IProps {
-  value?: any;
-  onChange?: any;
-}
-
 export default class PregnancyHistoryForm extends React.Component {
   newTabIndex: number = 1;
 
@@ -63,14 +55,13 @@ export default class PregnancyHistoryForm extends React.Component {
   state = {
     formDescriptionsArray: [] as any[],
     fetalcountArray: [],
-    formData: {},
   };
 
   /**
    * 获取表单配置以及渲染数据
    */
   async componentDidMount() {
-    const { value: pregnancyHistories, form } = this.props;
+    const { value: pregnancyHistories } = this.props;
     const nativeFormDescriptions = await getPregnancyHistoryFormDescriptions();
     this.nativeFormDescriptions = nativeFormDescriptions;
     let formDescriptionsArray: any[] = [];
@@ -78,7 +69,6 @@ export default class PregnancyHistoryForm extends React.Component {
 
     // 渲染数据
     if (!isEmpty(pregnancyHistories)) {
-      const transferPregnancyHistories: any[] = [];
       // 渲染表单配置
       map(pregnancyHistories, (pregnancyHistory, index) => {
         let tempFieldsArray = defaultFormFields;
@@ -299,6 +289,10 @@ export default class PregnancyHistoryForm extends React.Component {
     });
   };
 
+  handleRemovePregnancy = (remove: (index: number) => void, field: any) => () => {
+    remove(field.name);
+  };
+
   getFormDescriptions = (formFields: string[] = defaultFormFields) =>
     keyBy(
       filter(this.nativeFormDescriptions, (formDescription, key) => indexOf(formFields, key) > -1),
@@ -366,12 +360,20 @@ export default class PregnancyHistoryForm extends React.Component {
               </div>
               {map(fields, (field, index) => {
                 return (
-                  <div key={index}>
-                    <Divider orientation="left">
-                      <span style={{ fontSize: 14 }}>孕次{index + 1}</span>
-                    </Divider>
-                    {this.renderPregnancyContent(field, get(formDescriptionsArray, field.key))}
-                  </div>
+                  <Row className={styles.indexFormPregnancy}>
+                    <Col span={23}>
+                      <Divider orientation="left">
+                        <span style={{ fontSize: 14 }}>孕次{index + 1}</span>
+                      </Divider>
+                      {this.renderPregnancyContent(field, get(formDescriptionsArray, field.key))}
+                    </Col>
+                    <Col span={1} className={styles.indexFormDeleteIconBlock}>
+                      <MinusCircleOutlined
+                        className={styles.indexFormDeleteIcon}
+                        onClick={this.handleRemovePregnancy(remove, field)}
+                      />
+                    </Col>
+                  </Row>
                 );
               })}
             </div>

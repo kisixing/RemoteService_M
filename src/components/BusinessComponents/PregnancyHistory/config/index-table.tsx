@@ -112,7 +112,7 @@ export default {
           width: 80,
           renderConfig: {
             inputType: 'deliverWay',
-            inputProps: { allowClear: true },
+            inputProps: { allowClear: true, dropdownMatchSelectWidth: 100 },
             special_config: `{"type":"array","mode":"single","options":[{"value":"cesareanSection","label":"剖宫产"},{"value":"forceps","label":"钳产"},{"value":"vacuumAssisted","label":"吸引产"},{"value":"breechMidwifery","label":"臀助产"}]}`,
           },
         },

@@ -216,6 +216,12 @@ const BasicLayout = (props: any) => {
         },
       });
     }
+    
+    // 滚动 activeTab
+    setTimeout(() => {
+      const tabBtnRef = document.getElementById(get(menuItemProps, 'key')) as HTMLElement;
+      tabBtnRef.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    }, 100);
   };
 
   const handleClickHeader = () => {

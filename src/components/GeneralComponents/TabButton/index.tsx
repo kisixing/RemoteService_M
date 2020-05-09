@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './index.less';
+import { CloseCircleOutlined } from '@ant-design/icons';
 
 interface IProps {
   isActive?: boolean;
@@ -34,7 +35,7 @@ export default (props: IProps) => {
       <div className={styles.customTabsButtonTitle}>{title}</div>
       {closable && (
         <div className={styles.customTabsButtonClose} onClick={handleCloseTab}>
-          x
+          <CloseCircleOutlined />
         </div>
       )}
     </div>

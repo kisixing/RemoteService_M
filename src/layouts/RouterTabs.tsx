@@ -44,21 +44,19 @@ export class RouterTabs extends React.Component<IProps> {
 
     return (
       <div className={styles.customRouterTabs} style={style}>
-        <div style={{ display: 'flex', width: (tabs.length + 1) * 300 }}>
-          {map(tabs, (tab, index) => {
-            return (
-              <TabButton
-                key={tab.key}
-                tabKey={tab.key}
-                closable={tab.closable}
-                isActive={location.pathname === tab.path}
-                title={tab.title}
-                onClick={this.handleClick}
-                onClose={this.handleCloseTab}
-              />
-            );
-          })}
-        </div>
+        {map(tabs, (tab, index) => {
+          return (
+            <TabButton
+              key={tab.key}
+              tabKey={tab.key}
+              closable={tab.closable}
+              isActive={location.pathname === tab.path}
+              title={tab.title}
+              onClick={this.handleClick}
+              onClose={this.handleCloseTab}
+            />
+          );
+        })}
       </div>
     );
   }
